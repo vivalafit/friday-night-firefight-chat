@@ -17,6 +17,13 @@ const initSocketConnection = () => {
     $('.messages').append(`<li class="message"><span><span style="color:${messageObj.user.color}" class="name">${messageObj.user.name}: </span><span class="msg">${messageObj.msg}</span></span></li>`);
     scrollToBottom()
   })
+  socket.on('roll-calculated', userObj => {
+    if(userObj.error){
+      $('.messages').append(`<li class="message"><span><span style="color:${userObj.user.color}" class="name">Roll failed: inadequade roll value! <span></li>`);
+    } else {
+      $('.messages').append(`<li class="message"><span><span style="color:${userObj.user.color}" class="name">${userObj.user.name} rolled: </span><span class="msg">${userObj.roll.join(', ')} (${userObj.result})</span></li>`);
+    }
+  });
   socket.on('user-disconnected', userObj => {
     if(userObj.name) {
       $('.messages').append(`<li class="message-centered"><span style="color: ${userObj.color}">${userObj.name} disconnected!</span></li>`);
@@ -37,7 +44,11 @@ const initHandlers = (socket) => {
   $('html').on('keydown', function (e) {
     if (e.which == 13 && chatInput.val()) {
       socket.emit('message', { user : {name: USER_NAME, color: USER_COLOR}, msg: chatInput.val()});
-      chatInput.val('');
+      chatInputWords = chatInput.val().split(" ");
+      chatInput.val("");
+      if(chatInputWords[0] === "roll"){
+        socket.emit('roll', { user : {name: USER_NAME, color: USER_COLOR}, roll: chatInputWords[1]});
+      }
     }
   });
   $('.connect-to-room').on('click', function() {
