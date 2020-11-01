@@ -19,7 +19,6 @@ html, body {
 
 .main-ground {
     flex-grow: 1;
-    background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,6 +26,7 @@ html, body {
 }
 
 .main-right {
+    flex: 0.3;
     background-color: #242324;
     border-left: 1px solid #3D3D42;
     display: flex;
@@ -35,9 +35,13 @@ html, body {
 
 
 .main-header {
-    padding-top: 5px;
+    margin-top: 20px;
     color: #F5F5F5;
     text-align: center;
+}
+
+.main-header h6{
+   font-size: 25px;
 }
 
 .main-chat-window {
@@ -68,5 +72,44 @@ html, body {
 
 .unmute, .stop {
     color: #CC3B33;
+}
+
+ul.messages {
+    font-size: 20px;
+}
+
+.room-login .modal-content{
+    background-color: #242324;
+    color: white;
+}
+
+.room-login .modal-body {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.room-login .modal-header, .room-login .modal-footer {
+    border: unset !important;
+}
+
+.room-login .modal-footer {
+    padding-top: 0;
+}
+
+.room-login.modal {
+    top: 30%;
+}
+
+ul.messages {
+    padding-right: 10px;
+    padding: 0px 20px;
+}
+
+li.message {
+    word-break: break-word;
+}
+
+li.message-centered {
+    text-align: center;
 }
 
