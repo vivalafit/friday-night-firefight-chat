@@ -3,12 +3,13 @@ html, body {
 }
 
 .main {
-    height: 100vh;
     display: flex;
+    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    height: calc(var(--vh, 1vh) * 100);
 }
 
 .main-left {
-    flex: 0.8;
+    flex: 0.75;
     display: flex;
     flex-direction: column;
 }
@@ -21,12 +22,13 @@ html, body {
     flex-grow: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
     padding: 40px;
+    overflow-y: scroll;
+    justify-content: space-around;
 }
 
 .main-right {
-    flex: 0.3;
+    flex: 0.25;
     background-color: #242324;
     border-left: 1px solid #3D3D42;
     display: flex;
@@ -113,3 +115,119 @@ li.message-centered {
     text-align: center;
 }
 
+.armor-block {
+    position: relative;
+}
+
+.armor-block img {
+    height: 400px;
+}
+
+.armor-block input {
+    position: absolute;
+    width: 30px;
+}
+
+.armor-block input.head {
+    top: 18%;
+    left: 42%;
+}
+
+.armor-block input.torso {
+    top: 38%;
+    left: 45%;
+}
+
+.armor-block input.r-arm {
+    top: 47%;
+    left: 33%;
+}
+
+.armor-block input.l-arm {
+    top: 47%;
+    left: 33%;
+}
+
+.armor-block input.l-arm {
+    top: 47%;
+    left: 67%;
+}
+
+.armor-block input.l-leg {
+    top: 72%;
+    left: 56%;
+}
+
+.armor-block input.r-leg {
+    top: 72%;
+    left: 37%;
+}
+
+/* hp */
+
+.armor-block input.head-hp {
+    top: 25%;
+    left: 42%;
+}
+
+.armor-block input.torso-hp {
+    top: 45%;
+    left: 45%;
+}
+
+.armor-block input.r-arm-hp {
+    top: 54%;
+    left: 33%;
+}
+
+.armor-block input.l-arm-hp {
+    top: 47%;
+    left: 33%;
+}
+
+.armor-block input.l-arm-hp {
+    top: 54%;
+    left: 67%;
+}
+
+.armor-block input.l-leg-hp {
+    top: 79%;
+    left: 56%;
+}
+
+.armor-block input.r-leg-hp {
+    top: 79%;
+    left: 37%;
+}
+
+
+
+
+.boi, .goon {
+    border: 1px solid;
+    border-radius: 10px;
+    width: 400px;
+    margin-bottom: 10px;
+}
+
+.goons, .bois {
+    width: 400px;
+}
+
+.add-button {
+    min-width: 100%;
+}
+
+.goons-block, .bois-block {
+    margin-top: 10px;
+    max-height: 820px;
+    overflow: overlay;
+}
+
+input {
+    text-align: center;
+}
+
+.hp {
+    color: red;
+}

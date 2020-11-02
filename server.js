@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const rollerController = require('./controllers/roller'); 
+const goonController = require('./controllers/goon'); 
 
 const randomColor = require('randomcolor');
 const server = require('http').Server(app);
@@ -40,6 +41,10 @@ io.on('connection', socket => {
     socket.on('roll', (userObj) => {
       rollerController.calculateRoll({...userObj, io: io, roomId: roomId});
     });
+    // add goon
+    socket.on('add-goon', (goonObj) => {
+      goonController.addGoon({...goonObj, io: io, roomId: roomId});
+    })
   })
 })
 
