@@ -41,6 +41,15 @@ const initSocketConnection = () => {
     }
     $('.messages').append(`<li class="message-centered"><span style="color: ${userObj.color}">${userObj.name} connected!</span></li>`);
   });
+  socket.on('goon-added', goonObj => {
+      if(goonObj.name !== USER_NAME) {
+        addGoon(boisCount, goonObj.type);
+      }
+  })
+  socket.on('goon-updated', goonObj => {
+   const a = 1;
+   debugger;
+})
   initHandlers(socket);
 }
 
@@ -65,9 +74,78 @@ const initHandlers = (socket) => {
     }
   });
   $('.goon-btn').on('click', function() {
+    const index = goonsCount;
+    addGoon(index, "goon");
+    socket.emit('add-goon', {type: "goon", goonId: index, name: USER_NAME });
+  });
+  $('.boi-btn').on('click', function() {
+    const index = boisCount;
+    addGoon(index, "man");
+    socket.emit('add-goon', {type: "man", goonId: index, name: USER_NAME});
+  });
+  $(document.body).on("keyup", '.armor-block input', function() {
+    //don`t allow strings + empty values
+    if (/\D/g.test(this.value)){
+      this.value = this.value.replace(/\D/g, '');
+    } 
+  });
+  $(document.body).on("keyup change", '.armor-block input', debounce(function() {
+    const value = $(this).val();
+    if(value) {
+      const goonBlock = $(this).parent().parent();
+      const classesArr = goonBlock.attr("class").split(/\s+/);
+      const type = classesArr[0];
+      const id = classesArr[1];
+      //variables 
+      const headArmor = goonBlock.find('.head').val();
+      const torsoArmor = goonBlock.find('.torso').val();
+      const lArmArmor = goonBlock.find('.l-arm').val();
+      const rArmArmor = goonBlock.find('.r-arm').val();
+      const lLegArmor = goonBlock.find('.l-leg').val();
+      const rLegArmor = goonBlock.find('.r-leg').val();
+      const headHP = goonBlock.find('.head-hp').val();
+      const torsoHP = goonBlock.find('.torso-hp').val();
+      const lArmHP = goonBlock.find('.l-arm-hp').val();
+      const rArmHP= goonBlock.find('.r-arm-hp').val();
+      const lLegHP = goonBlock.find('.l-leg-hp').val();
+      const rLegHP = goonBlock.find('.r-leg-hp').val();
+      //template
+      const goonTemplate = {
+        id: parseInt(id),
+        bodyStats: {
+            armor: {
+                head: headArmor ? parseInt(headArmor) : 0,
+                torso: torsoArmor ? parseInt(torsoArmor) : 0,
+                lArm: lArmArmor ? parseInt(lArmArmor) : 0,
+                rArm: rArmArmor ? parseInt(rArmArmor) : 0,
+                lLeg: lLegArmor ? parseInt(lLegArmor) : 0,
+                rLeg: rLegArmor ? parseInt(rLegArmor) : 0
+            }, 
+            limbs: {
+                head: headHP ? parseInt(headHP) : 0,
+                torso: torsoHP ? parseInt(torsoHP) : 0,
+                lArm: lArmHP ? parseInt(lArmHP) : 0,
+                rArm: rArmHP ? parseInt(rArmHP) : 0,
+                lLeg: lLegHP ? parseInt(lLegHP) : 0,
+                rLeg: rLegHP ? parseInt(rLegHP) : 0
+            }
+        }
+      };
+      socket.emit('update-goon', {type: type, goonTemplate: goonTemplate });
+    }
+  }, 1500));
+}
+
+const scrollToBottom = () => {
+  const d = $('.main-chat-window');
+  d.scrollTop(d.prop("scrollHeight"));
+}
+
+function addGoon(index, type){
+  if(type === "goon") {
     $('.goons-block')
     .append(`
-    <div class="goon" id="${goonsCount}">
+    <div class="goon ${index}">
       <div class="armor-block">
         <input type="text" class="head" placeholder="Head Armor Value"  value="0">
         <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
@@ -86,12 +164,10 @@ const initHandlers = (socket) => {
       </div>
     </div>`);
     goonsCount += 1;
-    socket.emit('add-goon', {type: "goon", goonId: goonsCount});
-  });
-  $('.boi-btn').on('click', function() {
+  } else {
     $('.bois-block')
     .append(`
-    <div class="boi" id="${boisCount}">
+    <div class="boi ${index}">
       <div class="armor-block">
         <input type="text" class="head" placeholder="Head Armor Value"  value="0">
         <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
@@ -110,11 +186,23 @@ const initHandlers = (socket) => {
       </div>
     </div>`);
     boisCount += 1;
-    socket.emit('add-goon', {type: "man", goonId: boisCount});
-  });
+  }
 }
 
-const scrollToBottom = () => {
-  const d = $('.main-chat-window');
-  d.scrollTop(d.prop("scrollHeight"));
-}
+
+
+//move to utility file 
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};

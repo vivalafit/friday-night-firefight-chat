@@ -11,7 +11,7 @@
    <link rel="icon" 
    type="image/png" 
    href="https://i.ytimg.com/vi/sRj1aZzwdL0/maxresdefault.jpg">
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" crossorigin="anonymous">
    <link rel="stylesheet" href="pages/room/room.css">
    <link href="https://fonts.googleapis.com/css?family=Teko&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="libs/bootstrap/bootstrap.min.css">
@@ -23,45 +23,53 @@
             <div class="goons">
                <button type="button" class="btn btn-dark add-button goon-btn">Add goon</button>
                <div class="goons-block">
-                  <!-- <div class="goon">
-                     <div class="armor-block">
-                        <input type="text" class="head" placeholder="Head Armor Value"  value="0">
-                        <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
-                        <input type="text" class="r-arm" placeholder="R-arm Armor Value"  value="0">
-                        <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="0">
-                        <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="0">
-                        <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
-                        <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="8">
-                        <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="8">
-                        <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="8">
-                        <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="8">
-                        <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="8">
-                        <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="8">
-                        <img src="goon-icons/goon.png">
-                     </div>
-                  </div> -->
+                  <%if (room && room.goons.length > 0) { %>
+                     <% for(var i=0; i < room.goons.length; i++) {%>
+                        <div class="goon <%=i%>">
+                           <div class="armor-block">
+                              <input type="text" class="head" placeholder="Head Armor Value"  value="<%=room.goons[i].bodyStats.armor.head%>">
+                              <input type="text" class="torso" placeholder="Torso Armor Value"  value="<%=room.goons[i].bodyStats.armor.torso%>">
+                              <input type="text" class="r-arm" placeholder="R-arm Armor Value"  value="<%=room.goons[i].bodyStats.armor.rArm%>">
+                              <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="<%=room.goons[i].bodyStats.armor.lArm%>">
+                              <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="<%=room.goons[i].bodyStats.armor.rLeg%>">
+                              <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="<%=room.goons[i].bodyStats.armor.lLeg%>">
+                              <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="<%=room.goons[i].bodyStats.limbs.head%>">
+                              <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="<%=room.goons[i].bodyStats.limbs.torso%>">
+                              <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="<%=room.goons[i].bodyStats.limbs.rArm%>">
+                              <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="<%=room.goons[i].bodyStats.limbs.lArm%>">
+                              <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="<%=room.goons[i].bodyStats.limbs.rLeg%>">
+                              <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="<%=room.goons[i].bodyStats.limbs.lLeg%>">
+                              <img src="goon-icons/goon.png">
+                           </div>
+                        </div>
+                     <% } %>
+                  <% } %>
                </div>
             </div>
             <div class="bois">
                <button type="button" class="btn btn-dark add-button boi-btn">Add boi</button>
                <div class="bois-block">
-                  <!-- <div class="boi">
-                     <div class="armor-block">
-                        <input type="text" class="head" placeholder="Head Armor Value"  value="0">
-                        <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
-                        <input type="text" class="r-arm" placeholder="R-arm Armor Value"  value="0">
-                        <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="0">
-                        <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="0">
-                        <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
-                        <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="8">
-                        <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="8">
-                        <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="8">
-                        <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="8">
-                        <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="8">
-                        <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="8">
-                        <img src="goon-icons/detective.png">
-                     </div>
-                  </div> -->
+                  <%if (room && room.men.length > 0) { %>
+                     <% for(var i=0; i < room.men.length; i++) {%>
+                        <div class="boi <%=i%>">
+                           <div class="armor-block">
+                              <input type="text" class="head" placeholder="Head Armor Value"  value="<%=room.men[i].bodyStats.armor.head%>">
+                              <input type="text" class="torso" placeholder="Torso Armor Value"  value="<%=room.men[i].bodyStats.armor.torso%>">
+                              <input type="text" class="r-arm" placeholder="R-arm Armor Value"  value="<%=room.men[i].bodyStats.armor.rArm%>">
+                              <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="<%=room.men[i].bodyStats.armor.lArm%>">
+                              <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="<%=room.men[i].bodyStats.armor.rLeg%>">
+                              <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="<%=room.men[i].bodyStats.armor.lLeg%>">
+                              <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="<%=room.men[i].bodyStats.limbs.head%>">
+                              <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="<%=room.men[i].bodyStats.limbs.torso%>">
+                              <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="<%=room.men[i].bodyStats.limbs.rArm%>">
+                              <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="<%=room.men[i].bodyStats.limbs.lArm%>">
+                              <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="<%=room.men[i].bodyStats.limbs.rLeg%>">
+                              <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="<%=room.men[i].bodyStats.limbs.lLeg%>">
+                              <img src="goon-icons/detective.png">
+                           </div>
+                        </div>
+                     <% } %>
+                  <% } %>
                </div>
             </div>
          </div>

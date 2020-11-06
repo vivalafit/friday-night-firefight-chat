@@ -1,9 +1,7 @@
-var Roll = require('roll');
 const serverCache = require('../utils/server-cache');
 
 exports.addGoon = async (goonObject) => {
     try {
-        //daun check
         let roomCache = serverCache.get(goonObject.roomId);
         if(!roomCache){
             roomCache = {
@@ -13,7 +11,7 @@ exports.addGoon = async (goonObject) => {
             serverCache.set(goonObject.roomId, roomCache);
         }
         const type = goonObject.type === "goon" ? "goons" : "men";
-        roomCache[type].push({
+        const goonTemplate = {
             id: goonObject.goonId,
             bodyStats: {
                 armor: {
@@ -33,21 +31,33 @@ exports.addGoon = async (goonObject) => {
                     rLeg: 8
                 }
             }
-        });    
+        };
+        roomCache[type].push(goonTemplate);    
         serverCache.set(goonObject.roomId, roomCache);
-        const test = "a";
-        const a = 1;
-        // goonObject.io.to(goonObject.roomId).emit('roll-calculated', {
-        //     user: userObject.user,
-        //     roll : rollResult.rolled,
-        //     result: rollResult.result
-        // });
-        //serverCache.set()
+        goonObject.io.to(goonObject.roomId).emit('goon-added', {goon: goonTemplate, name: goonObject.name, type: goonObject.type});
     } catch (e) {
-        userObject.io.to(userObject.roomId).emit('roll-calculated', {
-            user: userObject.user,
-            error: e
-        });
+        // userObject.io.to(userObject.roomId).emit('roll-calculated', {
+        //     user: userObject.user,
+        //     error: e
+        // });
     }
 }
 
+exports.updateGoon = async (goonObject) => {
+    try {
+        let roomCache = serverCache.get(goonObject.roomId);
+        const type = goonObject.type === "goon" ? "goons" : "men";
+        const goonTemplate = goonObject.goonTemplate;
+        const goonIndex = roomCache[type].findIndex(goon => goon.id === goonTemplate.id);
+        roomCache[type][goonIndex] = goonTemplate;
+        serverCache.set(goonObject.roomId, roomCache);
+        goonObject.io.to(goonObject.roomId).emit('goon-updated', {goon: goonTemplate, name: goonObject.name, type: goonObject.type});
+    } catch (e) {
+        // userObject.io.to(userObject.roomId).emit('roll-calculated', {
+        //     user: userObject.user,
+        //     error: e
+        // });
+    }
+}
+
+//socket.emit('update-goon', {type: type, goonTemplate: goonTemplate });

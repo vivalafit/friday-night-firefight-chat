@@ -45,6 +45,9 @@ io.on('connection', socket => {
     socket.on('add-goon', (goonObj) => {
       goonController.addGoon({...goonObj, io: io, roomId: roomId});
     })
+    socket.on('update-goon', (goonObj) => {
+      goonController.updateGoon({...goonObj, io: io, roomId: roomId});
+    })
   })
 })
 
