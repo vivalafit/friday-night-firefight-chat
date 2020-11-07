@@ -237,12 +237,12 @@ input {
 }
 
 .additional-info {
-    width: 300px;
+    width: 250px;
     height: 400px;
 }
 
-.goon.changed, .boi.changed {
-   background-color: red;      
+.goon.changed, .boi.changed, .wound-square:hover, .wound-square.active, .wound-square.active-confirmed  {
+   background-color: red;
 }
 
 .buttons-block {
@@ -253,8 +253,53 @@ input {
 
 .additional-info {
     border-left: 1px solid;
+    padding: 0px 20px;
+    padding-top: 10px;
 }
 
+h6.category-title {
+    text-align: center;
+    background-color: #343a40;
+    color: white;
+    padding: 5px 0;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    justify-content: center;
+    position: relative;
+}
+
+.category-title i {
+    position: absolute;
+    left: 5px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.category-titlem, .wound-title {
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* WOUNDS-BLOCK */
+.wounds-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.wound-markers {
+    display: flex;
+}
+
+.wound-square {
+    width: 20px;
+    height: 20px;
+    border: 1px solid;
+}
+
+/* MEDIAQUERIES */
 @media screen and (max-width: 1400px) {
     .goons, .bois {
         margin: auto;

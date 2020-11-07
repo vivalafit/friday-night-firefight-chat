@@ -11,9 +11,8 @@
    <link rel="icon" 
    type="image/png" 
    href="https://i.ytimg.com/vi/sRj1aZzwdL0/maxresdefault.jpg">
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" crossorigin="anonymous">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    <link rel="stylesheet" href="pages/room/room.css">
-   <link href="https://fonts.googleapis.com/css?family=Teko&display=swap" rel="stylesheet">
    <link rel="stylesheet" href="libs/bootstrap/bootstrap.min.css">
 </head>
 <body>
@@ -26,6 +25,7 @@
                   <%if (room && room.goons.length > 0) { %>
                      <% for(var i=0; i < room.goons.length; i++) {%>
                         <div class="goon <%=i%>">
+                           <input type="hidden" class="wound-level-number" value="<%=room.goons[i].woundLevel%>">
                            <div class="armor-block">
                               <input type="text" class="head" placeholder="Head Armor Value"  value="<%=room.goons[i].bodyStats.armor.head%>">
                               <input type="text" class="torso" placeholder="Torso Armor Value"  value="<%=room.goons[i].bodyStats.armor.torso%>">
@@ -47,7 +47,121 @@
                               </div>
                            </div>
                            <div class="additional-info">
-                              <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                              <h6 class="category-title">
+                                 Wounds <i class="material-icons">replay</i>
+                              </h6>
+                              <div class="wounds-block">
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Light
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Serious
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Critical
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 0
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 1
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 2
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 3
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 4
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 5
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 6
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                              </div>
                            </div>
                         </div>
                      <% } %>
@@ -60,6 +174,7 @@
                   <%if (room && room.men.length > 0) { %>
                      <% for(var i=0; i < room.men.length; i++) {%>
                         <div class="boi <%=i%>">
+                           <input type="hidden" class="wound-level-number" value="<%=room.men[i].woundLevel%>">
                            <div class="armor-block">
                               <input type="text" class="head" placeholder="Head Armor Value"  value="<%=room.men[i].bodyStats.armor.head%>">
                               <input type="text" class="torso" placeholder="Torso Armor Value"  value="<%=room.men[i].bodyStats.armor.torso%>">
@@ -81,7 +196,121 @@
                               </div>
                            </div>
                            <div class="additional-info">
-                              <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                              <h6 class="category-title">
+                                 Wounds <i class="material-icons">replay</i>
+                              </h6>
+                              <div class="wounds-block">
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Light
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Serious
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Critical
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 0
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 1
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 2
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 3
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 4
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 5
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                                 <div class="wound-block">
+                                    <div class="wound-title">
+                                       Mortal 6
+                                    </div>
+                                    <div class="wound-markers">
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                       <div class="wound-square"></div>
+                                    </div>
+                                 </div>
+                              </div>
                            </div>
                         </div>
                      <% } %>

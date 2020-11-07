@@ -13,6 +13,7 @@ exports.addGoon = async (goonObject) => {
         const type = goonObject.type === "goon" ? "goons" : "men";
         const goonTemplate = {
             id: goonObject.goonId,
+            woundLevel: 0,
             bodyStats: {
                 armor: {
                     head: 0,

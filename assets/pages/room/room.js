@@ -1,6 +1,7 @@
 $( document ).ready(function() {
   $('.room-login').modal('show');$('.room-login').modal('show')
   initSocketConnection();
+  updateWoundLsevel();
 });
 
 const initSocketConnection = () => {
@@ -41,7 +42,6 @@ const initSocketConnection = () => {
   })
   socket.on('goon-updated', goonObj => {
    if(goonObj.name !== USER_NAME) {
-     console.log("UPDATED");
       const elementUpdated = $(`.${goonObj.type}.${goonObj.goon.id}`)
       if(elementUpdated.length > 0) {
           const goonDiv = $(elementUpdated[0]);
@@ -59,8 +59,12 @@ const initSocketConnection = () => {
           goonDiv.find('.r-arm-hp').val(goonTemplate.bodyStats.limbs.rArm);
           goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
           goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
+          //update wound level
+          goonDiv.find('.wound-level-number').val(goonTemplate.woundLevel);
+          updateWoundLsevel(goonDiv);
           goonDiv.addClass('changed');
           setTimeout(() => goonDiv.removeClass('changed'), 500);
+
       }
     }
   });
@@ -102,6 +106,48 @@ const initHandlers = (socket) => {
   });
 
   //handlers for dynamicaly added elements
+
+  //wounds handler
+  $(document.body).on("click", '.category-title i', function() { 
+    const goonBlock = $(this).parent().parent().parent();
+    const goonBlockClasses = goonBlock.attr("class").split(/\s+/);
+    const squares = $(`.${goonBlockClasses[0]}.${goonBlockClasses[1]} .wound-square`);
+    const index = squares.index(this);
+    squares.removeClass("active-confirmed");
+    const goonTemplateObj = formGoonObj(goonBlock);
+    socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
+  });
+  $(document.body).on("click", '.wound-square', function() { 
+    const goonBlock = $(this).parent().parent().parent().parent().parent();
+    const goonBlockClasses = goonBlock.attr("class").split(/\s+/);
+    const squares = $(`.${goonBlockClasses[0]}.${goonBlockClasses[1]} .wound-square`);
+    const index = squares.index(this);
+    squares.removeClass("active-confirmed");
+    for (let i = 0; i < index+1; i++){
+      $(squares[i]).addClass("active-confirmed")
+    }
+    const goonTemplateObj = formGoonObj(goonBlock);
+    socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
+  });
+  $(document.body).on("mouseover", '.wound-square', function() { 
+    const goonBlockClasses = $(this).parent().parent().parent().parent().parent().attr("class").split(/\s+/);
+    const squares =  $(`.${goonBlockClasses[0]}.${goonBlockClasses[1]} .wound-square`);
+    const index =  squares.index(this);
+    for (let i = 0; i < index; i++){
+      $(squares[i]).addClass("active")
+    }
+  });
+  $(document.body).on("mouseout", '.wound-square', function() { 
+    $(".wound-square").removeClass('active');
+    const goonBlockClasses = $(this).parent().parent().parent().parent().parent().attr("class").split(/\s+/);
+    const squares =  $(`.${goonBlockClasses[0]}.${goonBlockClasses[1]} .wound-square`);
+    const index =  squares.index(this);
+    for (let i = 0; i < index; i++){
+      $(squares[i]).removeClass("active");
+    }
+  });
+
+
   $(document.body).on("click", '.remove-goon', function() {
     const goonBlock = $(this).parent().parent().parent();
     const classesArr = goonBlock.attr("class").split(/\s+/);
@@ -121,45 +167,8 @@ const initHandlers = (socket) => {
     const value = $(this).val();
     if(value) {
       const goonBlock = $(this).parent().parent();
-      const classesArr = goonBlock.attr("class").split(/\s+/);
-      const type = classesArr[0];
-      const id = classesArr[1];
-      //variables 
-      const headArmor = goonBlock.find('.head').val();
-      const torsoArmor = goonBlock.find('.torso').val();
-      const lArmArmor = goonBlock.find('.l-arm').val();
-      const rArmArmor = goonBlock.find('.r-arm').val();
-      const lLegArmor = goonBlock.find('.l-leg').val();
-      const rLegArmor = goonBlock.find('.r-leg').val();
-      const headHP = goonBlock.find('.head-hp').val();
-      const torsoHP = goonBlock.find('.torso-hp').val();
-      const lArmHP = goonBlock.find('.l-arm-hp').val();
-      const rArmHP= goonBlock.find('.r-arm-hp').val();
-      const lLegHP = goonBlock.find('.l-leg-hp').val();
-      const rLegHP = goonBlock.find('.r-leg-hp').val();
-      //template
-      const goonTemplate = {
-        id: parseInt(id),
-        bodyStats: {
-            armor: {
-                head: headArmor ? parseInt(headArmor) : 0,
-                torso: torsoArmor ? parseInt(torsoArmor) : 0,
-                lArm: lArmArmor ? parseInt(lArmArmor) : 0,
-                rArm: rArmArmor ? parseInt(rArmArmor) : 0,
-                lLeg: lLegArmor ? parseInt(lLegArmor) : 0,
-                rLeg: rLegArmor ? parseInt(rLegArmor) : 0
-            }, 
-            limbs: {
-                head: headHP ? parseInt(headHP) : 0,
-                torso: torsoHP ? parseInt(torsoHP) : 0,
-                lArm: lArmHP ? parseInt(lArmHP) : 0,
-                rArm: rArmHP ? parseInt(rArmHP) : 0,
-                lLeg: lLegHP ? parseInt(lLegHP) : 0,
-                rLeg: rLegHP ? parseInt(rLegHP) : 0
-            }
-        }
-      };
-      socket.emit('update-goon', {type: type, goonTemplate: goonTemplate, name: USER_NAME });
+      const goonTemplateObj = formGoonObj(goonBlock);
+      socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
     }
   }, 1500));
 }
@@ -169,11 +178,35 @@ const scrollToBottom = () => {
   d.scrollTop(d.prop("scrollHeight"));
 }
 
+function updateWoundLsevel(element) {
+    let elements = [];
+    if(element) {
+      elements.push(element);
+    } else {
+      elements = $(".goon, .boi");
+    }
+    if(elements.length > 0) {
+      for(let i = 0; i < elements.length; i++){
+        const wound = parseInt($(elements[i]).find(".wound-level-number").val());
+        const squares =  $(elements[i]).find(".wound-square");
+        if(wound > 0) {
+          squares.removeClass("active-confirmed");
+          for (let i = 0; i < wound; i++){
+            $(squares[i]).addClass("active-confirmed")
+          }
+        } else {
+          squares.removeClass("active-confirmed");
+        }
+      }
+    }
+}
+
 function addGoon(index, type){
   if(type === "goon") {
     $('.goons-block')
     .append(`
     <div class="goon ${index}">
+      <input type="hidden" class="wound-level-number" value="0">
       <div class="armor-block">
         <input type="text" class="head" placeholder="Head Armor Value"  value="0">
         <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
@@ -195,13 +228,128 @@ function addGoon(index, type){
         </div>
       </div>
       <div class="additional-info">
-        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+        <h6 class="category-title">
+            Wounds
+        </h6>
+        <div class="wounds-block">
+            <div class="wound-block">
+              <div class="wound-title">
+                  Light
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Serious
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Critical
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 0
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 1
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 2
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 3
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 4
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 5
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 6
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+        </div>
       </div>
     </div>`);
   } else {
     $('.bois-block')
     .append(`
     <div class="boi ${index}">
+      <input type="hidden" class="wound-level-number" value="0">
       <div class="armor-block">
         <input type="text" class="head" placeholder="Head Armor Value"  value="0">
         <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
@@ -223,8 +371,122 @@ function addGoon(index, type){
         </div>
       </div>
       <div class="additional-info">
-      <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
-    </div>
+        <h6 class="category-title">
+            Wounds
+        </h6>
+        <div class="wounds-block">
+            <div class="wound-block">
+              <div class="wound-title">
+                  Light
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Serious
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Critical
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 0
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 1
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 2
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 3
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 4
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 5
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+            <div class="wound-block">
+              <div class="wound-title">
+                  Mortal 6
+              </div>
+              <div class="wound-markers">
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+                  <div class="wound-square"></div>
+              </div>
+            </div>
+        </div>
+      </div>
     </div>`);
   }
 }
@@ -254,3 +516,51 @@ function debounce(func, wait, immediate) {
 		if (callNow) func.apply(context, args);
 	};
 };
+
+function formGoonObj(goonBlock) {
+  const classesArr = goonBlock.attr("class").split(/\s+/);
+  const type = classesArr[0];
+  const id = classesArr[1];
+  //wound level
+  const woundLevel =  $(`.${classesArr[0]}.${classesArr[1]} .wound-square.active-confirmed`).length;
+  //variables 
+  const headArmor = goonBlock.find('.head').val();
+  const torsoArmor = goonBlock.find('.torso').val();
+  const lArmArmor = goonBlock.find('.l-arm').val();
+  const rArmArmor = goonBlock.find('.r-arm').val();
+  const lLegArmor = goonBlock.find('.l-leg').val();
+  const rLegArmor = goonBlock.find('.r-leg').val();
+  const headHP = goonBlock.find('.head-hp').val();
+  const torsoHP = goonBlock.find('.torso-hp').val();
+  const lArmHP = goonBlock.find('.l-arm-hp').val();
+  const rArmHP= goonBlock.find('.r-arm-hp').val();
+  const lLegHP = goonBlock.find('.l-leg-hp').val();
+  const rLegHP = goonBlock.find('.r-leg-hp').val();
+  //template
+  const goonTemplate = {
+    id: parseInt(id),
+    woundLevel: woundLevel,
+    bodyStats: {
+        armor: {
+            head: headArmor ? parseInt(headArmor) : 0,
+            torso: torsoArmor ? parseInt(torsoArmor) : 0,
+            lArm: lArmArmor ? parseInt(lArmArmor) : 0,
+            rArm: rArmArmor ? parseInt(rArmArmor) : 0,
+            lLeg: lLegArmor ? parseInt(lLegArmor) : 0,
+            rLeg: rLegArmor ? parseInt(rLegArmor) : 0
+        }, 
+        limbs: {
+            head: headHP ? parseInt(headHP) : 0,
+            torso: torsoHP ? parseInt(torsoHP) : 0,
+            lArm: lArmHP ? parseInt(lArmHP) : 0,
+            rArm: rArmHP ? parseInt(rArmHP) : 0,
+            lLeg: lLegHP ? parseInt(lLegHP) : 0,
+            rLeg: rLegHP ? parseInt(rLegHP) : 0
+        }
+    }
+  };
+  return {
+    goonTemplate: goonTemplate,
+    type: type
+  }
+}
