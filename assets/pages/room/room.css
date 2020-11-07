@@ -1,5 +1,10 @@
+@font-face {
+    font-family: "Roboto Mono";
+    src: url("../../fonts/RobotoMono-VariableFont_wght.ttf")
+    }
+
 html, body {
-    font-family: 'Teko', sans-serif !important;
+    font-family: 'Roboto Mono', sans-serif !important;
 }
 
 .main {
@@ -28,7 +33,7 @@ html, body {
     flex: 0.25;
     background-color: #242324;
     border-left: 1px solid #3D3D42;
-    max-width: 25%;
+    max-width: 30%;
     display: flex;
     flex-direction: column;
 }
@@ -115,10 +120,11 @@ li.message-centered {
 
 .armor-block {
     position: relative;
+    height: 300px;
 }
 
 .armor-block img {
-    height: 300px;
+    height: 250px;
 }
 
 .armor-block input {
@@ -127,37 +133,32 @@ li.message-centered {
 }
 
 .armor-block input.head {
-    top: 18%;
+    top: 16%;
     left: 42%;
 }
 
 .armor-block input.torso {
-    top: 38%;
+    top: 36%;
     left: 45%;
 }
 
 .armor-block input.r-arm {
-    top: 47%;
-    left: 33%;
+    top: 45%;
+    left: 25%;
 }
 
 .armor-block input.l-arm {
-    top: 47%;
-    left: 33%;
-}
-
-.armor-block input.l-arm {
-    top: 47%;
+    top: 45%;
     left: 67%;
 }
 
 .armor-block input.l-leg {
-    top: 72%;
+    top: 70%;
     left: 56%;
 }
 
 .armor-block input.r-leg {
-    top: 72%;
+    top: 70%;
     left: 37%;
 }
 
@@ -175,7 +176,7 @@ li.message-centered {
 
 .armor-block input.r-arm-hp {
     top: 54%;
-    left: 33%;
+    left: 25%;
 }
 
 .armor-block input.l-arm-hp {
@@ -202,12 +203,18 @@ li.message-centered {
     border: 1px solid;
     display: flex;
     border-radius: 10px;
-    width: 600px;
+    width: 500px;
+    margin: auto;
     margin-bottom: 10px;
+    transition: background-color 1s linear;
 }
 
 .goons, .bois {
-    width: 600px;
+    width: 550px;
+}
+
+.goons {
+    margin-right: 10px;
 }
 
 .add-button {
@@ -218,7 +225,7 @@ li.message-centered {
     margin-top: 20px;
     margin-bottom: 20px;
     max-height: 930px;
-    overflow: scroll;
+    overflow-y: auto;
 }
 
 input {
@@ -231,8 +238,22 @@ input {
 
 .additional-info {
     width: 300px;
+    height: 400px;
 }
 
+.goon.changed, .boi.changed {
+   background-color: red;      
+}
+
+.buttons-block {
+    position: absolute;
+    top: 113%;
+    display: flex;
+}
+
+.additional-info {
+    border-left: 1px solid;
+}
 
 @media screen and (max-width: 1400px) {
     .goons, .bois {

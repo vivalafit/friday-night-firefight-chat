@@ -1,8 +1,4 @@
-let goonsCount = 0;
-let boisCount = 0;
 $( document ).ready(function() {
-  goonsCount = $('.goon').length;
-  boisCount = $('.boi').length;
   $('.room-login').modal('show');$('.room-login').modal('show')
   initSocketConnection();
 });
@@ -12,9 +8,6 @@ const initSocketConnection = () => {
   socket.on('connect', () => {
     console.log('Successfuly established socket connection');
     socket.emit('init-room-connection', ROOM_ID)
-    
-    //emit to server-side
-    ///socketConnection.emit("initConnection", { access_token: Cookies.get('access_token') });
   });
   
   socket.on('message-created', messageObj => {
@@ -43,13 +36,37 @@ const initSocketConnection = () => {
   });
   socket.on('goon-added', goonObj => {
       if(goonObj.name !== USER_NAME) {
-        addGoon(boisCount, goonObj.type);
+        addGoon(goonObj.goon.id, goonObj.type);
       }
   })
   socket.on('goon-updated', goonObj => {
-   const a = 1;
-   debugger;
-})
+   if(goonObj.name !== USER_NAME) {
+     console.log("UPDATED");
+      const elementUpdated = $(`.${goonObj.type}.${goonObj.goon.id}`)
+      if(elementUpdated.length > 0) {
+          const goonDiv = $(elementUpdated[0]);
+          const goonTemplate = goonObj.goon;
+          //update goon values
+          goonDiv.find('.head').val(goonTemplate.bodyStats.armor.head);
+          goonDiv.find('.torso').val(goonTemplate.bodyStats.armor.torso);
+          goonDiv.find('.l-arm').val(goonTemplate.bodyStats.armor.lArm);
+          goonDiv.find('.r-arm').val(goonTemplate.bodyStats.armor.rArm);
+          goonDiv.find('.l-leg').val(goonTemplate.bodyStats.armor.lLeg);
+          goonDiv.find('.r-leg').val(goonTemplate.bodyStats.armor.rLeg);
+          goonDiv.find('.head-hp').val(goonTemplate.bodyStats.limbs.head);
+          goonDiv.find('.torso-hp').val(goonTemplate.bodyStats.limbs.torso);
+          goonDiv.find('.l-arm-hp').val(goonTemplate.bodyStats.limbs.lArm);
+          goonDiv.find('.r-arm-hp').val(goonTemplate.bodyStats.limbs.rArm);
+          goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
+          goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
+          goonDiv.addClass('changed');
+          setTimeout(() => goonDiv.removeClass('changed'), 500);
+      }
+    }
+  });
+  socket.on('goon-removed', goonObj => {
+      removeGoon(goonObj.id, goonObj.type);
+  });
   initHandlers(socket);
 }
 
@@ -74,22 +91,33 @@ const initHandlers = (socket) => {
     }
   });
   $('.goon-btn').on('click', function() {
-    const index = goonsCount;
+    const index = $('.goon').length;
     addGoon(index, "goon");
     socket.emit('add-goon', {type: "goon", goonId: index, name: USER_NAME });
   });
   $('.boi-btn').on('click', function() {
-    const index = boisCount;
+    const index = $('.boi').length;
     addGoon(index, "man");
     socket.emit('add-goon', {type: "man", goonId: index, name: USER_NAME});
   });
+
+  //handlers for dynamicaly added elements
+  $(document.body).on("click", '.remove-goon', function() {
+    const goonBlock = $(this).parent().parent().parent();
+    const classesArr = goonBlock.attr("class").split(/\s+/);
+    const type = classesArr[0];
+    const id = classesArr[1];
+    console.log("classesArr", classesArr);
+    socket.emit('remove-goon', {type: type, id: id, name: USER_NAME });
+  });
+
   $(document.body).on("keyup", '.armor-block input', function() {
     //don`t allow strings + empty values
     if (/\D/g.test(this.value)){
       this.value = this.value.replace(/\D/g, '');
     } 
   });
-  $(document.body).on("keyup change", '.armor-block input', debounce(function() {
+  $(document.body).on("keyup change focusout", '.armor-block input', debounce(function() {
     const value = $(this).val();
     if(value) {
       const goonBlock = $(this).parent().parent();
@@ -131,7 +159,7 @@ const initHandlers = (socket) => {
             }
         }
       };
-      socket.emit('update-goon', {type: type, goonTemplate: goonTemplate });
+      socket.emit('update-goon', {type: type, goonTemplate: goonTemplate, name: USER_NAME });
     }
   }, 1500));
 }
@@ -153,7 +181,6 @@ function addGoon(index, type){
         <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="0">
         <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="0">
         <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
-        <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
         <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="8">
         <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="8">
         <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="8">
@@ -161,12 +188,16 @@ function addGoon(index, type){
         <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="8">
         <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="8">
         <img src="goon-icons/goon.png">
+        <div class="buttons-block">
+          <button type="button" class="btn btn-danger remove-goon">Kill</button>
+          <button type="button" class="btn btn-warning go-afk">AFK</button>
+          <button type="button" class="btn btn-info reset-goon">Reset stats</button>
+        </div>
       </div>
       <div class="additional-info">
         <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
       </div>
     </div>`);
-    goonsCount += 1;
   } else {
     $('.bois-block')
     .append(`
@@ -178,7 +209,6 @@ function addGoon(index, type){
         <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="0">
         <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="0">
         <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
-        <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
         <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="8">
         <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="8">
         <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="8">
@@ -186,16 +216,28 @@ function addGoon(index, type){
         <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="8">
         <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="8">
         <img src="goon-icons/detective.png">
+        <div class="buttons-block">
+          <button type="button" class="btn btn-danger remove-goon">Kill</button>
+          <button type="button" class="btn btn-warning go-afk">AFK</button>
+          <button type="button" class="btn btn-info reset-goon">Reset stats</button>
+        </div>
       </div>
       <div class="additional-info">
       <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
     </div>
     </div>`);
-    boisCount += 1;
   }
 }
 
-
+function removeGoon(index, type){
+    $(`.${type}.${index}`).remove();
+    const elementsToUpdate = $(`.${type}`);
+    if(elementsToUpdate.length > 0) {
+      for (let i = index; i < elementsToUpdate.length; i++) {
+        $(elementsToUpdate[i]).attr('class', `${type} ${i}`);
+      }
+    }
+}
 
 //move to utility file 
 function debounce(func, wait, immediate) {

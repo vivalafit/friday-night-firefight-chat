@@ -36,6 +36,8 @@ exports.addGoon = async (goonObject) => {
         serverCache.set(goonObject.roomId, roomCache);
         goonObject.io.to(goonObject.roomId).emit('goon-added', {goon: goonTemplate, name: goonObject.name, type: goonObject.type});
     } catch (e) {
+        console.log(e);
+        //todo : update error handler later
         // userObject.io.to(userObject.roomId).emit('roll-calculated', {
         //     user: userObject.user,
         //     error: e
@@ -53,6 +55,8 @@ exports.updateGoon = async (goonObject) => {
         serverCache.set(goonObject.roomId, roomCache);
         goonObject.io.to(goonObject.roomId).emit('goon-updated', {goon: goonTemplate, name: goonObject.name, type: goonObject.type});
     } catch (e) {
+        console.log(e);
+        //todo : update error handler later
         // userObject.io.to(userObject.roomId).emit('roll-calculated', {
         //     user: userObject.user,
         //     error: e
@@ -60,4 +64,27 @@ exports.updateGoon = async (goonObject) => {
     }
 }
 
-//socket.emit('update-goon', {type: type, goonTemplate: goonTemplate });
+exports.removeGoon = async (goonObject) => {
+    try {
+        let roomCache = serverCache.get(goonObject.roomId);
+        const type = goonObject.type === "goon" ? "goons" : "men";
+        const arrayToUpdate = roomCache[type];
+        const goonIndex = arrayToUpdate.findIndex(goon => goon.id === parseInt(goonObject.id));
+        arrayToUpdate.splice(goonIndex,1);
+        if (arrayToUpdate.length > 0) {
+            for(let i = goonIndex; i < arrayToUpdate.length; i++){
+                arrayToUpdate[i].id = i;
+            }
+        }
+        roomCache[type] = arrayToUpdate;
+        serverCache.set(goonObject.roomId, roomCache);
+        goonObject.io.to(goonObject.roomId).emit('goon-removed', {name: goonObject.name, type: goonObject.type, id: goonIndex});
+    } catch (e) {
+        console.log(e);
+        //todo : update error handler later
+        // userObject.io.to(userObject.roomId).emit('roll-calculated', {
+        //     user: userObject.user,
+        //     error: e
+        // });
+    }
+}
