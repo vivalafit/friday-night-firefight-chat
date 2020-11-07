@@ -11,11 +11,8 @@ html, body {
 .main-left {
     flex: 0.75;
     display: flex;
+    max-width: 75%;
     flex-direction: column;
-}
-
-.main-right {
-    flex: 0.2
 }
 
 .main-ground {
@@ -31,6 +28,7 @@ html, body {
     flex: 0.25;
     background-color: #242324;
     border-left: 1px solid #3D3D42;
+    max-width: 25%;
     display: flex;
     flex-direction: column;
 }
@@ -120,7 +118,7 @@ li.message-centered {
 }
 
 .armor-block img {
-    height: 400px;
+    height: 300px;
 }
 
 .armor-block input {
@@ -200,18 +198,16 @@ li.message-centered {
     left: 37%;
 }
 
-
-
-
 .boi, .goon {
     border: 1px solid;
+    display: flex;
     border-radius: 10px;
-    width: 400px;
+    width: 600px;
     margin-bottom: 10px;
 }
 
 .goons, .bois {
-    width: 400px;
+    width: 600px;
 }
 
 .add-button {
@@ -219,9 +215,10 @@ li.message-centered {
 }
 
 .goons-block, .bois-block {
-    margin-top: 10px;
-    max-height: 820px;
-    overflow: overlay;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-height: 930px;
+    overflow: scroll;
 }
 
 input {
@@ -230,4 +227,21 @@ input {
 
 .hp {
     color: red;
+}
+
+.additional-info {
+    width: 300px;
+}
+
+
+@media screen and (max-width: 1400px) {
+    .goons, .bois {
+        margin: auto;
+    }
+    .main-left {
+        overflow: overlay;
+    }
+    .main-ground {
+        display: block;
+    }
 }

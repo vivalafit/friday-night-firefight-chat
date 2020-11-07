@@ -162,6 +162,9 @@ function addGoon(index, type){
         <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="8">
         <img src="goon-icons/goon.png">
       </div>
+      <div class="additional-info">
+        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+      </div>
     </div>`);
     goonsCount += 1;
   } else {
@@ -184,6 +187,9 @@ function addGoon(index, type){
         <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="8">
         <img src="goon-icons/detective.png">
       </div>
+      <div class="additional-info">
+      <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+    </div>
     </div>`);
     boisCount += 1;
   }
