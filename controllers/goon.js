@@ -11,6 +11,7 @@ exports.addGoon = async (goonObject) => {
             serverCache.set(goonObject.roomId, roomCache);
         }
         const type = goonObject.type === "goon" ? "goons" : "men";
+        //update template for if needed
         const goonTemplate = {
             id: goonObject.goonId,
             woundLevel: 0,
@@ -31,6 +32,12 @@ exports.addGoon = async (goonObject) => {
                     lLeg: 8,
                     rLeg: 8
                 }
+            },
+            fightStats: {
+                ref: 0,
+                btm: 0,
+                wpn: 0,
+                mods: "0"
             }
         };
         roomCache[type].push(goonTemplate);    

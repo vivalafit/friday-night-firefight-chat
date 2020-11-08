@@ -1,7 +1,20 @@
 @font-face {
     font-family: "Roboto Mono";
     src: url("../../fonts/RobotoMono-VariableFont_wght.ttf")
-    }
+}
+
+/* number input fix
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 
 html, body {
     font-family: 'Roboto Mono', sans-serif !important;
@@ -13,7 +26,7 @@ html, body {
 
 .main {
     display: flex;
-    height: 93.1vh;
+    height: 93.3vh;
 }
 
 .main-left {
@@ -142,7 +155,7 @@ li.message-centered {
 
 .armor-block input {
     position: absolute;
-    width: 30px;
+    width: 40px;
 }
 
 .armor-block input.head {
@@ -175,7 +188,9 @@ li.message-centered {
     left: 37%;
 }
 
-/* hp */
+/* HP */
+/**/
+/**/
 
 .armor-block input.head-hp {
     top: 25%;
@@ -266,8 +281,8 @@ input {
 
 .additional-info {
     border-left: 1px solid;
-    padding: 0px 20px;
-    padding-top: 10px;
+    padding: 10px 20px;
+    overflow-y: auto;
 }
 
 h6.category-title {
@@ -283,19 +298,24 @@ h6.category-title {
     position: relative;
 }
 
+.reset-wounds {
+    cursor: pointer;
+}
+
 .category-title i {
     position: absolute;
     left: 5px;
     font-size: 20px;
-    cursor: pointer;
 }
 
-.category-titlem, .wound-title {
+.category-title, .wound-title {
     text-transform: uppercase;
     text-align: center;
 }
 
 /* HEADER */
+/**/
+/**/
 
 .chat-header {
     padding: 15px 40px;
@@ -316,10 +336,14 @@ h6.category-title {
 }
 
 /* WOUNDS-BLOCK */
+/**/
+/**/
+
 .wounds-block {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .wound-markers {
@@ -336,6 +360,14 @@ h6.category-title {
     text-align: center;
     font-style: italic;
     text-decoration: underline;
+}
+
+/* FIGHTER STATS */
+/**/
+/**/
+
+.fighter-stats label, .fighter-stat-row{
+    margin-bottom: 0 !important;
 }
 
 /* MEDIAQUERIES */
