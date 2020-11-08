@@ -276,7 +276,7 @@ function addGoon(index, type){
     </div>
     <div class="additional-info">
       <h6 class="category-title">
-          Wounds <i class="material-icons">replay</i>
+          Wounds <i class="material-icons reset-wounds">replay</i>
       </h6>
       <div class="wounds-block">
         <div class="wound-block">
