@@ -130,7 +130,7 @@ const initHandlers = (socket) => {
     const goonTemplateObj = formGoonObj(goonBlock);
     socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
   });
-  $(document.body).on("click", '.wound-square', function() { 
+  $(document.body).on("click touchstart touchend touchmove", '.wound-square', function() { 
     const goonBlock = $(this).parent().parent().parent().parent().parent();
     const goonBlockClasses = goonBlock.attr("class").split(/\s+/);
     const squares = $(`.${goonBlockClasses[0]}.${goonBlockClasses[1]} .wound-square`);
