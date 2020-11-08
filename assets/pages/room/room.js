@@ -2,6 +2,7 @@ $( document ).ready(function() {
   $('.room-login').modal('show');$('.room-login').modal('show')
   initSocketConnection();
   updateWoundLsevel();
+  updateChatPositioning();
 });
 
 const initSocketConnection = () => {
@@ -86,6 +87,18 @@ const initHandlers = (socket) => {
         socket.emit('roll', { user : {name: USER_NAME, color: USER_COLOR}, roll: chatInputWords[1]});
       }
     }
+  });
+  $('.close-chat').on('click', function() {
+    $(this).addClass("inactive");
+    $(".open-chat").removeClass("inactive");
+    $(".main-right").addClass("inactive");
+    $(".main-left").addClass("full-width");
+  });
+  $('.open-chat').on('click', function() {
+    $(this).addClass("inactive");
+    $(".close-chat").removeClass("inactive");
+    $(".main-right").removeClass("inactive");
+    $(".main-left").removeClass("full-width");
   });
   $('.connect-to-room').on('click', function() {
     if($('#punkName').val()) {
@@ -176,6 +189,13 @@ const initHandlers = (socket) => {
 const scrollToBottom = () => {
   const d = $('.main-chat-window');
   d.scrollTop(d.prop("scrollHeight"));
+}
+
+function updateChatPositioning () {
+  const containerWidth = $(window).width();
+  if(containerWidth <= 1024){
+    $('.close-chat').trigger("click");
+  }
 }
 
 function updateWoundLsevel(element) {

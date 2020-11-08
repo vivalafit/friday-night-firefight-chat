@@ -7,10 +7,13 @@ html, body {
     font-family: 'Roboto Mono', sans-serif !important;
 }
 
+.inactive { 
+    display:  none !important;
+}
+
 .main {
     display: flex;
-    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-    height: calc(var(--vh, 1vh) * 100);
+    height: 93.1vh;
 }
 
 .main-left {
@@ -18,6 +21,16 @@ html, body {
     display: flex;
     max-width: 75%;
     flex-direction: column;
+}
+
+.main-left.full-width {
+    width: 100%;
+    max-width: 100%;
+    flex: 1;
+ }
+
+.close-chat, .open-chat {
+    height: auto;
 }
 
 .main-ground {
@@ -282,6 +295,26 @@ h6.category-title {
     text-align: center;
 }
 
+/* HEADER */
+
+.chat-header {
+    padding: 15px 40px;
+    border-bottom: 2px solid #242324;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    z-index: 500;
+}
+
+.chat-header .title {
+    margin: 0;
+}
+
+.close-chat, .open-chat {
+    width: 200px;
+}
+
 /* WOUNDS-BLOCK */
 .wounds-block {
     display: flex;
@@ -306,6 +339,10 @@ h6.category-title {
 }
 
 /* MEDIAQUERIES */
+/**/
+/**/
+
+/*LAPTOP*/
 @media screen and (max-width: 1400px) {
     .goons, .bois {
         margin: auto;
@@ -315,5 +352,33 @@ h6.category-title {
     }
     .main-ground {
         display: block;
+    }
+}
+
+/*IPAD PRO AND LESS*/ 
+@media screen and (max-width: 1024px) {
+    /* .chat-header {
+        display: block;
+        position: fixed;
+    }
+    .close-chat, .open-chat {
+        width: 200px;
+        margin-top: 10px;
+    } */
+}
+
+/*PHONES*/
+@media screen and (max-width: 767px) {
+    .chat-header {
+        display: block;
+        position: fixed;
+    }
+    .close-chat, .open-chat {
+        width: 200px;
+        margin-top: 10px;
+    }
+    .main {
+        padding-top: 170px;
+        height: 100vh;
     }
 }
