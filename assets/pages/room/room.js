@@ -202,293 +202,190 @@ function updateWoundLsevel(element) {
 }
 
 function addGoon(index, type){
+  let category = "";
+  let blockCategory = "";
+  let goonIcon = "";
   if(type === "goon") {
-    $('.goons-block')
-    .append(`
-    <div class="goon ${index}">
-      <input type="hidden" class="wound-level-number" value="0">
-      <div class="armor-block">
-        <input type="text" class="head" placeholder="Head Armor Value"  value="0">
-        <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
-        <input type="text" class="r-arm" placeholder="R-arm Armor Value"  value="0">
-        <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="0">
-        <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="0">
-        <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
-        <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="8">
-        <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="8">
-        <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="8">
-        <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="8">
-        <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="8">
-        <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="8">
-        <img src="goon-icons/goon.png">
-        <div class="buttons-block">
-          <button type="button" class="btn btn-danger remove-goon">Kill</button>
-          <button type="button" class="btn btn-warning go-afk">AFK</button>
-          <button type="button" class="btn btn-info reset-goon">Reset stats</button>
-        </div>
-      </div>
-      <div class="additional-info">
-        <h6 class="category-title">
-            Wounds
-        </h6>
-        <div class="wounds-block">
-            <div class="wound-block">
-              <div class="wound-title">
-                  Light
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Serious
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Critical
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 0
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 1
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 2
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 3
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 4
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 5
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 6
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-        </div>
-      </div>
-    </div>`);
+    category = ".goons-block";
+    blockCategory = "goon";
+    goonIcon = "goon";
   } else {
-    $('.bois-block')
-    .append(`
-    <div class="boi ${index}">
-      <input type="hidden" class="wound-level-number" value="0">
-      <div class="armor-block">
-        <input type="text" class="head" placeholder="Head Armor Value"  value="0">
-        <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
-        <input type="text" class="r-arm" placeholder="R-arm Armor Value"  value="0">
-        <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="0">
-        <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="0">
-        <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
-        <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="8">
-        <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="8">
-        <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="8">
-        <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="8">
-        <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="8">
-        <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="8">
-        <img src="goon-icons/detective.png">
-        <div class="buttons-block">
-          <button type="button" class="btn btn-danger remove-goon">Kill</button>
-          <button type="button" class="btn btn-warning go-afk">AFK</button>
-          <button type="button" class="btn btn-info reset-goon">Reset stats</button>
-        </div>
-      </div>
-      <div class="additional-info">
-        <h6 class="category-title">
-            Wounds
-        </h6>
-        <div class="wounds-block">
-            <div class="wound-block">
-              <div class="wound-title">
-                  Light
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Serious
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Critical
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 0
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 1
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 2
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 3
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 4
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 5
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-            <div class="wound-block">
-              <div class="wound-title">
-                  Mortal 6
-              </div>
-              <div class="wound-markers">
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-                  <div class="wound-square"></div>
-              </div>
-            </div>
-        </div>
-      </div>
-    </div>`);
+    category = ".bois-block";
+    blockCategory = "boi";
+    goonIcon = "detective";
   }
+  $(category)
+  .append(`
+  <div class="${blockCategory} ${index}">
+    <input type="hidden" class="wound-level-number" value="0">
+    <div class="armor-block">
+      <input type="text" class="head" placeholder="Head Armor Value"  value="0">
+      <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
+      <input type="text" class="r-arm" placeholder="R-arm Armor Value"  value="0">
+      <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="0">
+      <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="0">
+      <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
+      <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="8">
+      <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="8">
+      <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="8">
+      <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="8">
+      <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="8">
+      <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="8">
+      <img src="goon-icons/${goonIcon}.png">
+      <div class="buttons-block">
+        <button type="button" class="btn btn-danger remove-goon">Kill</button>
+        <button type="button" class="btn btn-warning go-afk">AFK</button>
+        <button type="button" class="btn btn-info reset-goon">Reset stats</button>
+      </div>
+    </div>
+    <div class="additional-info">
+      <h6 class="category-title">
+          Wounds <i class="material-icons">replay</i>
+      </h6>
+      <div class="wounds-block">
+        <div class="wound-block">
+          <div class="wound-title">
+              Light
+          </div>
+          <div class="wound-markers">
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+          </div>
+          <div class="wound-hint">
+              Stun=0
+          </div>
+        </div>
+        <div class="wound-block">
+          <div class="wound-title">
+              Serious
+          </div>
+          <div class="wound-markers">
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+          </div>
+          <div class="wound-hint">
+              Stun=-1
+          </div>
+        </div>
+        <div class="wound-block">
+          <div class="wound-title">
+              Critical
+          </div>
+          <div class="wound-markers">
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+          </div>
+          <div class="wound-hint">
+              Stun=-2
+          </div>
+        </div>
+        <div class="wound-block">
+          <div class="wound-title">
+              Mortal 0
+          </div>
+          <div class="wound-markers">
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+          </div>
+          <div class="wound-hint">
+              Stun=-3
+          </div>
+        </div>
+        <div class="wound-block">
+          <div class="wound-title">
+              Mortal 1
+          </div>
+          <div class="wound-markers">
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+          </div>
+          <div class="wound-hint">
+              Stun=-4
+          </div>
+        </div>
+        <div class="wound-block">
+          <div class="wound-title">
+              Mortal 2
+          </div>
+          <div class="wound-markers">
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+          </div>
+          <div class="wound-hint">
+              Stun=-5
+          </div>
+        </div>
+        <div class="wound-block">
+          <div class="wound-title">
+              Mortal 3
+          </div>
+          <div class="wound-markers">
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+          </div>
+          <div class="wound-hint">
+              Stun=-6
+          </div>
+        </div>
+        <div class="wound-block">
+          <div class="wound-title">
+              Mortal 4
+          </div>
+          <div class="wound-markers">
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+          </div>
+          <div class="wound-hint">
+              Stun=-7
+          </div>
+        </div>
+        <div class="wound-block">
+          <div class="wound-title">
+              Mortal 5
+          </div>
+          <div class="wound-markers">
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+          </div>
+          <div class="wound-hint">
+              Stun=-8
+          </div>
+        </div>
+        <div class="wound-block">
+          <div class="wound-title">
+              Mortal 6
+          </div>
+          <div class="wound-markers">
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+              <div class="wound-square"></div>
+          </div>
+          <div class="wound-hint">
+              Stun=-9
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`);
 }
 
 function removeGoon(index, type){

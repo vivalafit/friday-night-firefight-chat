@@ -299,6 +299,12 @@ h6.category-title {
     border: 1px solid;
 }
 
+.wound-hint {
+    text-align: center;
+    font-style: italic;
+    text-decoration: underline;
+}
+
 /* MEDIAQUERIES */
 @media screen and (max-width: 1400px) {
     .goons, .bois {
