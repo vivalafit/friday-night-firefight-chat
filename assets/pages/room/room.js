@@ -1,11 +1,13 @@
 // half a sec
 const DEFAULT_TIMER = 1500;
+const GOON_BLOCK_HEIGHT = 930;
 
 $( document ).ready(function() {
   $('.room-login').modal('show');$('.room-login').modal('show')
   initSocketConnection();
   updateWoundLsevel();
   updateChatPositioning();
+  addBorderToBottom();
 });
 
 const initSocketConnection = () => {
@@ -43,6 +45,7 @@ const initSocketConnection = () => {
       if(goonObj.name !== USER_NAME) {
         addGoon(goonObj.goon.id, goonObj.type);
       }
+      updateShooterList();
   })
   socket.on('goon-updated', goonObj => {
    if(goonObj.name !== USER_NAME) {
@@ -79,6 +82,7 @@ const initSocketConnection = () => {
   });
   socket.on('goon-removed', goonObj => {
       removeGoon(goonObj.id, goonObj.type);
+      updateShooterList()
   });
   initHandlers(socket);
 }
@@ -125,7 +129,21 @@ const initHandlers = (socket) => {
     addGoon(index, "man");
     socket.emit('add-goon', {type: "man", goonId: index, name: USER_NAME});
   });
-
+  // battle ground handler 
+  $(".rumble-button").on('click', function() {
+    const data = {
+      shooter: $(".step1 .target-select").val(),
+      target: $(".step2 .target-select").val(),
+      coverValue: parseInt($(".cover-value").val()),
+      fireMod: $(".fire-mod").val(),
+      calledShot: $(".called-shot").val(),
+      wpnDmg: $(".wpn-dmg").val(),
+      wpnAcc: parseInt($(".wpn-acc").val()),
+      wpnBullets: parseInt($(".wpn-bullets").val()),
+      shotComplexity: parseInt($(".complexity-value").val())
+    }
+    socket.emit('count-battle', {data: data});
+  });
   //handlers for dynamicaly added elements
 
   //wounds handler
@@ -205,6 +223,29 @@ const initHandlers = (socket) => {
 const scrollToBottom = () => {
   const d = $('.main-chat-window');
   d.scrollTop(d.prop("scrollHeight"));
+}
+
+function updateShooterList() {
+  $(".target-select").each((i, element) => {
+    $(element).empty();
+    $(element).append('<option selected value="">Asignee</option>');
+    for(let i = 0; i < $(".boi").length; i++){
+      $(element).append(`<option selected value="boi-${i}">Boi ${i}</option>`);
+    }
+    for(let i = 0; i < $(".goon").length; i++){
+      $(element).append(`<option selected value="goon-${i}">Goon ${i}</option>`);
+    }
+    $(element).val("");
+  });
+}
+
+function addBorderToBottom() {
+    if($(".goons-block").height() === GOON_BLOCK_HEIGHT){
+      $(".goons-block").addClass("bottom-bordered");
+    }
+    if($(".bois-block").height() === GOON_BLOCK_HEIGHT){
+      $(".bois-block").addClass("bottom-bordered");
+    }
 }
 
 function updateChatPositioning () {
@@ -447,6 +488,15 @@ function addGoon(index, type){
       </div>
     </div>
   </div>`);
+  if(type === "goon") {
+    if($(".goons-block").height() === GOON_BLOCK_HEIGHT){
+      $(".goons-block").addClass("bottom-bordered");
+    }
+  } else {
+    if($(".bois-block").height() === GOON_BLOCK_HEIGHT){
+      $(".bois-block").addClass("bottom-bordered");
+    }
+  }
 }
 
 function removeGoon(index, type){
@@ -455,6 +505,15 @@ function removeGoon(index, type){
     if(elementsToUpdate.length > 0) {
       for (let i = index; i < elementsToUpdate.length; i++) {
         $(elementsToUpdate[i]).attr('class', `${type} ${i}`);
+      }
+    }
+    if(type === "goon") {
+      if($(".goons-block").height() < GOON_BLOCK_HEIGHT){
+        $(".goons-block").removeClass("bottom-bordered");
+      }
+    } else {
+      if($(".bois-block").height() < GOON_BLOCK_HEIGHT){
+        $(".bois-block").removeClass("bottom-bordered");
       }
     }
 }

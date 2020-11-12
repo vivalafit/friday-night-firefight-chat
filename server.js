@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const rollerController = require('./controllers/roller'); 
 const goonController = require('./controllers/goon'); 
+const fireFightController = require('./controllers/firefight');
 
 const randomColor = require('randomcolor');
 const server = require('http').Server(app);
@@ -41,7 +42,7 @@ io.on('connection', socket => {
     socket.on('roll', (userObj) => {
       rollerController.calculateRoll({...userObj, io: io, roomId: roomId});
     });
-    // add goon
+    // goon operations
     socket.on('add-goon', (goonObj) => {
       goonController.addGoon({...goonObj, io: io, roomId: roomId});
     })
@@ -50,6 +51,10 @@ io.on('connection', socket => {
     })
     socket.on('remove-goon', (goonObj) => {
       goonController.removeGoon({...goonObj, io: io, roomId: roomId});
+    })
+    // firefight count
+    socket.on('count-battle', (data) => {
+      fireFightController.countBattle({...data, io: io, roomId: roomId});
     })
   })
 })

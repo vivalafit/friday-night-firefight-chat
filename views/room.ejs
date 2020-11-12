@@ -26,6 +26,9 @@
    <div class="main">
       <div class="main-left">
          <div class="main-ground">
+            <div class="people-title">
+               <h2>Goons Locker Room</h2>
+            </div>
             <div class="people">
                <div class="goons">
                   <button type="button" class="btn btn-dark add-button goon-btn">Add goon</button>
@@ -436,18 +439,18 @@
                   </div>
                </div>
             </div>
+            <div class="battle-title">
+               <h2>Firefight Ground</h2>
+            </div>
             <div class="battle-ground">
-               <div class="battle-title">
-                  <h2>Firefight Ground</h2>
-               </div>
                <div class="battle-block">
                   <div class="fire-block step1">
                      <div class="fire-step-title">
                         <h4>1) Who is the Shooter</h4>
                      </div>
                      <div class="fire-step-block">
-                        <select class="custom-select">
-                           <option selected value="">The Shooter</option>
+                        <select class="custom-select target-select">
+                           <option selected value="">Asignee</option>
                            <% for(var i=0; i < room.goons.length; i++) {%>
                               <option value="goon-<%=i%>">Goon <%=i%></option>
                            <%}%>
@@ -462,8 +465,8 @@
                         <h4>2) Someone has to get this shot</h4>
                      </div>
                      <div class="fire-step-block">
-                        <select class="custom-select">
-                           <option selected value="">The Shooter</option>
+                        <select class="custom-select target-select">
+                           <option selected value="">Asignee</option>
                            <% for(var i=0; i < room.goons.length; i++) {%>
                               <option value="goon-<%=i%>">Goon <%=i%></option>
                            <%}%>
@@ -478,7 +481,7 @@
                         <h4>3) Does victim have a cover?</h4>
                      </div>
                      <div class="fire-step-block">
-                        <input type="text" class="cover-value" placeholder="Cover Value"  value="0">
+                        <input type="number" class="cover-value" placeholder="Cover Value"  value="0">
                      </div>
                   </div>
                   <div class="fire-block step4">
@@ -486,15 +489,45 @@
                         <h4>4) Now let's make a lot of damage</h4>
                      </div>
                      <div class="fire-step-block">
-                        <select class="custom-select">
+                        <select class="custom-select fire-mod">
                            <option selected value="">Fire Mod</option>
                            <option value="single">Single</option>
                            <option value="three-round">Three Round Burst</option>
                            <option value="full-auto">Full Auto</option>
                         </select>
+                        <select class="custom-select called-shot">
+                           <option selected value="">Called Shot</option>
+                           <option value="head">Head</option>
+                           <option value="torso">Torso</option>
+                           <option value="r-arm">Right Arm</option>
+                           <option value="l-arm">Left Arm</option>
+                           <option value="r-leg">Right Leg</option>
+                           <option value="l-leg">Left Leg</option>
+                        </select>
                         <input type="text" class="wpn-dmg" placeholder="Weapon damage"  value="">
                         <input type="text" class="wpn-acc" placeholder="Weapon ACC modifier"  value="">
                         <input type="text" class="wpn-bullets" placeholder="Bullets number"  value="">
+                     </div>
+                  </div>
+                  <div class="fire-block step5">
+                     <div class="fire-step-title">
+                        <h4>5) Let Dungeon Master set the complexity of shot</h4>
+                     </div>
+                     <div class="fire-step-block">
+                        <input type="number" class="complexity-value" placeholder="Show complexity"  value="0">
+                     </div>
+                  </div>
+                  <button type="button" class="btn btn-danger rumble-button">Let's rumble</button>
+                  <div class="fire-block step6">
+                     <div class="fire-step-title">
+                        <h4>6) Let look on Battle Log</h4>
+                     </div>
+                     <div class="fire-step-block">
+                        <div class="form-control" id="battleLog">
+                           <ul class="logs">
+
+                           </ul>
+                        </div>
                      </div>
                   </div>
                </div>
