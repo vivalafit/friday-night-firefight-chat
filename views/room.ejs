@@ -213,6 +213,11 @@
                                        <small id="ref-hint" class="form-text text-muted">Better fast, than dead..</small>
                                     </div>
                                     <div class="form-group fighter-stat-row">
+                                       <label for="body">BODY</label>
+                                       <input type="number" class="form-control body" aria-describedby="body-hint" placeholder="BODY" value="<%=room.goons[i].fightStats.body%>">
+                                       <small id="body-hint" class="form-text text-muted">Healthy body, healthy mind...</small>
+                                    </div>
+                                    <div class="form-group fighter-stat-row">
                                        <label for="btm">BTM</label>
                                        <input type="number" class="form-control btm" aria-describedby="btm-hint" placeholder="BTM" value="<%=room.goons[i].fightStats.btm%>">
                                        <small id="btm-hint" class="form-text text-muted">Being spongy doesn't hurt at all.</small>
@@ -417,6 +422,11 @@
                                        <small id="ref-hint" class="form-text text-muted">Better fast, than dead..</small>
                                     </div>
                                     <div class="form-group fighter-stat-row">
+                                       <label for="body">BODY</label>
+                                       <input type="number" class="form-control body" aria-describedby="body-hint" placeholder="BODY" value="<%=room.men[i].fightStats.body%>">
+                                       <small id="body-hint" class="form-text text-muted">Healthy body, healthy mind...</small>
+                                    </div>
+                                    <div class="form-group fighter-stat-row">
                                        <label for="btm">BTM</label>
                                        <input type="number" class="form-control btm" aria-describedby="btm-hint" placeholder="BTM" value="<%=room.men[i].fightStats.btm%>">
                                        <small id="btm-hint" class="form-text text-muted">Being spongy doesn't hurt at all.</small>
@@ -499,10 +509,10 @@
                            <option selected value="">Called Shot</option>
                            <option value="head">Head</option>
                            <option value="torso">Torso</option>
-                           <option value="r-arm">Right Arm</option>
-                           <option value="l-arm">Left Arm</option>
-                           <option value="r-leg">Right Leg</option>
-                           <option value="l-leg">Left Leg</option>
+                           <option value="rArm">Right Arm</option>
+                           <option value="lArm">Left Arm</option>
+                           <option value="rLeg">Right Leg</option>
+                           <option value="lLeg">Left Leg</option>
                         </select>
                         <input type="text" class="wpn-dmg" placeholder="Weapon damage"  value="">
                         <input type="text" class="wpn-acc" placeholder="Weapon ACC modifier"  value="">
@@ -520,7 +530,7 @@
                   <button type="button" class="btn btn-danger rumble-button">Let's rumble</button>
                   <div class="fire-block step6">
                      <div class="fire-step-title">
-                        <h4>6) Let look on Battle Log</h4>
+                        <h4>6) Let`s have a look on the Battle Log</h4>
                      </div>
                      <div class="fire-step-block">
                         <div class="form-control" id="battleLog">

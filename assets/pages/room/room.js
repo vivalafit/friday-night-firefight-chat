@@ -68,6 +68,7 @@ const initSocketConnection = () => {
           goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
           //update fighter values
           goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
+          goonDiv.find('.fighter-stat-row .body').val(goonTemplate.fightStats.body);
           goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
           goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
           goonDiv.find('.fighter-stat-row .mods').val(goonTemplate.fightStats.mods);
@@ -84,6 +85,13 @@ const initSocketConnection = () => {
       removeGoon(goonObj.id, goonObj.type);
       updateShooterList()
   });
+  socket.on('calculation-completed', data => {
+    $("#battleLog .logs")
+    .empty()
+    .append(data.logStr)
+    .addClass('changed');
+    setTimeout(() => $("#battleLog .logs").removeClass('changed'), 500);
+  })
   initHandlers(socket);
 }
 
@@ -151,7 +159,6 @@ const initHandlers = (socket) => {
     const goonBlock = $(this).parent().parent().parent();
     const goonBlockClasses = goonBlock.attr("class").split(/\s+/);
     const squares = $(`.${goonBlockClasses[0]}.${goonBlockClasses[1]} .wound-square`);
-    const index = squares.index(this);
     squares.removeClass("active-confirmed");
     const goonTemplateObj = formGoonObj(goonBlock);
     socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
@@ -471,6 +478,11 @@ function addGoon(index, type){
          <small id="ref-hint" class="form-text text-muted">Better fast, than dead..</small>
       </div>
       <div class="form-group fighter-stat-row">
+        <label for="body">BODY</label>
+        <input type="number" class="form-control body" aria-describedby="body-hint" placeholder="BODY" value="<%=room.goons[i].fightStats.body%>">
+        <small id="body-hint" class="form-text text-muted">Healthy body, healthy mind...</small>
+      </div>
+      <div class="form-group fighter-stat-row">
          <label for="btm">BTM</label>
          <input type="number" class="form-control btm" aria-describedby="btm-hint" placeholder="BTM" value="0">
          <small id="btm-hint" class="form-text text-muted">Being spongy doesn't hurt at all.</small>
@@ -555,6 +567,7 @@ function formGoonObj(goonBlock) {
   const rLegHP = goonBlock.find('.r-leg-hp').val();
   //variables - battle stats
   const refStat = goonBlock.find('.fighter-stat-row .ref').val();
+  const bodyStat = goonBlock.find('.fighter-stat-row .body').val();
   const btmStat = goonBlock.find('.fighter-stat-row .btm').val();
   const wpnStat = goonBlock.find('.fighter-stat-row .wpn').val();
   const modStat = goonBlock.find('.fighter-stat-row .mods').val();
@@ -582,6 +595,7 @@ function formGoonObj(goonBlock) {
     },
     fightStats: {
       ref: refStat ? parseInt(refStat) : 0,
+      body: bodyStat ? parseInt(bodyStat) : 0,
       btm: btmStat ? parseInt(btmStat) : 0,
       wpn: wpnStat ? parseInt(wpnStat) : 0,
       mods: modStat ? modStat : "0"

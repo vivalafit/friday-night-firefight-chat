@@ -1,8 +1,13 @@
 @font-face {
     font-family: "Roboto Mono";
-    src: url("../../fonts/RobotoMono-VariableFont_wght.ttf")
+    font-weight: bold;
+    src: url("../../fonts/RobotoMono-Bold.ttf")
 }
 
+@font-face {
+    font-family: "Roboto Mono";
+    src: url("../../fonts/RobotoMono-VariableFont_wght.ttf")
+}
 /* number input fix
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -299,7 +304,7 @@ input {
     height: 400px;
 }
 
-.goon.changed, .boi.changed, .wound-square:hover, .wound-square.active, .wound-square.active-confirmed  {
+.changed, .goon.changed, .boi.changed, .wound-square:hover, .wound-square.active, .wound-square.active-confirmed  {
    background-color: red;
 }
 
@@ -442,6 +447,43 @@ h6.category-title {
 
 #battleLog {
     height: 500px;
+    overflow-y: auto;
+}
+
+#battleLog .logs {
+    color: black;
+    padding-left: 0;
+    transition: background-color 1s linear;
+}
+
+.shot-title {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.shot-title:first-of-type  {
+    margin-top: 10px;
+}
+
+span.shot-part-info {
+    color: red;
+    font-weight: bold;
+    border-bottom: 2px solid;
+}
+
+.armor-left {
+    color: royalblue;
+    font-weight: bold;
+}
+
+.hp-left{
+    color: red;
+    font-weight: bold;
+}
+
+.shot-value {
+    font-weight: bold;
 }
 
 /* MEDIAQUERIES */
@@ -452,6 +494,7 @@ h6.category-title {
 @media screen and (max-width: 1400px) {
     .goons, .bois {
         margin: auto;
+        width: auto;
     }
     .main-left {
         overflow: overlay;
@@ -482,9 +525,13 @@ h6.category-title {
     .close-chat, .open-chat {
         width: 200px;
         margin-top: 10px;
+        display: none;
     }
     .main {
         padding-top: 210px;
         height: 100vh;
+    }
+    button.open-chat {
+        display: none;
     }
 }
