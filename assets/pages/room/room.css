@@ -482,6 +482,11 @@ span.shot-part-info {
     font-weight: bold;
 }
 
+.cover-left {
+    color: seagreen;
+    font-weight: bold;
+}
+
 .shot-value {
     font-weight: bold;
 }

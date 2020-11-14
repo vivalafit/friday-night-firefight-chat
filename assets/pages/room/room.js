@@ -142,7 +142,7 @@ const initHandlers = (socket) => {
     const data = {
       shooter: $(".step1 .target-select").val(),
       target: $(".step2 .target-select").val(),
-      coverValue: parseInt($(".cover-value").val()),
+      coverValue: parseInt($(".cover-value").val()) ? parseInt($(".cover-value").val()) : 0,
       fireMod: $(".fire-mod").val(),
       calledShot: $(".called-shot").val(),
       wpnDmg: $(".wpn-dmg").val(),
