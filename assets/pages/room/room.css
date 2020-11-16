@@ -569,4 +569,11 @@ span.shot-part-info {
     .goons-block, .bois-block {
         max-height: 1250px;
     }
+    .chat-header {
+        display: block;
+        position: relative;
+    }
+    .main {
+        padding-top: 0px;
+    }
 }
