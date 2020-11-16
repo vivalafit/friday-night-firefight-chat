@@ -13,13 +13,28 @@ const HIT_LOCATIONS = {
     9 : "lLeg",
     10: "lLeg"
 }
+const WOUND_LEVEL_MOD = {
+    1: 0,
+    2: -1,
+    3: -2,
+    4: -3,
+    5: -4,
+    6: -5,
+    7: -6,
+    8: -7,
+    9: -8,
+    10: -9
+}
+const MAX_WOUND_LEVEL = 40;
+const WOUND_LEVEL_BOUND = 4;
+const MAXIMUM_STUN_LEVEL = 3;
 
 exports.countBattle = async (data) => {
     try {
         let battleData = data.data;
         if(!battleData.shooter || !battleData.target){
             //make adequate error handling
-            return
+            data.io.to(data.roomId).emit('calculation-completed', {logStr: `<div class="shot-landed armor-penetration">No Shooter or Target Selected.</div>`});
         }
         let roomCache = serverCache.get(data.roomId);
         let logStr = "";
@@ -115,7 +130,7 @@ exports.countBattle = async (data) => {
         // 1) SINGLE FIRE MOD - END
         data.io.to(data.roomId).emit('calculation-completed', {logStr: logStr});
     } catch (e) {
-        console.log(e);
+        data.io.to(data.roomId).emit('calculation-completed', {logStr: `<div class="shot-landed armor-penetration">Error ${e}.</div>`});
         //todo : update error handler later
         // userObject.io.to(userObject.roomId).emit('roll-calculated', {
         //     user: userObject.user,
@@ -124,6 +139,19 @@ exports.countBattle = async (data) => {
     }
 }
 
+//uses default rules for Cyberpunk 2020 stun/death saves - modify constants value whatever you want to.
+const calculateStunDeathSave = (logStr, targetObj, hitLocation, bulletDmg) => {
+    //
+    targetObj.woundLevel = targetObj.woundLevel + bulletDmg >= MAX_WOUND_LEVEL ? MAX_WOUND_LEVEL : targetObj.woundLevel + bulletDmg;
+    // DEATH ROLL - higher than 3, beginning from MORTAL 0
+    if(Math.ceil(targetObj.woundLevel / WOUND_LEVEL_BOUND) > MAXIMUM_STUN_LEVEL) {
+        const a = 1;
+    } 
+    // If wound level is lower than boundaries of SERIOUS wound (3) - STUN Roll
+    else {
+        const a = 1;
+    }
+}
 
 const calculateArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj) => {
   //check if bullet penetrated target`s armor
@@ -147,6 +175,7 @@ const calculateArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocation, 
     logStr = `${logStr}<div class="shot-landed hp-left">Target's health left on ${hitLocation} : <span class="shot-value">${targetLocationHP}</span>.</div>`
     //update limb HP value
     targetObj.bodyStats.limbs[hitLocation] = targetLocationHP;
+    const stunDeathSaveResult = calculateStunDeathSave(logStr, targetObj, hitLocation, BTMedDamage);
     } else {
         //shot does not penetrated armor
         logStr = `${logStr}<div class="shot-landed not-armor-penetration">Bullet with damage(<span class="shot-value">${bulletDmg}</span>) does not penetrated armor(<span class="shot-value">${targetLocationArmor}</span>) on <span class="shot-part-info">${hitLocation}</span>.</div>`
@@ -240,7 +269,7 @@ const calculateShotDmg = (logStr, shooterObj, targetObj, shooterAimMods, battleD
     } else {
         //shot missed
         logStr = `${logStr}<div class="shot-landed shot-title">Shot ${shotNumber+1}: Missed the target!</div>`;
-        if(i > 0){
+        if(shotNumber > 0){
             logStr = `${logStr}<div class="shot-landed">Aim value was decreased by <span class="shot-value">${3 * shotNumber}</span> as a debuff for consecutive action!</div>`
         }
         logStr = `${logStr}<div class="shot-missed">Shooter rolled <span class="shot-value">${accumulatedAim}</span> vs <span class="shot-value">${battleData.shotComplexity}</span> and missed the shot.</div>`

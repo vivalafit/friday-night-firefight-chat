@@ -533,10 +533,40 @@ span.shot-part-info {
         display: none;
     }
     .main {
-        padding-top: 210px;
+        padding-top: 185px;
         height: 100vh;
     }
     button.open-chat {
         display: none;
+    }
+    .additional-info {
+        width: auto;
+        height: auto;
+    }
+    .boi, .goon {
+        display: block;
+        width: auto;
+        overflow-y: auto;
+        height: auto;
+        margin-bottom: 10px;
+    }
+    .buttons-block {
+        position: absolute;
+        top: -4%;
+        left: 2%;
+        display: flex;
+        padding: 0px 20px;
+    }
+    .armor-block img {
+        height: 330px;
+        margin-top: 20px;
+    }
+    .armor-block {
+        position: relative;
+        height: 340px;
+        margin-top: 10px;
+    }
+    .goons-block, .bois-block {
+        max-height: 1250px;
     }
 }
