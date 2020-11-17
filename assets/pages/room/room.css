@@ -491,6 +491,56 @@ span.shot-part-info {
     font-weight: bold;
 }
 
+.stun-save.hint {
+    color: #6a6a6a;
+    font-size: 14px;
+}
+
+.failed-roll {
+    color: red;
+    font-weight: bold;
+    border-bottom: 2px solid;
+}
+
+.passed-roll {
+    color: rgb(12, 143, 0);
+    font-weight: bold;
+    border-bottom: 2px solid;
+}
+
+.death-stun-title {
+    border-top: 2px dashed;
+    margin-top: 10px;
+    padding-top: 5px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.failed-roll-span {
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.passed-roll-span {
+    color: rgb(12, 143, 0);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.title-summary.dead {
+    font-size: 22px;
+    text-transform: uppercase;
+    color: red;
+    font-weight: bold;
+}
+.title-summary.stunned {
+    font-size: 22px;
+    text-transform: uppercase;
+    color: #8c8aff;
+    font-weight: bold;
+}
+
 /* MEDIAQUERIES */
 /**/
 /**/
