@@ -41,6 +41,7 @@ const WOUND_LEVEL_STR = {
 const MAX_WOUND_LEVEL = 40;
 const WOUND_LEVEL_BOUND = 4;
 const MAXIMUM_STUN_LEVEL = 3;
+const MORTAL_0_LEVEL = 13;
 
 exports.countBattle = async (data) => {
     try {
@@ -164,22 +165,41 @@ exports.countBattle = async (data) => {
 //uses default rules for Cyberpunk 2020 stun/death saves - modify constants value whatever you want to.
 const calculateStunDeathSave = (logStr, targetObj, hitLocation, bulletDmg, shotNumber) => {
     targetObj.woundLevel = targetObj.woundLevel + bulletDmg >= MAX_WOUND_LEVEL ? MAX_WOUND_LEVEL : targetObj.woundLevel + bulletDmg;
-    const woundLevel = Math.ceil(targetObj.woundLevel / WOUND_LEVEL_BOUND);
-    const woundLevelMod = WOUND_LEVEL_MOD[woundLevel];
-    const bodyWithPenalty = targetObj.fightStats.body + woundLevelMod;
+    let woundLevel = Math.ceil(targetObj.woundLevel / WOUND_LEVEL_BOUND);
+    let woundLevelMod = WOUND_LEVEL_MOD[woundLevel];
+    let bodyWithPenalty = targetObj.fightStats.body + woundLevelMod;
     const roller = new Roll(function () {
         return srand.random();
     });
-   
-    // DEATH ROLL - higher than 3, beginning from MORTAL 0
-    if(Math.ceil(targetObj.woundLevel / WOUND_LEVEL_BOUND) > MAXIMUM_STUN_LEVEL && !targetObj.dead) {
+    // LIMB LOSS - if not torso, you probably lost some limbs/ minimum MORTAL 0 roll
+    if(bulletDmg >= 8 && hitLocation !== "torso" && !targetObj.dead) {
+        //if headshot - wow, unlucky for you
+        if(hitLocation === "head"){
+            logStr = `${logStr}<div class="death-save failed-roll-span">Headshot! Target's head is blown by million pieces!</div>`
+            //mutate object with custom flag - to avoid later death saves 
+            targetObj.dead = true;
+            targetObj.deadOn = shotNumber + 1;
+            return {
+                logStr: logStr,
+                targetObj: targetObj
+            }
+        }
+        //check already if mortal level is higher than MORTAL 0, if higher - than apply it
+        targetObj.woundLevel = targetObj.woundLevel < MORTAL_0_LEVEL ? MORTAL_0_LEVEL : targetObj.woundLevel;
+        woundLevel = Math.ceil(targetObj.woundLevel / WOUND_LEVEL_BOUND);
+        woundLevelMod = WOUND_LEVEL_MOD[woundLevel];
+        bodyWithPenalty = targetObj.fightStats.body + woundLevelMod;
+        logStr = `${logStr}<div class="death-save limb-loss">${hitLocation} limb is lost! DEATH roll on MORTAL 0 or higher!</div>`
+    }
+    // DEATH ROLL - higher than 3(MAXIMUM_STUN_LEVEL), beginning from MORTAL 0
+    if(woundLevel > MAXIMUM_STUN_LEVEL && !targetObj.dead) {
         logStr = `${logStr}<div class="stun-save death-stun-title">Target has to roll ${bodyWithPenalty} or lower to pass the DEATH save!</div>`
         logStr = `${logStr}<div class="stun-save hint">(Target's BODY: ${targetObj.fightStats.body}, wound level MOD: ${WOUND_LEVEL_STR[woundLevelMod]}/${woundLevelMod})</div>`
         const rollResult = roller.roll("1d10").result;
         if(rollResult > bodyWithPenalty){
             logStr = `${logStr}<div class="death-save">It is seems like Target <span class="failed-roll">failed</span> the roll <span class="shot-value">${rollResult}</span> vs <span class="shot-value">${bodyWithPenalty}</span>!</div>`
             logStr = `${logStr}<div class="death-save failed-roll-span">Target is dead!</div>`
-            //mutate object with custom flag - to avoid later stun saves 
+            //mutate object with custom flag - to avoid later death saves 
             targetObj.dead = true;
             targetObj.deadOn = shotNumber + 1;
         } else {
@@ -187,7 +207,7 @@ const calculateStunDeathSave = (logStr, targetObj, hitLocation, bulletDmg, shotN
             logStr = `${logStr}<div class="death-save passed-roll-span">Target is quite alive for this moment!</div>`
         }
     } 
-    // If wound level is lower than boundaries of SERIOUS wound (3) - STUN Roll
+    // STUN ROLL - If wound level is lower than boundaries of SERIOUS wound (3) 
     else if(!targetObj.stunned && !targetObj.dead) {
         logStr = `${logStr}<div class="stun-save death-stun-title">Target has to roll ${bodyWithPenalty} or lower to pass the STUN save!</div>`
         logStr = `${logStr}<div class="stun-save hint">(Target's BODY: ${targetObj.fightStats.body}, wound level MOD: ${WOUND_LEVEL_STR[woundLevelMod]}/${woundLevelMod})</div>`
@@ -220,21 +240,24 @@ const calculateArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocation, 
 
         //reduced damage - applied btm value to it
         let BTMedDamage = bulletDmg - targetObj.fightStats.btm <= 0 ? 1 : bulletDmg - targetObj.fightStats.btm;
-        logStr = `${logStr}<div class="shot-landed">Target's BTM value(<span class="shot-value">${targetObj.fightStats.btm}</span>) reduced bullet damage <span class="shot-value">${bulletDmg}</span> -> <span class="shot-value">${BTMedDamage}</span>.</div>`
-        if(hitLocation === "head") {
-            BTMedDamage = BTMedDamage * 2;
-            logStr = `${logStr}<div class="shot-landed">Bullet has hit the head so the damage is doubled(<span class="shot-value">${BTMedDamage}</span>)!</div>`
-
-        }
-        logStr = `${logStr}<div class="shot-landed armor-penetration armor-left">Target's armor left on ${hitLocation} : <span class="shot-value">${targetObj.bodyStats.armor[hitLocation]}</span>.</div>`
+        //check if there is a cyberlimb on hitlocation
         const limbHP = parseInt(targetObj.bodyStats.limbs[hitLocation]);
         if(limbHP){
             let targetLocationHP = targetObj.bodyStats.limbs[hitLocation] - bulletDmg < 0 ? 0 : targetObj.bodyStats.limbs[hitLocation] - bulletDmg;
             logStr = `${logStr}<div class="shot-landed hp-left">Target's cybelimb SDP on ${hitLocation} : <span class="shot-value">${targetLocationHP}</span>.</div>`
             //update limb HP value
             targetObj.bodyStats.limbs[hitLocation] = targetLocationHP;
+            if(targetObj.bodyStats.limbs[hitLocation] === 0) {
+                logStr = `${logStr}<div class="shot-landed hp-left">Cyberlimb on ${hitLocation} is broken!</span>.</div>`
+            }
         } else {
             //calculate STUN/DEATH save - if location not the Cyberlimb
+            logStr = `${logStr}<div class="shot-landed">Target's BTM value(<span class="shot-value">${targetObj.fightStats.btm}</span>) reduced bullet damage <span class="shot-value">${bulletDmg}</span> -> <span class="shot-value">${BTMedDamage}</span>.</div>`
+            if(hitLocation === "head") {
+                BTMedDamage = BTMedDamage * 2;
+                logStr = `${logStr}<div class="shot-landed">Bullet has hit the head so the damage is doubled(<span class="shot-value">${BTMedDamage}</span>)!</div>`
+            }
+            logStr = `${logStr}<div class="shot-landed armor-penetration armor-left">Target's armor left on ${hitLocation} : <span class="shot-value">${targetObj.bodyStats.armor[hitLocation]}</span>.</div>`
             const stunDeathSaveResult = calculateStunDeathSave(logStr, targetObj, hitLocation, BTMedDamage, shotNumber);
             logStr = stunDeathSaveResult.logStr;
             targetObj = stunDeathSaveResult.targetObj;

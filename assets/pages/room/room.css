@@ -475,16 +475,19 @@ span.shot-part-info {
 .armor-left {
     color: royalblue;
     font-weight: bold;
+    font-size: 20px;
 }
 
 .hp-left{
     color: red;
     font-weight: bold;
+    font-size: 20px;
 }
 
 .cover-left {
     color: seagreen;
     font-weight: bold;
+    font-size: 20px;
 }
 
 .shot-value {
@@ -539,6 +542,12 @@ span.shot-part-info {
     text-transform: uppercase;
     color: #8c8aff;
     font-weight: bold;
+}
+
+.limb-loss {
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 /* MEDIAQUERIES */
