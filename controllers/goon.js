@@ -25,12 +25,12 @@ exports.addGoon = async (goonObject) => {
                     rLeg: 0
                 }, 
                 limbs: {
-                    head: 8,
-                    torso: 8,
-                    lArm: 8,
-                    rArm: 8,
-                    lLeg: 8,
-                    rLeg: 8
+                    head: "-",
+                    torso: "-",
+                    lArm: "-",
+                    rArm: "-",
+                    lLeg: "-",
+                    rLeg: "-"
                 }
             },
             fightStats: {
@@ -46,11 +46,6 @@ exports.addGoon = async (goonObject) => {
         goonObject.io.to(goonObject.roomId).emit('goon-added', {goon: goonTemplate, name: goonObject.name, type: goonObject.type});
     } catch (e) {
         console.log(e);
-        //todo : update error handler later
-        // userObject.io.to(userObject.roomId).emit('roll-calculated', {
-        //     user: userObject.user,
-        //     error: e
-        // });
     }
 }
 
@@ -65,11 +60,6 @@ exports.updateGoon = async (goonObject) => {
         goonObject.io.to(goonObject.roomId).emit('goon-updated', {goon: goonTemplate, name: goonObject.name, type: goonObject.type});
     } catch (e) {
         console.log(e);
-        //todo : update error handler later
-        // userObject.io.to(userObject.roomId).emit('roll-calculated', {
-        //     user: userObject.user,
-        //     error: e
-        // });
     }
 }
 
@@ -90,10 +80,5 @@ exports.removeGoon = async (goonObject) => {
         goonObject.io.to(goonObject.roomId).emit('goon-removed', {name: goonObject.name, type: goonObject.type, id: goonIndex});
     } catch (e) {
         console.log(e);
-        //todo : update error handler later
-        // userObject.io.to(userObject.roomId).emit('roll-calculated', {
-        //     user: userObject.user,
-        //     error: e
-        // });
     }
 }

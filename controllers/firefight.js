@@ -95,12 +95,12 @@ exports.countBattle = async (data) => {
                             rLeg: 5
                         }, 
                         limbs: {
-                            head: 8,
-                            torso: 8,
-                            lArm: 8,
-                            rArm: 8,
-                            lLeg: 8,
-                            rLeg: 8
+                            head: "f",
+                            torso: "f",
+                            lArm: 20,
+                            rArm: "f",
+                            lLeg: "f",
+                            rLeg: "f"
                         }
                     },
                     fightStats: {
@@ -151,6 +151,7 @@ exports.countBattle = async (data) => {
         logStr = `${stunDeathSummary}${logStr}`
         data.io.to(data.roomId).emit('calculation-completed', {logStr: logStr});
     } catch (e) {
+        console.log(e);
         data.io.to(data.roomId).emit('calculation-completed', {logStr: `<div class="shot-landed armor-penetration">Error ${e}.</div>`});
         //todo : update error handler later
         // userObject.io.to(userObject.roomId).emit('roll-calculated', {
@@ -225,15 +226,19 @@ const calculateArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocation, 
             logStr = `${logStr}<div class="shot-landed">Bullet has hit the head so the damage is doubled(<span class="shot-value">${BTMedDamage}</span>)!</div>`
 
         }
-        let targetLocationHP = targetObj.bodyStats.limbs[hitLocation] - BTMedDamage < 0 ? 0 : targetObj.bodyStats.limbs[hitLocation] - BTMedDamage;
         logStr = `${logStr}<div class="shot-landed armor-penetration armor-left">Target's armor left on ${hitLocation} : <span class="shot-value">${targetObj.bodyStats.armor[hitLocation]}</span>.</div>`
-        logStr = `${logStr}<div class="shot-landed hp-left">Target's health left on ${hitLocation} : <span class="shot-value">${targetLocationHP}</span>.</div>`
-        //update limb HP value
-        targetObj.bodyStats.limbs[hitLocation] = targetLocationHP;
-        //calculate STUN/DEATH save
-        const stunDeathSaveResult = calculateStunDeathSave(logStr, targetObj, hitLocation, BTMedDamage, shotNumber);
-        logStr = stunDeathSaveResult.logStr;
-        targetObj = stunDeathSaveResult.targetObj;
+        const limbHP = parseInt(targetObj.bodyStats.limbs[hitLocation]);
+        if(limbHP){
+            let targetLocationHP = targetObj.bodyStats.limbs[hitLocation] - bulletDmg < 0 ? 0 : targetObj.bodyStats.limbs[hitLocation] - bulletDmg;
+            logStr = `${logStr}<div class="shot-landed hp-left">Target's cybelimb SDP on ${hitLocation} : <span class="shot-value">${targetLocationHP}</span>.</div>`
+            //update limb HP value
+            targetObj.bodyStats.limbs[hitLocation] = targetLocationHP;
+        } else {
+            //calculate STUN/DEATH save - if location not the Cyberlimb
+            const stunDeathSaveResult = calculateStunDeathSave(logStr, targetObj, hitLocation, BTMedDamage, shotNumber);
+            logStr = stunDeathSaveResult.logStr;
+            targetObj = stunDeathSaveResult.targetObj;
+        }
     } else {
         //shot does not penetrated armor
         logStr = `${logStr}<div class="shot-landed not-armor-penetration">Bullet with damage(<span class="shot-value">${bulletDmg}</span>) does not penetrated armor(<span class="shot-value">${targetLocationArmor}</span>) on <span class="shot-part-info">${hitLocation}</span>.</div>`
@@ -244,18 +249,19 @@ const calculateArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocation, 
     }
 }
 
-const calculateCoverArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, battleData) => {
+const calculateCoverArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, battleData, shotNumber) => {
     //check if bullet penetrated target's cover value 
     if(bulletDmg > battleData.coverValue){
         logStr = `${logStr}<div class="shot-landed armor-penetration">Cover Armor value(<span class="shot-value">${battleData.coverValue}</span>) reduced bullet damage from <span class="shot-value">${bulletDmg}</span> -> <span class="shot-value">${bulletDmg - battleData.coverValue}</span>.</div>`
         bulletDmg = bulletDmg - battleData.coverValue;
         battleData.coverValue = battleData.coverValue - 1 >= 0 ? battleData.coverValue -1 : 0;
         logStr = `${logStr}<div class="shot-landed armor-penetration">Shot with damage <span class="shot-value">${bulletDmg}</span> penetrated the cover armor!</div>`
+        logStr = `${logStr}<div class="shot-landed armor-penetration cover-left">Updated Cover Value: ${battleData.coverValue}</div>`
+
         //armor calculations
         const armorCalculationResult = calculateArmorDmg(logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, shotNumber);
         logStr = armorCalculationResult.logStr;
         targetObj = armorCalculationResult.targetObj;
-        logStr = `${logStr}<div class="shot-landed armor-penetration cover-left">Updated Cover Value: ${battleData.coverValue}</div>`
 
     } else {
         //show does not penetrated target's cover armor

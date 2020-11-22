@@ -203,12 +203,14 @@ const initHandlers = (socket) => {
     socket.emit('remove-goon', {type: type, id: id, name: USER_NAME });
   });
 
-  $(document.body).on("keyup", '.armor-block input', function() {
-    //don`t allow strings + empty values
-    if (/\D/g.test(this.value)){
-      this.value = this.value.replace(/\D/g, '');
-    } 
-  });
+  // allow users input strings for aromor inputs
+  // $(document.body).on("keyup", '.armor-block input', function() {
+  //   //don`t allow strings + empty values
+  //   if (/\D/g.test(this.value)){
+  //     this.value = this.value.replace(/\D/g, '');
+  //   } 
+  // });
+
   $(document.body).on("keyup change focusout", '.armor-block input', debounce(function() {
     const value = $(this).val();
     if(value) {
@@ -309,12 +311,12 @@ function addGoon(index, type){
       <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="0">
       <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="0">
       <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
-      <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="8">
-      <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="8">
-      <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="8">
-      <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="8">
-      <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="8">
-      <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="8">
+      <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="-">
+      <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="-">
+      <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="-">
+      <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="-">
+      <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="-">
+      <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="-">
       <img src="goon-icons/${goonIcon}.png">
       <div class="buttons-block">
         <button type="button" class="btn btn-danger remove-goon">Kill</button>
@@ -585,12 +587,12 @@ function formGoonObj(goonBlock) {
             rLeg: rLegArmor ? parseInt(rLegArmor) : 0
         }, 
         limbs: {
-            head: headHP ? parseInt(headHP) : 0,
-            torso: torsoHP ? parseInt(torsoHP) : 0,
-            lArm: lArmHP ? parseInt(lArmHP) : 0,
-            rArm: rArmHP ? parseInt(rArmHP) : 0,
-            lLeg: lLegHP ? parseInt(lLegHP) : 0,
-            rLeg: rLegHP ? parseInt(rLegHP) : 0
+            head: headHP ? headHP : "",
+            torso: torsoHP ? torsoHP : "",
+            lArm: lArmHP ? lArmHP : "",
+            rArm: rArmHP ? rArmHP : "",
+            lLeg: lLegHP ? lLegHP : "",
+            rLeg: rLegHP ? rLegHP : ""
         }
     },
     fightStats: {
