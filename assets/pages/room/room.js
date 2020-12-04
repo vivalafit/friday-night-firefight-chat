@@ -148,7 +148,8 @@ const initHandlers = (socket) => {
       wpnDmg: $(".wpn-dmg").val(),
       wpnAcc: parseInt($(".wpn-acc").val()),
       wpnBullets: parseInt($(".wpn-bullets").val()),
-      shotComplexity: parseInt($(".complexity-value").val())
+      shotComplexity: parseInt($(".complexity-value").val()),
+      range: $(".range").val()
     }
     socket.emit('count-battle', {data: data});
   });
