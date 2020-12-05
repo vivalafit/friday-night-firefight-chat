@@ -64,66 +64,66 @@ exports.countBattle = async (data) => {
         let roomCache = serverCache.get(data.roomId);
         let logStr = "";
         //test cache - BEGIN
-        roomCache = {
-            goons: [{
-                id: 1,
-                woundLevel: 0,
-                bodyStats: {
-                    armor: {
-                        head: 0,
-                        torso: 0,
-                        lArm: 0,
-                        rArm: 0,
-                        lLeg: 0,
-                        rLeg: 0
-                    }, 
-                    limbs: {
-                        head: 8,
-                        torso: 8,
-                        lArm: 8,
-                        rArm: 8,
-                        lLeg: 8,
-                        rLeg: 8
-                    }
-                },
-                fightStats: {
-                    ref: 6,
-                    body: 10,
-                    btm: 4,
-                    wpn: 5,
-                    mods: "0 -1 +2 -1 +2"
-                }
-            }],
-            men: [{
-                    id: 1,
-                    woundLevel: 0,
-                    bodyStats: {
-                        armor: {
-                            head: 10,
-                            torso: 10,
-                            lArm: 10,
-                            rArm: 10,
-                            lLeg: 5,
-                            rLeg: 5
-                        }, 
-                        limbs: {
-                            head: "f",
-                            torso: "f",
-                            lArm: 20,
-                            rArm: "f",
-                            lLeg: "f",
-                            rLeg: "f"
-                        }
-                    },
-                    fightStats: {
-                        ref: 5,
-                        body: 6,
-                        btm: 3,
-                        wpn: 3,
-                        mods: "0"
-                    }
-                }]
-        }
+        // roomCache = {
+        //     goons: [{
+        //         id: 0,
+        //         woundLevel: 0,
+        //         bodyStats: {
+        //             armor: {
+        //                 head: 0,
+        //                 torso: 0,
+        //                 lArm: 0,
+        //                 rArm: 0,
+        //                 lLeg: 0,
+        //                 rLeg: 0
+        //             }, 
+        //             limbs: {
+        //                 head: 8,
+        //                 torso: 8,
+        //                 lArm: 8,
+        //                 rArm: 8,
+        //                 lLeg: 8,
+        //                 rLeg: 8
+        //             }
+        //         },
+        //         fightStats: {
+        //             ref: 6,
+        //             body: 10,
+        //             btm: 4,
+        //             wpn: 5,
+        //             mods: "0 -1 +2 -1 +2"
+        //         }
+        //     }],
+        //     men: [{
+        //             id: 0,
+        //             woundLevel: 0,
+        //             bodyStats: {
+        //                 armor: {
+        //                     head: 10,
+        //                     torso: 10,
+        //                     lArm: 10,
+        //                     rArm: 10,
+        //                     lLeg: 5,
+        //                     rLeg: 5
+        //                 }, 
+        //                 limbs: {
+        //                     head: "f",
+        //                     torso: "f",
+        //                     lArm: 20,
+        //                     rArm: "f",
+        //                     lLeg: "f",
+        //                     rLeg: "f"
+        //                 }
+        //             },
+        //             fightStats: {
+        //                 ref: 5,
+        //                 body: 6,
+        //                 btm: 3,
+        //                 wpn: 3,
+        //                 mods: "0"
+        //             }
+        //         }]
+        // }
         //test cache - END
         //shooter obj
         const shooterArr = battleData.shooter.split("-");
@@ -182,6 +182,10 @@ exports.countBattle = async (data) => {
         } 
         logStr = `${stunDeathSummary}${logStr}`
         data.io.to(data.roomId).emit('calculation-completed', {logStr: logStr});
+
+        //cache updated target state and emit update on client side 
+        serverCache.set(data.roomId, roomCache);
+        data.io.to(data.roomId).emit('goon-updated', {goon: targetObj, type: targetArr[0]});
     } catch (e) {
         console.log(e);
         data.io.to(data.roomId).emit('calculation-completed', {logStr: `<div class="shot-landed armor-penetration">Error ${e}.</div>`});
