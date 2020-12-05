@@ -1,7 +1,9 @@
 const Roll = require('roll');
 const srand = require('srand');
-srand.seed(Date.now());
 const serverCache = require('../utils/server-cache');
+
+srand.seed(Date.now());
+
 const HIT_LOCATIONS = {
     1 : "head",
     2 : "torso",
@@ -53,8 +55,11 @@ exports.countBattle = async (data) => {
         if(!battleData.fireMod){
             return data.io.to(data.roomId).emit('calculation-completed', {logStr: `<div class="shot-landed armor-penetration">No Firemod Selected.</div>`});
         }
-        if(battleData.fireMod === "three-round" && !battleData.range) {
+        if((battleData.fireMod === "three-round" || battleData.fireMod === "full-auto") && !battleData.range) {
            return data.io.to(data.roomId).emit('calculation-completed', {logStr: `<div class="shot-landed armor-penetration">No Range Selected when Three Round/ Auto Fire mod active.</div>`});
+        }
+        if(battleData.fireMod === "full-auto" && !battleData.wpnBullets) {
+            return data.io.to(data.roomId).emit('calculation-completed', {logStr: `<div class="shot-landed armor-penetration">No Bullet Number Selected when Auto Fire mod active.</div>`});
         }
         let roomCache = serverCache.get(data.roomId);
         let logStr = "";
@@ -157,7 +162,14 @@ exports.countBattle = async (data) => {
                 battleData = shotCalculations.battleData;
             }
         } else if (battleData.fireMod === "full-auto") {
-
+            const shotCalculations = calculateAutoShotDmg(logStr, shooterObj, targetObj, shooterAimMods, battleData);
+            if(shotCalculations.break === true){
+                logStr =  shotCalculations.logStr;
+            } else {
+                logStr =  shotCalculations.logStr;
+                targetObj = shotCalculations.targetObj;
+                battleData = shotCalculations.battleData;
+            }
         }
         // 1) SINGLE FIRE MOD - END
         // Check if target is stunned or dead
@@ -430,10 +442,10 @@ const calculateBurstShotDmg = (logStr, shooterObj, targetObj, shooterAimMods, ba
         logStr = `${logStr}<div class="shot-landed shot-title">Rolling numbers of bullets that got Target!</div>`
         //roll numbers of bullets if aim roll passed = 1d6 / 2
         const bulletRoll = roller.roll("1d6").result;
-        const bulletNumber = Math.ceil(bulletRoll / 2);
+        const numberOfBullets = Math.ceil(bulletRoll / 2);
         logStr = `${logStr}<div class="shot-landed">Shooter rolled <span class="shot-value">${bulletRoll}</span> and got <span class="shot-value">${bulletNumber}</span> bullets in target!</div>`
         //get hit location - from called shot if check passed or random roll
-        for(let i = 0; i < bulletNumber; i++) {
+        for(let i = 0; i < numberOfBullets; i++) {
             logStr = `${logStr}<div class="shot-landed shot-title">Calculating ${i+1} shot!</div>`
             let hitLocation = '';
             let bulletDmg = roller.roll(battleData.wpnDmg).result; 
@@ -463,6 +475,83 @@ const calculateBurstShotDmg = (logStr, shooterObj, targetObj, shooterAimMods, ba
     } else {
         //shot missed
         logStr = `${logStr}<div class="shot-landed shot-title">Three Burst Shot : Missed the target!</div>`;
+        logStr = `${logStr}<div class="shot-missed">Shooter rolled <span class="shot-value">${accumulatedAim}</span> vs <span class="shot-value">${battleData.shotComplexity}</span> and missed the shot.</div>`
+    }
+    return {
+        logStr: logStr,
+        targetObj: targetObj,
+        battleData: battleData
+    }
+}
+
+const calculateAutoShotDmg = (logStr, shooterObj, targetObj, shooterAimMods, battleData) => {
+    //roll if bullet hit target
+    //generate random seed for every shot - to ensure that every shot at least uses random seed for pseudo-random roll gen
+    const roller = new Roll(function () {
+        return srand.random();
+    });
+    const rollResult = roller.roll("1d10").result;
+    // CRITICAL FAILURE : WEAPON FUMBLED - END BULLET STORM THEN
+    if(rollResult === 1){
+        logStr = `${logStr}<div class="shot-landed shot-title">Shooter got Critical Failure on Full Auto Mod!</div>`
+        logStr = `${logStr}<div class="shot-landed">Shooter rolled <span class="shot-value">${rollResult}</span> and his weapon fumbled!</div>`
+        logStr = `${logStr}<div class="shot-landed">Shooter needs to reload the weapon!</div>`
+        return {
+            break: true,
+            logStr: logStr
+        }
+    }
+    //get total aim of shooter
+    let accumulatedAim = 
+          rollResult + 
+          shooterObj.fightStats.ref +  
+          shooterObj.fightStats.wpn + 
+          shooterAimMods +
+          battleData.wpnAcc;
+    //check for range
+    const rangeMod = Math.floor(battleData.wpnBullets / 10);
+    if(battleData.range === "close"){
+        accumulatedAim += rangeMod;
+    } else {
+        accumulatedAim -= rangeMod;
+    }
+
+    if(accumulatedAim >= battleData.shotComplexity) {
+        //number of bullets = shot complexity - aim roll
+        let numberOfBullets = accumulatedAim - battleData.shotComplexity;
+        if(numberOfBullets > battleData.wpnBullets) {
+            numberOfBullets = battleData.wpnBullets;
+        }
+
+        logStr = `${logStr}<div class="shot-landed shot-title">Full Auto bulletstorm got the target!</div>`
+        logStr = `${logStr}<div class="shot-landed">Shooter rolled in summary <span class="shot-value">${accumulatedAim}</span> vs <span class="shot-value">${battleData.shotComplexity}</span> check value  and got <span class="shot-value">${numberOfBullets}</span> bullets in target!</div>`
+        logStr = `${logStr}<div class="shot-landed shot-title">Rolling numbers of bullets that got Target!</div>`
+        //get hit location - from called shot if check passed or random roll
+        for(let i = 0; i < numberOfBullets; i++) {
+            logStr = `${logStr}<div class="shot-landed shot-title">Calculating ${i+1} shot!</div>`
+            let hitLocation = '';
+            let bulletDmg = roller.roll(battleData.wpnDmg).result; 
+            //location from random roll
+            const hitRoll = roller.roll("1d10").result;
+            hitLocation = HIT_LOCATIONS[hitRoll];
+            logStr = `${logStr}<div class="shot-landed location">Shooter rolled <span class="shot-value">${hitRoll}</span> and hit the <span class="shot-part-info">${hitLocation}</span> location with <span class="shot-value">${bulletDmg}</span> damage.</div>`
+            
+            let targetLocationArmor = targetObj.bodyStats.armor[hitLocation];
+            if(battleData.coverValue || battleData.coverValue > 0) {
+                //cover armor calculations
+                const coverCalculations = calculateCoverArmorDmg(logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, battleData, i);
+                logStr = coverCalculations.logStr;
+                targetObj = coverCalculations.targetObj;
+            } else {
+                //armor calculations
+                const armorCalculationsResult = calculateArmorDmg(logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, i);
+                logStr = armorCalculationsResult.logStr;
+                targetObj = armorCalculationsResult.targetObj;
+            }
+        }
+    } else {
+        //shot missed
+        logStr = `${logStr}<div class="shot-landed shot-title">Full Auto bulletstorm : Missed the target!</div>`;
         logStr = `${logStr}<div class="shot-missed">Shooter rolled <span class="shot-value">${accumulatedAim}</span> vs <span class="shot-value">${battleData.shotComplexity}</span> and missed the shot.</div>`
     }
     return {
