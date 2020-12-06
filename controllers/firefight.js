@@ -61,6 +61,10 @@ exports.countBattle = async (data) => {
         if(battleData.fireMod === "full-auto" && !battleData.wpnBullets) {
             return data.io.to(data.roomId).emit('calculation-completed', {logStr: `<div class="shot-landed armor-penetration">No Bullet Number Selected when Auto Fire mod active.</div>`});
         }
+        const splitted = battleData.wpnDmg.split("d");
+        if(parseInt(splitted[0]) > 100 || parseInt(splitted[1]) > 100) {
+            return data.io.to(data.roomId).emit('calculation-completed', {logStr: `<div class="shot-landed armor-penetration">Sosi ne daun :)</div>`});
+        }
         let roomCache = serverCache.get(data.roomId);
         let logStr = "";
         const shooterArr = battleData.shooter.split("-");
@@ -76,7 +80,7 @@ exports.countBattle = async (data) => {
         const targetArr = battleData.target.split("-");
         const targetType = targetArr[0] === "goon" ? "goons" : "men";
         let targetObj = roomCache[targetType][targetArr[1]];
-        // 1) SINGLE FIRE MOD
+        logStr = `<div class="shot-landed shot-title">The Shooter : ${battleData.shooter} and the Target : ${battleData.target}</div>`;
         if(battleData.fireMod === "single") {
             for(let i = 0; i < battleData.wpnBullets; i++) {
                 const shotCalculations = calculateSingleShotDmg(logStr, shooterObj, targetObj, shooterAimMods, battleData, i);
@@ -108,7 +112,6 @@ exports.countBattle = async (data) => {
                 battleData = shotCalculations.battleData;
             }
         }
-        // 1) SINGLE FIRE MOD - END
         // Check if target is stunned or dead
         let stunDeathSummary = "";
         if(targetObj.stunned) {
@@ -387,7 +390,7 @@ const calculateBurstShotDmg = (logStr, shooterObj, targetObj, shooterAimMods, ba
         //roll numbers of bullets if aim roll passed = 1d6 / 2
         const bulletRoll = roller.roll("1d6").result;
         const numberOfBullets = Math.ceil(bulletRoll / 2);
-        logStr = `${logStr}<div class="shot-landed">Shooter rolled <span class="shot-value">${bulletRoll}</span> and got <span class="shot-value">${bulletNumber}</span> bullets in target!</div>`
+        logStr = `${logStr}<div class="shot-landed">Shooter rolled <span class="shot-value">${bulletRoll}</span> and got <span class="shot-value">${numberOfBullets}</span> bullets in target!</div>`
         //get hit location - from called shot if check passed or random roll
         for(let i = 0; i < numberOfBullets; i++) {
             logStr = `${logStr}<div class="shot-landed shot-title">Calculating ${i+1} shot!</div>`

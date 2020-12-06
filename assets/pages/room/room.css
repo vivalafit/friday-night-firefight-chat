@@ -595,9 +595,7 @@ span.shot-part-info {
         padding-top: 185px;
         height: 100vh;
     }
-    button.open-chat {
-        display: none;
-    }
+
     .additional-info {
         width: auto;
         height: auto;
@@ -635,4 +633,19 @@ span.shot-part-info {
     .main {
         padding-top: 0px;
     }
+
+    .main-right {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        right: 0;
+        left: 0;
+        flex: unset;
+        max-width: unset;
+    }
+    
+    /* button.open-chat {
+        display: none;
+    } */
+
 }
