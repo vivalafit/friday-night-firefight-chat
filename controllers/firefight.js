@@ -1,8 +1,5 @@
 const Roll = require('roll');
-const srand = require('srand');
 const serverCache = require('../utils/server-cache');
-
-srand.seed(Date.now());
 
 const HIT_LOCATIONS = {
     1 : "head",
@@ -146,9 +143,7 @@ const calculateStunDeathSave = (logStr, targetObj, hitLocation, bulletDmg, shotN
     let woundLevel = Math.ceil(targetObj.woundLevel / WOUND_LEVEL_BOUND);
     let woundLevelMod = WOUND_LEVEL_MOD[woundLevel];
     let bodyWithPenalty = targetObj.fightStats.body + woundLevelMod;
-    const roller = new Roll(function () {
-        return srand.random();
-    });
+    const roller = new Roll();
     // LIMB LOSS - if not torso, you probably lost some limbs/ minimum MORTAL 0 roll
     if(bulletDmg >= 8 && hitLocation !== "torso" && !targetObj.dead) {
         //if headshot - wow, unlucky for you
@@ -277,9 +272,7 @@ const calculateCoverArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocat
 const calculateSingleShotDmg = (logStr, shooterObj, targetObj, shooterAimMods, battleData, shotNumber) => {
     //roll if bullet hit target
     //generate random seed for every shot - to ensure that every shot at least uses random seed for pseudo-random roll gen
-    const roller = new Roll(function () {
-        return srand.random();
-    });
+    const roller = new Roll();
     const rollResult = roller.roll("1d10").result;
     // CRITICAL FAILURE : WEAPON FUMBLED - END BULLET STORM THEN
     if(rollResult === 1){
@@ -353,9 +346,7 @@ const calculateSingleShotDmg = (logStr, shooterObj, targetObj, shooterAimMods, b
 const calculateBurstShotDmg = (logStr, shooterObj, targetObj, shooterAimMods, battleData) => {
     //roll if bullet hit target
     //generate random seed for every shot - to ensure that every shot at least uses random seed for pseudo-random roll gen
-    const roller = new Roll(function () {
-        return srand.random();
-    });
+    const roller = new Roll();
     const rollResult = roller.roll("1d10").result;
     // CRITICAL FAILURE : WEAPON FUMBLED - END BULLET STORM THEN
     if(rollResult === 1){
@@ -434,9 +425,7 @@ const calculateBurstShotDmg = (logStr, shooterObj, targetObj, shooterAimMods, ba
 const calculateAutoShotDmg = (logStr, shooterObj, targetObj, shooterAimMods, battleData) => {
     //roll if bullet hit target
     //generate random seed for every shot - to ensure that every shot at least uses random seed for pseudo-random roll gen
-    const roller = new Roll(function () {
-        return srand.random();
-    });
+    const roller = new Roll();
     const rollResult = roller.roll("1d10").result;
     // CRITICAL FAILURE : WEAPON FUMBLED - END BULLET STORM THEN
     if(rollResult === 1){
