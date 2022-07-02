@@ -1,0 +1,115 @@
+html, body {
+    font-family: 'Teko', sans-serif !important;
+}
+
+.main {
+    height: 100vh;
+    display: flex;
+}
+
+.main-left {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-right {
+    flex: 0.2
+}
+
+.main-ground {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.main-right {
+    flex: 0.3;
+    background-color: #242324;
+    border-left: 1px solid #3D3D42;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.main-header {
+    margin-top: 20px;
+    color: #F5F5F5;
+    text-align: center;
+}
+
+.main-header h6{
+   font-size: 25px;
+}
+
+.main-chat-window {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.messages{
+    color: white;
+    list-style: none;
+}
+
+.main-message-container {
+    padding: 22px 12px;
+    display: flex;
+}
+
+.main-message-container input {
+    flex-grow: 1;
+    background-color: transparent;
+    border: none;
+    color: #F5F5F5;
+}
+
+.leave_meeting {
+    color: #EB534B;
+}
+
+.unmute, .stop {
+    color: #CC3B33;
+}
+
+ul.messages {
+    font-size: 20px;
+}
+
+.room-login .modal-content{
+    background-color: #242324;
+    color: white;
+}
+
+.room-login .modal-body {
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.room-login .modal-header, .room-login .modal-footer {
+    border: unset !important;
+}
+
+.room-login .modal-footer {
+    padding-top: 0;
+}
+
+.room-login.modal {
+    top: 30%;
+}
+
+ul.messages {
+    padding-right: 10px;
+    padding: 0px 20px;
+}
+
+li.message {
+    word-break: break-word;
+}
+
+li.message-centered {
+    text-align: center;
+}
+
