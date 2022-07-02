@@ -1,34 +1,100 @@
+@font-face {
+    font-family: "Roboto Mono";
+    font-weight: bold;
+    src: url("../../fonts/RobotoMono-Bold.ttf")
+}
+
+@font-face {
+    font-family: "Roboto Mono";
+    src: url("../../fonts/RobotoMono-VariableFont_wght.ttf")
+}
+/* number input fix
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.bottom-bordered {
+    border-bottom: 1px solid;
+ }
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 html, body {
-    font-family: 'Teko', sans-serif !important;
+    font-family: 'Roboto Mono', sans-serif !important;
+}
+
+.inactive { 
+    display:  none !important;
 }
 
 .main {
-    height: 100vh;
     display: flex;
+    height: 94.2vh;
 }
 
 .main-left {
-    flex: 0.8;
+    flex: 0.75;
     display: flex;
+    max-width: 75%;
     flex-direction: column;
 }
 
-.main-right {
-    flex: 0.2
+.main-left.full-width {
+    width: 100%;
+    max-width: 100%;
+    flex: 1;
+ }
+
+.close-chat, .open-chat {
+    height: auto;
 }
 
 .main-ground {
+    overflow-y: auto;
+    height: 100%;
+}
+
+.battle-ground {
+    height: 500px;
+    padding: 40px;
+    padding-top: 0;
+}
+
+.battle-title {
+    text-align: center;
+    padding: 20px 0px;
+    background-color: #242324;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.people-title {
+    padding: 10px 40px;
+    text-align: center;
+    background-color: #242324;
+    color: white;
+}
+
+.people {
     flex-grow: 1;
     display: flex;
     justify-content: center;
-    align-items: center;
     padding: 40px;
+    padding-top: 20px;
+    justify-content: space-around;
 }
 
 .main-right {
-    flex: 0.3;
+    flex: 0.25;
     background-color: #242324;
     border-left: 1px solid #3D3D42;
+    max-width: 30%;
     display: flex;
     flex-direction: column;
 }
@@ -113,3 +179,473 @@ li.message-centered {
     text-align: center;
 }
 
+.armor-block {
+    position: relative;
+    height: 300px;
+}
+
+.armor-block img {
+    height: 250px;
+}
+
+.armor-block input {
+    position: absolute;
+    width: 40px;
+}
+
+.armor-block input.head {
+    top: 16%;
+    left: 42%;
+}
+
+.armor-block input.torso {
+    top: 36%;
+    left: 45%;
+}
+
+.armor-block input.r-arm {
+    top: 45%;
+    left: 25%;
+}
+
+.armor-block input.l-arm {
+    top: 45%;
+    left: 67%;
+}
+
+.armor-block input.l-leg {
+    top: 70%;
+    left: 56%;
+}
+
+.armor-block input.r-leg {
+    top: 70%;
+    left: 37%;
+}
+
+/* HP */
+/**/
+/**/
+
+.armor-block input.head-hp {
+    top: 25%;
+    left: 42%;
+}
+
+.armor-block input.torso-hp {
+    top: 45%;
+    left: 45%;
+}
+
+.armor-block input.r-arm-hp {
+    top: 54%;
+    left: 25%;
+}
+
+.armor-block input.l-arm-hp {
+    top: 47%;
+    left: 33%;
+}
+
+.armor-block input.l-arm-hp {
+    top: 54%;
+    left: 67%;
+}
+
+.armor-block input.l-leg-hp {
+    top: 79%;
+    left: 56%;
+}
+
+.armor-block input.r-leg-hp {
+    top: 79%;
+    left: 37%;
+}
+
+.boi, .goon {
+    border: 1px solid;
+    display: flex;
+    border-radius: 10px;
+    width: 500px;
+    margin: auto;
+    margin-bottom: 10px;
+    transition: background-color 1s linear;
+}
+
+.goons, .bois {
+    width: 550px;
+}
+
+.goons {
+    margin-right: 10px;
+}
+
+.add-button {
+    min-width: 100%;
+}
+
+.goons-block, .bois-block {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    max-height: 930px;
+    overflow-y: auto;
+}
+
+input {
+    text-align: center;
+}
+
+.hp {
+    color: red;
+}
+
+.additional-info {
+    width: 250px;
+    height: 400px;
+}
+
+.changed, .goon.changed, .boi.changed, .wound-square:hover, .wound-square.active, .wound-square.active-confirmed  {
+   background-color: red;
+}
+
+.buttons-block {
+    position: absolute;
+    top: 113%;
+    display: flex;
+}
+
+.additional-info {
+    border-left: 1px solid;
+    padding: 10px 20px;
+    overflow-y: auto;
+}
+
+h6.category-title {
+    text-align: center;
+    background-color: #343a40;
+    color: white;
+    padding: 5px 0;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    justify-content: center;
+    position: relative;
+}
+
+.reset-wounds {
+    cursor: pointer;
+}
+
+.category-title i {
+    position: absolute;
+    left: 5px;
+    font-size: 20px;
+}
+
+.category-title, .wound-title {
+    text-transform: uppercase;
+    text-align: center;
+}
+
+/* HEADER */
+/**/
+/**/
+
+.chat-header {
+    padding: 15px 40px;
+    border-bottom: 2px solid #242324;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    z-index: 500;
+}
+
+.chat-header .title {
+    margin: 0;
+}
+
+.close-chat, .open-chat {
+    width: 200px;
+}
+
+/* WOUNDS-BLOCK */
+/**/
+/**/
+
+.wounds-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.wound-markers {
+    display: flex;
+}
+
+.wound-square {
+    width: 20px;
+    height: 20px;
+    border: 1px solid;
+}
+
+.wound-hint {
+    text-align: center;
+    font-style: italic;
+    text-decoration: underline;
+}
+
+/* FIGHTER STATS */
+/**/
+/**/
+
+.fighter-stats label, .fighter-stat-row{
+    margin-bottom: 0 !important;
+}
+
+
+/* BATTLE GROUND */
+/**/
+/**/
+
+.fire-step-block {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.fire-step-title {
+    background-color: #242324;
+    color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.fire-step-title h4{
+    margin-bottom: 0;
+}
+
+.fire-block {
+    margin-bottom: 25px;
+}
+
+.fire-step-block input {
+    flex: 1;
+    height: calc(1.5em + .75rem + 2px);
+}
+
+.rumble-button {
+    width: 100%;
+    height: 60px;
+}
+
+.fire-block.step6 {
+    margin-top: 25px;
+}
+
+#battleLog {
+    height: 500px;
+    overflow-y: auto;
+}
+
+#battleLog .logs {
+    color: black;
+    padding-left: 0;
+    transition: background-color 1s linear;
+}
+
+.shot-title {
+    font-weight: bold;
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.shot-title:first-of-type  {
+    margin-top: 10px;
+}
+
+span.shot-part-info {
+    color: red;
+    font-weight: bold;
+    border-bottom: 2px solid;
+}
+
+.armor-left {
+    color: royalblue;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.hp-left{
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.cover-left {
+    color: seagreen;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.shot-value {
+    font-weight: bold;
+}
+
+.stun-save.hint {
+    color: #6a6a6a;
+    font-size: 14px;
+}
+
+.failed-roll {
+    color: red;
+    font-weight: bold;
+    border-bottom: 2px solid;
+}
+
+.passed-roll {
+    color: rgb(12, 143, 0);
+    font-weight: bold;
+    border-bottom: 2px solid;
+}
+
+.death-stun-title {
+    border-top: 2px dashed;
+    margin-top: 10px;
+    padding-top: 5px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.failed-roll-span {
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.passed-roll-span {
+    color: rgb(12, 143, 0);
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.title-summary.dead {
+    font-size: 22px;
+    text-transform: uppercase;
+    color: red;
+    font-weight: bold;
+}
+.title-summary.stunned {
+    font-size: 22px;
+    text-transform: uppercase;
+    color: #8c8aff;
+    font-weight: bold;
+}
+
+.limb-loss {
+    color: red;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* MEDIAQUERIES */
+/**/
+/**/
+
+/*LAPTOP*/
+@media screen and (max-width: 1400px) {
+    .goons, .bois {
+        margin: auto;
+        width: auto;
+    }
+    .main-left {
+        overflow: overlay;
+    }
+    .people {
+        display: block;
+    }
+}
+
+/*IPAD PRO AND LESS*/ 
+@media screen and (max-width: 1024px) {
+    /* .chat-header {
+        display: block;
+        position: fixed;
+    }
+    .close-chat, .open-chat {
+        width: 200px;
+        margin-top: 10px;
+    } */
+}
+
+/*PHONES*/
+@media screen and (max-width: 767px) {
+    .chat-header {
+        display: block;
+        position: fixed;
+    }
+    .close-chat, .open-chat {
+        width: 200px;
+        margin-top: 10px;
+        display: none;
+    }
+    .main {
+        padding-top: 185px;
+        height: 100vh;
+    }
+
+    .additional-info {
+        width: auto;
+        height: auto;
+    }
+    .boi, .goon {
+        display: block;
+        width: auto;
+        overflow-y: auto;
+        height: auto;
+        margin-bottom: 10px;
+    }
+    .buttons-block {
+        position: absolute;
+        top: -4%;
+        left: 2%;
+        display: flex;
+        padding: 0px 20px;
+    }
+    .armor-block img {
+        height: 330px;
+        margin-top: 20px;
+    }
+    .armor-block {
+        position: relative;
+        height: 340px;
+        margin-top: 10px;
+    }
+    .goons-block, .bois-block {
+        max-height: 1250px;
+    }
+    .chat-header {
+        display: block;
+        position: relative;
+    }
+    .main {
+        padding-top: 0px;
+    }
+
+    .main-right {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        right: 0;
+        left: 0;
+        flex: unset;
+        max-width: unset;
+    }
+    
+    /* button.open-chat {
+        display: none;
+    } */
+
+}
