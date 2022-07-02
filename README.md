@@ -11,3 +11,5 @@ Currently all rules are strictly connected to this rulebook, so i am going to ma
 Code is not good at the point of missing functionality division and class layering and tremendous amount of initial result modification, omw to fix it on next releases :)
 
 Feel free to host it up on your side or via ngrok for local sessions
+
+Patch notes for further releases can be found [here](https://github.com/vivalafit/friday-night-firefight-chat/blob/main/patchnotes.md).

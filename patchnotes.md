@@ -11,3 +11,6 @@ Feel free to host it up on your side or via ngrok for local sessions
 
 # 1.1.0 released
 Refactored code to more functional approach
+
+# 1.2.0 released
+Added blur possibility to admins

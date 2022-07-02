@@ -33,7 +33,7 @@ exports.calculateBurstShotDmg = ({ logStr, shooterObj, targetObj, shooterAimMods
 
     if (accumulatedAim >= battleData.shotComplexity) {
         logStr = `${logStr}<div class="shot-landed shot-title">Three Burst Shot got the target!</div>`
-        logStr = `${logStr}<div class="shot-landed">Shooter rolled <span class="shot-value">${accumulatedAim}</span> vs <span class="shot-value">${battleData.shotComplexity}</span> on <span class="shot-value">${battleData.range}</span> range and got the shot!</div>`
+        logStr = `${logStr}<div class="shot-landed">Shooter rolled <span class="shot-value">${accumulatedAim} (1d10 result: ${rollResult})</span> vs <span class="shot-value">${battleData.shotComplexity}</span> on <span class="shot-value">${battleData.range}</span> range and got the shot!</div>`
         logStr = `${logStr}<div class="shot-landed shot-title">Rolling numbers of bullets that got Target!</div>`
         //roll numbers of bullets if aim roll passed = 1d6 / 2
         const bulletRoll = roller.roll("1d6").result;
@@ -70,7 +70,7 @@ exports.calculateBurstShotDmg = ({ logStr, shooterObj, targetObj, shooterAimMods
     } else {
         //shot missed
         logStr = `${logStr}<div class="shot-landed shot-title">Three Burst Shot : Missed the target!</div>`;
-        logStr = `${logStr}<div class="shot-missed">Shooter rolled <span class="shot-value">${accumulatedAim}</span> vs <span class="shot-value">${battleData.shotComplexity}</span> and missed the shot.</div>`
+        logStr = `${logStr}<div class="shot-missed">Shooter rolled <span class="shot-value">${accumulatedAim} (1d10 result: ${rollResult})</span> vs <span class="shot-value">${battleData.shotComplexity}</span> and missed the shot.</div>`
     }
     return logStr;
 }

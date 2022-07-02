@@ -56,6 +56,12 @@ io.on('connection', socket => {
     socket.on('count-battle', (data) => {
       fireFightController.countBattle({...data, io: io, roomId: roomId});
     })
+    socket.on('blur-details', () => {
+      socket.to(roomId).broadcast.emit('blur-details');
+    })
+    socket.on('unblur-details', () => {
+      socket.to(roomId).broadcast.emit('unblur-details');
+    })
   })
 })
 
