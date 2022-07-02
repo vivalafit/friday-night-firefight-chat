@@ -33,7 +33,7 @@ exports.calculateSingleShotDmg = (logStr, shooterObj, targetObj, shooterAimMods,
         if(shotNumber > 0){
             logStr = `${logStr}<div class="shot-landed">Aim value was decreased by <span class="shot-value">${3 * shotNumber}</span> as a debuff for consecutive action!</div>`
         }
-        logStr = `${logStr}<div class="shot-landed">Shooter rolled <span class="shot-value">${accumulatedAim}</span> vs <span class="shot-value">${battleData.shotComplexity}</span> and got the shot!</div>`
+        logStr = `${logStr}<div class="shot-landed">Shooter rolled <span class="shot-value">${accumulatedAim} (1d10 result: ${rollResult})</span> vs <span class="shot-value">${battleData.shotComplexity}</span> and got the shot!</div>`
         //get hit location - from called shot if check passed or random roll
         let hitLocation = '';
         let bulletDmg = roller.roll(battleData.wpnDmg).result; 
@@ -65,7 +65,7 @@ exports.calculateSingleShotDmg = (logStr, shooterObj, targetObj, shooterAimMods,
         if(shotNumber > 0){
             logStr = `${logStr}<div class="shot-landed">Aim value was decreased by <span class="shot-value">${3 * shotNumber}</span> as a debuff for consecutive action!</div>`
         }
-        logStr = `${logStr}<div class="shot-missed">Shooter rolled <span class="shot-value">${accumulatedAim}</span> vs <span class="shot-value">${battleData.shotComplexity}</span> and missed the shot.</div>`
+        logStr = `${logStr}<div class="shot-missed">Shooter rolled <span class="shot-value">${accumulatedAim} (1d10 result: ${rollResult})</span> vs <span class="shot-value">${battleData.shotComplexity}</span> and missed the shot.</div>`
     }
     return logStr
 }
