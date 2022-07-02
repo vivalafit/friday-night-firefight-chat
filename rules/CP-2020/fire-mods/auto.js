@@ -38,7 +38,7 @@ exports.calculateAutoShotDmg = ({ logStr, shooterObj, targetObj, shooterAimMods,
         }
 
         logStr = `${logStr}<div class="shot-landed shot-title">Full Auto bulletstorm got the target!</div>`
-        logStr = `${logStr}<div class="shot-landed">Shooter rolled in summary <span class="shot-value">${accumulatedAim}</span> vs <span class="shot-value">${battleData.shotComplexity}</span> check value  and got <span class="shot-value">${numberOfBullets}</span> bullets in target!</div>`
+        logStr = `${logStr}<div class="shot-landed">Shooter rolled in summary <span class="shot-value">${accumulatedAim} (1d10 result: ${rollResult})</span> vs <span class="shot-value">${battleData.shotComplexity}</span> check value  and got <span class="shot-value">${numberOfBullets}</span> bullets in target!</div>`
         logStr = `${logStr}<div class="shot-landed shot-title">Rolling numbers of bullets that got Target!</div>`
         //get hit location - from called shot if check passed or random roll
         for(let i = 0; i < numberOfBullets; i++) {
@@ -66,7 +66,7 @@ exports.calculateAutoShotDmg = ({ logStr, shooterObj, targetObj, shooterAimMods,
     } else {
         //shot missed
         logStr = `${logStr}<div class="shot-landed shot-title">Full Auto bulletstorm : Missed the target!</div>`;
-        logStr = `${logStr}<div class="shot-missed">Shooter rolled <span class="shot-value">${accumulatedAim}</span> vs <span class="shot-value">${battleData.shotComplexity}</span> and missed the shot.</div>`
+        logStr = `${logStr}<div class="shot-missed">Shooter rolled <span class="shot-value">${accumulatedAim} (1d10 result: ${rollResult})</span> vs <span class="shot-value">${battleData.shotComplexity}</span> and missed the shot.</div>`
     }
     return logStr;
 }
