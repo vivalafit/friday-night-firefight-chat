@@ -550,6 +550,27 @@ span.shot-part-info {
     font-size: 20px;
 }
 
+.header-buttons {
+    display: flex;
+}
+
+.header-buttons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.blur-details {
+    margin-right: 10px;
+}
+
+.to-blur {
+    filter: blur(40px);
+}
+
+.to-blur-light {
+    filter: blur(10px);
+}
+
 /* MEDIAQUERIES */
 /**/
 /**/
@@ -578,10 +599,21 @@ span.shot-part-info {
         width: 200px;
         margin-top: 10px;
     } */
+    .header-buttons .blur-details {
+        margin-bottom: 10px;
+    }
 }
 
 /*PHONES*/
 @media screen and (max-width: 767px) {
+    .header-buttons .blur-details {
+        margin-bottom: 0px;
+    }
+    
+    .header-buttons {
+        margin-top: 10px;
+    }
+
     .chat-header {
         display: block;
         position: fixed;

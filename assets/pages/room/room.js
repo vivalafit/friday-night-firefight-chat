@@ -1,6 +1,8 @@
 // half a sec
 const DEFAULT_TIMER = 1500;
 const GOON_BLOCK_HEIGHT = 930;
+const ADMIN_NAMES = ["MOD", "ADMIN"];
+let USER_COLOR, USER_NAME;
 
 $( document ).ready(function() {
   $('.room-login').modal('show');$('.room-login').modal('show')
@@ -40,6 +42,11 @@ const initSocketConnection = () => {
       USER_COLOR = userObj.color;
     }
     $('.messages').append(`<li class="message-centered"><span style="color: ${userObj.color}">${userObj.name} connected!</span></li>`);
+    //Add admin button to hide details 
+    if (isAdmin() && $('.blur-details').length < 1) {
+      $('.header-buttons').prepend('<button type="button" class="btn btn-danger blur-details blur">Hide Details from Buddys</button>');
+      $('.header-buttons').prepend('<button type="button" class="btn btn-primary blur-details unblur inactive">Show Details to your Buddys</button>')
+    }
   });
   socket.on('goon-added', goonObj => {
       if(goonObj.name !== USER_NAME) {
@@ -92,7 +99,35 @@ const initSocketConnection = () => {
     .addClass('changed');
     setTimeout(() => $("#battleLog .logs").removeClass('changed'), 500);
   })
+  socket.on('blur-details', () => {
+    if(!isAdmin()) {
+      blurDetails();
+    }
+  })
+  socket.on('unblur-details', () => {
+      unblurDetails();
+  })
   initHandlers(socket);
+}
+
+const blurDetails = () => {
+  $(`
+    .goons-block .additional-info,
+    .goons-block .armor-block input
+  `).addClass('to-blur');
+  $('.logs').addClass('to-blur-light');
+}
+
+const unblurDetails = () => {
+  $(`
+    .goons-block .additional-info,
+    .goons-block .armor-block input
+  `).removeClass('to-blur');
+  $('.logs').removeClass('to-blur-light');
+}
+
+const isAdmin = () => {
+  return ADMIN_NAMES.includes(USER_NAME);
 }
 
 const initHandlers = (socket) => {
@@ -203,6 +238,17 @@ const initHandlers = (socket) => {
     console.log("classesArr", classesArr);
     socket.emit('remove-goon', {type: type, id: id, name: USER_NAME });
   });
+
+  $(document.body).on("click", ".blur", function() {
+    $(this).addClass("inactive");
+    $('.unblur').removeClass("inactive");
+    socket.emit('blur-details', {});
+  })
+  $(document.body).on("click", ".unblur", function() {
+    $(this).addClass("inactive");
+    $('.blur').removeClass("inactive");
+    socket.emit('unblur-details', {});
+  })
 
   // allow users input strings for aromor inputs
   // $(document.body).on("keyup", '.armor-block input', function() {
