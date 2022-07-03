@@ -273,7 +273,7 @@ li.message-centered {
 }
 
 .goons, .bois {
-    width: 550px;
+    min-width: 1050px;
 }
 
 .goons {
@@ -287,8 +287,10 @@ li.message-centered {
 .goons-block, .bois-block {
     margin-top: 20px;
     margin-bottom: 20px;
-    max-height: 930px;
+    max-height: 980px;
     overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 input {
@@ -301,7 +303,7 @@ input {
 
 .additional-info {
     width: 250px;
-    height: 400px;
+    height: auto;
 }
 
 .changed, .goon.changed, .boi.changed, .wound-square:hover, .wound-square.active, .wound-square.active-confirmed  {
@@ -580,6 +582,7 @@ span.shot-part-info {
     .goons, .bois {
         margin: auto;
         width: auto;
+        min-width: 550px;
     }
     .main-left {
         overflow: overlay;
@@ -674,6 +677,10 @@ span.shot-part-info {
         left: 0;
         flex: unset;
         max-width: unset;
+    }
+
+    .goons, .bois {
+        min-width: 300px;
     }
     
     /* button.open-chat {
