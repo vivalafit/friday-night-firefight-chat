@@ -90,6 +90,11 @@ html, body {
     justify-content: space-around;
 }
 
+.goons, .bois {
+    max-width: 50%;
+    min-width: 500px;
+}
+
 .main-right {
     flex: 0.25;
     background-color: #242324;
@@ -185,7 +190,8 @@ li.message-centered {
 }
 
 .armor-block img {
-    height: 250px;
+    height: 200px;
+    margin-top: 50px;
 }
 
 .armor-block input {
@@ -262,18 +268,18 @@ li.message-centered {
     left: 37%;
 }
 
+.personal-stats {
+    width: 200px;
+}
+
 .boi, .goon {
     border: 1px solid;
     display: flex;
     border-radius: 10px;
-    width: 500px;
+    width: 400px;
     margin: auto;
     margin-bottom: 10px;
     transition: background-color 1s linear;
-}
-
-.goons, .bois {
-    width: 550px;
 }
 
 .goons {
@@ -287,8 +293,9 @@ li.message-centered {
 .goons-block, .bois-block {
     margin-top: 20px;
     margin-bottom: 20px;
-    max-height: 930px;
     overflow-y: auto;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 input {
@@ -300,8 +307,10 @@ input {
 }
 
 .additional-info {
-    width: 250px;
-    height: 400px;
+    width: 200px;
+    height: auto;
+    border-left: 1px solid;
+    overflow-y: auto;
 }
 
 .changed, .goon.changed, .boi.changed, .wound-square:hover, .wound-square.active, .wound-square.active-confirmed  {
@@ -309,15 +318,25 @@ input {
 }
 
 .buttons-block {
-    position: absolute;
-    top: 113%;
     display: flex;
+    margin-top: 82px;
+    width: 200px;
 }
 
-.additional-info {
-    border-left: 1px solid;
-    padding: 10px 20px;
-    overflow-y: auto;
+.personal-title {
+    margin-top: 12px;
+}
+
+.personal-stats {
+    padding-top: 0;
+}
+
+.personal-stats label{
+    margin-bottom: 0;
+}
+
+.personal-info {
+    margin-top: 94px;
 }
 
 h6.category-title {
@@ -378,7 +397,8 @@ h6.category-title {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    padding: 0 10px;
 }
 
 .wound-markers {
@@ -403,6 +423,7 @@ h6.category-title {
 
 .fighter-stats label, .fighter-stat-row{
     margin-bottom: 0 !important;
+    padding: 0 20px;
 }
 
 
@@ -580,6 +601,7 @@ span.shot-part-info {
     .goons, .bois {
         margin: auto;
         width: auto;
+        min-width: 550px;
     }
     .main-left {
         overflow: overlay;
@@ -640,10 +662,8 @@ span.shot-part-info {
         margin-bottom: 10px;
     }
     .buttons-block {
-        position: absolute;
-        top: -4%;
-        left: 2%;
         display: flex;
+        margin-top: 10px;
         padding: 0px 20px;
     }
     .armor-block img {
@@ -652,7 +672,7 @@ span.shot-part-info {
     }
     .armor-block {
         position: relative;
-        height: 340px;
+        height: auto;
         margin-top: 10px;
     }
     .goons-block, .bois-block {
@@ -674,6 +694,10 @@ span.shot-part-info {
         left: 0;
         flex: unset;
         max-width: unset;
+    }
+
+    .goons, .bois {
+        min-width: 300px;
     }
     
     /* button.open-chat {

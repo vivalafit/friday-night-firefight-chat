@@ -79,6 +79,8 @@ const initSocketConnection = () => {
           goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
           goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
           goonDiv.find('.fighter-stat-row .mods').val(goonTemplate.fightStats.mods);
+          //update additional details
+          goonDiv.find('.goon-name').val(goonTemplate.additionalStats.name);
           //update wound level
           goonDiv.find('.wound-level-number').val(goonTemplate.woundLevel);
           updateWoundLsevel(goonDiv);
@@ -231,7 +233,7 @@ const initHandlers = (socket) => {
 
 
   $(document.body).on("click", '.remove-goon', function() {
-    const goonBlock = $(this).parent().parent().parent();
+    const goonBlock = $(this).parent().parent().parent().parent();
     const classesArr = goonBlock.attr("class").split(/\s+/);
     const type = classesArr[0];
     const id = classesArr[1];
@@ -270,6 +272,14 @@ const initHandlers = (socket) => {
     const value = $(this).val();
     if(value) {
       const goonBlock = $(this).parent().parent().parent().parent();
+      const goonTemplateObj = formGoonObj(goonBlock);
+      socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
+    }
+  }, DEFAULT_TIMER));
+  $(document.body).on("keyup change focusout", '.personal-stats input', debounce(function() {
+    const value = $(this).val();
+    if(value) {
+      const goonBlock = $(this).parent().parent().parent().parent().parent();
       const goonTemplateObj = formGoonObj(goonBlock);
       socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
     }
@@ -351,24 +361,39 @@ function addGoon(index, type){
   .append(`
   <div class="${blockCategory} ${index}">
     <input type="hidden" class="wound-level-number" value="0">
-    <div class="armor-block">
-      <input type="text" class="head" placeholder="Head Armor Value"  value="0">
-      <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
-      <input type="text" class="r-arm" placeholder="R-arm Armor Value"  value="0">
-      <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="0">
-      <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="0">
-      <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
-      <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="-">
-      <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="-">
-      <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="-">
-      <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="-">
-      <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="-">
-      <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="-">
-      <img src="goon-icons/${goonIcon}.png">
-      <div class="buttons-block">
-        <button type="button" class="btn btn-danger remove-goon">Kill</button>
-        <button type="button" class="btn btn-warning go-afk">AFK</button>
-        <button type="button" class="btn btn-info reset-goon">Reset stats</button>
+    <div class="left-info">
+      <div class="armor-block">
+        <input type="text" class="head" placeholder="Head Armor Value"  value="0">
+        <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
+        <input type="text" class="r-arm" placeholder="R-arm Armor Value"  value="0">
+        <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="0">
+        <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="0">
+        <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
+        <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="-">
+        <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="-">
+        <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="-">
+        <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="-">
+        <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="-">
+        <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="-">
+        <img src="goon-icons/${goonIcon}.png">
+        <div class="buttons-block">
+          <button type="button" class="btn btn-danger remove-goon">Kill</button>
+          <button type="button" class="btn btn-warning go-afk">AFK</button>
+          <button type="button" class="btn btn-info reset-goon">Reset stats</button>
+        </div>
+       
+      </div>
+      <div class="personal-info">
+        <h6 class="category-title personal-title">
+          Personal Info <i class="material-icons">control_point</i>
+        </h6>
+        <div class="personal-stats">
+          <div class="form-group fighter-stat-row">
+              <label for="goon-name">NAME</label>
+              <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="">
+              <small id="name-hint" class="form-text text-muted">You were 0 and still...</small>
+          </div>
+        </div>
       </div>
     </div>
     <div class="additional-info">
@@ -528,7 +553,7 @@ function addGoon(index, type){
       </div>
       <div class="form-group fighter-stat-row">
         <label for="body">BODY</label>
-        <input type="number" class="form-control body" aria-describedby="body-hint" placeholder="BODY" value="<%=room.goons[i].fightStats.body%>">
+        <input type="number" class="form-control body" aria-describedby="body-hint" placeholder="BODY" value="0">
         <small id="body-hint" class="form-text text-muted">Healthy body, healthy mind...</small>
       </div>
       <div class="form-group fighter-stat-row">
@@ -620,6 +645,8 @@ function formGoonObj(goonBlock) {
   const btmStat = goonBlock.find('.fighter-stat-row .btm').val();
   const wpnStat = goonBlock.find('.fighter-stat-row .wpn').val();
   const modStat = goonBlock.find('.fighter-stat-row .mods').val();
+  //variables - additioanl stats
+  const name = goonBlock.find('.goon-name').val();
   //template
   const goonTemplate = {
     id: parseInt(id),
@@ -648,6 +675,9 @@ function formGoonObj(goonBlock) {
       btm: btmStat ? parseInt(btmStat) : 0,
       wpn: wpnStat ? parseInt(wpnStat) : 0,
       mods: modStat ? modStat : "0"
+    },
+    additionalStats: {
+      name: name ? name : ""
     }
   };
   return {

@@ -18,14 +18,14 @@
    <div class="chat-header">
       <h2 class="title">Friday Night Firefight Simulator / v1.2</h2>
       <div class="header-buttons">
-         <button type="button" class="btn btn-danger close-chat">Close Chat</button>
-         <button type="button" class="btn btn-primary open-chat inactive">Open Chat</button>
+         <button type="button" class="btn btn-danger close-chat inactive">Close Chat</button>
+         <button type="button" class="btn btn-primary open-chat">Open Chat</button>
       </div>
    </div>
 </header>
 <body>
    <div class="main">
-      <div class="main-left">
+      <div class="main-left full-width">
          <div class="main-ground">
             <div class="people-title">
                <h2>Goons Locker Room</h2>
@@ -38,24 +38,39 @@
                         <% for(var i=0; i < room.goons.length; i++) {%>
                            <div class="goon <%=i%>">
                               <input type="hidden" class="wound-level-number" value="<%=room.goons[i].woundLevel%>">
-                              <div class="armor-block">
-                                 <input type="number" class="head" placeholder="Head Armor Value"  value="<%=room.goons[i].bodyStats.armor.head%>">
-                                 <input type="number" class="torso" placeholder="Torso Armor Value"  value="<%=room.goons[i].bodyStats.armor.torso%>">
-                                 <input type="number" class="r-arm" placeholder="R-arm Armor Value"  value="<%=room.goons[i].bodyStats.armor.rArm%>">
-                                 <input type="number" class="l-arm" placeholder="L-arm Armor Value"  value="<%=room.goons[i].bodyStats.armor.lArm%>">
-                                 <input type="number" class="r-leg" placeholder="R-leg Armor Value"  value="<%=room.goons[i].bodyStats.armor.rLeg%>">
-                                 <input type="number" class="l-leg" placeholder="L-leg Armor Value"  value="<%=room.goons[i].bodyStats.armor.lLeg%>">
-                                 <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="<%=room.goons[i].bodyStats.limbs.head%>">
-                                 <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="<%=room.goons[i].bodyStats.limbs.torso%>">
-                                 <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="<%=room.goons[i].bodyStats.limbs.rArm%>">
-                                 <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="<%=room.goons[i].bodyStats.limbs.lArm%>">
-                                 <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="<%=room.goons[i].bodyStats.limbs.rLeg%>">
-                                 <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="<%=room.goons[i].bodyStats.limbs.lLeg%>">
-                                 <img src="goon-icons/goon.png">
-                                 <div class="buttons-block">
-                                    <button type="button" class="btn btn-danger remove-goon">Kill</button>
-                                    <button type="button" class="btn btn-warning go-afk">AFK</button>
-                                    <button type="button" class="btn btn-info reset-goon">Reset stats</button>
+                              <div class="left-info">
+                                 <div class="armor-block">
+                                    <input type="number" class="head" placeholder="Head Armor Value"  value="<%=room.goons[i].bodyStats.armor.head%>">
+                                    <input type="number" class="torso" placeholder="Torso Armor Value"  value="<%=room.goons[i].bodyStats.armor.torso%>">
+                                    <input type="number" class="r-arm" placeholder="R-arm Armor Value"  value="<%=room.goons[i].bodyStats.armor.rArm%>">
+                                    <input type="number" class="l-arm" placeholder="L-arm Armor Value"  value="<%=room.goons[i].bodyStats.armor.lArm%>">
+                                    <input type="number" class="r-leg" placeholder="R-leg Armor Value"  value="<%=room.goons[i].bodyStats.armor.rLeg%>">
+                                    <input type="number" class="l-leg" placeholder="L-leg Armor Value"  value="<%=room.goons[i].bodyStats.armor.lLeg%>">
+                                    <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="<%=room.goons[i].bodyStats.limbs.head%>">
+                                    <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="<%=room.goons[i].bodyStats.limbs.torso%>">
+                                    <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="<%=room.goons[i].bodyStats.limbs.rArm%>">
+                                    <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="<%=room.goons[i].bodyStats.limbs.lArm%>">
+                                    <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="<%=room.goons[i].bodyStats.limbs.rLeg%>">
+                                    <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="<%=room.goons[i].bodyStats.limbs.lLeg%>">
+                                    <img src="goon-icons/goon.png">
+                                    <div class="buttons-block">
+                                       <button type="button" class="btn btn-danger remove-goon">Kill</button>
+                                       <button type="button" class="btn btn-warning go-afk">AFK</button>
+                                       <button type="button" class="btn btn-info reset-goon">Reset stats</button>
+                                    </div>
+                                    
+                                 </div>
+                                 <div class="personal-info">
+                                    <h6 class="category-title personal-title">
+                                       Personal Info <i class="material-icons">control_point</i>
+                                    </h6>
+                                    <div class="personal-stats">
+                                       <div class="form-group fighter-stat-row">
+                                          <label for="goon-name">NAME</label>
+                                          <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="<%=room.goons[i].additionalStats.name%>">
+                                          <small id="name-hint" class="form-text text-muted">You were 0 and still...</small>
+                                       </div>
+                                    </div>
                                  </div>
                               </div>
                               <div class="additional-info">
@@ -247,24 +262,38 @@
                         <% for(var i=0; i < room.men.length; i++) {%>
                            <div class="boi <%=i%>">
                               <input type="hidden" class="wound-level-number" value="<%=room.men[i].woundLevel%>">
-                              <div class="armor-block">
-                                 <input type="number" class="head" placeholder="Head Armor Value"  value="<%=room.men[i].bodyStats.armor.head%>">
-                                 <input type="number" class="torso" placeholder="Torso Armor Value"  value="<%=room.men[i].bodyStats.armor.torso%>">
-                                 <input type="number" class="r-arm" placeholder="R-arm Armor Value"  value="<%=room.men[i].bodyStats.armor.rArm%>">
-                                 <input type="number" class="l-arm" placeholder="L-arm Armor Value"  value="<%=room.men[i].bodyStats.armor.lArm%>">
-                                 <input type="number" class="r-leg" placeholder="R-leg Armor Value"  value="<%=room.men[i].bodyStats.armor.rLeg%>">
-                                 <input type="number" class="l-leg" placeholder="L-leg Armor Value"  value="<%=room.men[i].bodyStats.armor.lLeg%>">
-                                 <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="<%=room.men[i].bodyStats.limbs.head%>">
-                                 <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="<%=room.men[i].bodyStats.limbs.torso%>">
-                                 <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="<%=room.men[i].bodyStats.limbs.rArm%>">
-                                 <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="<%=room.men[i].bodyStats.limbs.lArm%>">
-                                 <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="<%=room.men[i].bodyStats.limbs.rLeg%>">
-                                 <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="<%=room.men[i].bodyStats.limbs.lLeg%>">
-                                 <img src="goon-icons/detective.png">
-                                 <div class="buttons-block">
-                                    <button type="button" class="btn btn-danger remove-goon">Kill</button>
-                                    <button type="button" class="btn btn-warning go-afk">AFK</button>
-                                    <button type="button" class="btn btn-info reset-goon">Reset stats</button>
+                              <div class="left-info">
+                                 <div class="armor-block">
+                                    <input type="number" class="head" placeholder="Head Armor Value"  value="<%=room.men[i].bodyStats.armor.head%>">
+                                    <input type="number" class="torso" placeholder="Torso Armor Value"  value="<%=room.men[i].bodyStats.armor.torso%>">
+                                    <input type="number" class="r-arm" placeholder="R-arm Armor Value"  value="<%=room.men[i].bodyStats.armor.rArm%>">
+                                    <input type="number" class="l-arm" placeholder="L-arm Armor Value"  value="<%=room.men[i].bodyStats.armor.lArm%>">
+                                    <input type="number" class="r-leg" placeholder="R-leg Armor Value"  value="<%=room.men[i].bodyStats.armor.rLeg%>">
+                                    <input type="number" class="l-leg" placeholder="L-leg Armor Value"  value="<%=room.men[i].bodyStats.armor.lLeg%>">
+                                    <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="<%=room.men[i].bodyStats.limbs.head%>">
+                                    <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="<%=room.men[i].bodyStats.limbs.torso%>">
+                                    <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="<%=room.men[i].bodyStats.limbs.rArm%>">
+                                    <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="<%=room.men[i].bodyStats.limbs.lArm%>">
+                                    <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="<%=room.men[i].bodyStats.limbs.rLeg%>">
+                                    <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="<%=room.men[i].bodyStats.limbs.lLeg%>">
+                                    <img src="goon-icons/detective.png">
+                                    <div class="buttons-block">
+                                       <button type="button" class="btn btn-danger remove-goon">Kill</button>
+                                       <button type="button" class="btn btn-warning go-afk">AFK</button>
+                                       <button type="button" class="btn btn-info reset-goon">Reset stats</button>
+                                    </div>
+                                 </div>
+                                 <div class="personal-info">
+                                    <h6 class="category-title personal-title">
+                                       Personal Info <i class="material-icons">control_point</i>
+                                    </h6>
+                                    <div class="personal-stats">
+                                       <div class="form-group fighter-stat-row">
+                                          <label for="goon-name">NAME</label>
+                                          <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="<%=room.men[i].additionalStats.name%>">
+                                          <small id="name-hint" class="form-text text-muted">You were 0 and still...</small>
+                                       </div>
+                                    </div>
                                  </div>
                               </div>
                               <div class="additional-info">
@@ -552,7 +581,7 @@
             </div>
          </div>
       </div>
-      <div class="main-right">
+      <div class="main-right inactive">
          <div class="main-header">
             <h6>Chat</h6>
          </div>
