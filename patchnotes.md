@@ -14,3 +14,6 @@ Refactored code to more functional approach
 
 # 1.2.0 released
 Added blur possibility to admins
+
+# 1.3.0 released
+Added possibility to name every goon on board for better visibility
