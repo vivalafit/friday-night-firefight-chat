@@ -39,6 +39,9 @@ exports.addGoon = async (goonObject) => {
                 btm: 0,
                 wpn: 0,
                 mods: "0"
+            },
+            additionalStats: {
+                name: ''
             }
         };
         roomCache[type].push(goonTemplate);    
