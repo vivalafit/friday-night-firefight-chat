@@ -1,5 +1,5 @@
 // half a sec
-const DEFAULT_TIMER = 1500;
+const DEFAULT_TIMER = 1000;
 const GOON_BLOCK_HEIGHT = 930;
 const ADMIN_NAMES = ["MOD", "ADMIN"];
 let USER_COLOR, USER_NAME;
@@ -10,7 +10,12 @@ $( document ).ready(function() {
   updateWoundLsevel();
   updateChatPositioning();
   addBorderToBottom();
+  mapAimMods();
 });
+
+const mapAimMods = () => {
+  AIM_MODS = JSON.parse(AIM_MODS.replace(/&#34;/g, '"'));
+}
 
 const initSocketConnection = () => {
   const socket = io('/');
@@ -60,6 +65,7 @@ const initSocketConnection = () => {
       if(elementUpdated.length > 0) {
           const goonDiv = $(elementUpdated[0]);
           const goonTemplate = goonObj.goon;
+          const goonMods = goonTemplate.fightStats.selectedMods;
           //update goon values
           goonDiv.find('.head').val(goonTemplate.bodyStats.armor.head);
           goonDiv.find('.torso').val(goonTemplate.bodyStats.armor.torso);
@@ -79,11 +85,13 @@ const initSocketConnection = () => {
           goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
           goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
           goonDiv.find('.fighter-stat-row .mods').val(goonTemplate.fightStats.mods);
+          //update mods selected ones
           //update additional details
           goonDiv.find('.goon-name').val(goonTemplate.additionalStats.name);
           //update wound level
           goonDiv.find('.wound-level-number').val(goonTemplate.woundLevel);
           updateWoundLsevel(goonDiv);
+          updateGoonMods(goonDiv, goonMods);
           goonDiv.addClass('changed');
           setTimeout(() => goonDiv.removeClass('changed'), 500);
 
@@ -110,6 +118,13 @@ const initSocketConnection = () => {
       unblurDetails();
   })
   initHandlers(socket);
+}
+
+const updateGoonMods = (goonDiv, goonMods) => {
+  goonDiv.find('.aim-modifiers-list .modifier').removeClass("active");
+  for (let i = 0; i < goonMods.length; i++) {
+    goonDiv.find(".modifier-text:contains(" + goonMods[i] + ")").parent().addClass("active");
+  }
 }
 
 const blurDetails = () => {
@@ -263,7 +278,7 @@ const initHandlers = (socket) => {
   $(document.body).on("keyup change focusout", '.armor-block input', debounce(function() {
     const value = $(this).val();
     if(value) {
-      const goonBlock = $(this).parent().parent();
+      const goonBlock = $(this).parent().parent().parent();
       const goonTemplateObj = formGoonObj(goonBlock);
       socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
     }
@@ -284,6 +299,43 @@ const initHandlers = (socket) => {
       socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
     }
   }, DEFAULT_TIMER));
+
+  //AIM MODIFIERS HANDLERS
+  $(document.body).on("click", ".modifier", function() {
+    const active = $(this).hasClass("active");
+    const valueSelected = $(this).find(".modifier-value").text().trim();
+    const parentBlock = $(this).parent();
+    const goonElem = parentBlock.parent().parent().parent().parent();
+
+    if (active) {
+      $(this).removeClass("active");
+    } else {
+      $(this).addClass("active");
+    }
+    updateModsString(goonElem, valueSelected, active);
+  });
+}
+
+const updateModsString = (goonElem, valueSelected, active) => {
+  const modsInput = $(goonElem).find(".mods");
+  let modsValue = modsInput.val();
+  
+  const modsArr = modsValue.split(" ");
+  const index = modsArr.indexOf(valueSelected);
+  if (index > -1) {
+    if(active) {
+      modsArr.splice(index, 1);
+    } else {
+      modsArr.push(valueSelected);
+    }
+  } else {
+    if(!active) { 
+      modsArr.push(valueSelected);
+    }
+  }
+
+  let modifierString = modsArr.join(" ");
+  modsInput.val(modifierString).trigger("change");
 }
 
 const scrollToBottom = () => {
@@ -319,6 +371,23 @@ function updateChatPositioning () {
   if(containerWidth <= 1024){
     $('.close-chat').trigger("click");
   }
+}
+
+function populateAimMods () {
+  let htmlString = '';
+  for (let mod in AIM_MODS) {
+    htmlString += `
+        <div class="modifier" id="${mod}">
+          <div class="modifier-text">
+              ${mod}
+          </div>
+          <div class="modifier-value">
+              ${AIM_MODS[mod]}
+          </div>
+        </div>
+    `
+  }
+  return htmlString;
 }
 
 function updateWoundLsevel(element) {
@@ -392,6 +461,12 @@ function addGoon(index, type){
               <label for="goon-name">NAME</label>
               <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="">
               <small id="name-hint" class="form-text text-muted">You were 0 and still...</small>
+          </div>
+          <h6 class="category-title personal-title aim-mods-title">
+            Fast Aim Modifiers <i class="material-icons">control_point</i>
+          </h6>
+          <div class="form-group aim-modifiers-list">
+            ${populateAimMods()}
           </div>
         </div>
       </div>
@@ -568,7 +643,7 @@ function addGoon(index, type){
       </div>
       <div class="form-group fighter-stat-row">
          <label for="mods">Other Aim Modifiers</label>
-         <input type="text" class="form-control mods" aria-describedby="mods-hint" placeholder="Mods" value="0">
+         <input type="text" class="form-control mods" aria-describedby="mods-hint" placeholder="Mods" value="">
          <small id="mods-hint" class="form-text text-muted">Write mods with "space" button. For instance : -1 2 -3.</small>
       </div>
       </div>
@@ -620,6 +695,15 @@ function debounce(func, wait, immediate) {
 	};
 };
 
+function getActiveModsList(goonBlock) {
+  const modsList = [];
+  $(goonBlock).find(".modifier.active").each((i, element) => {
+    const text = $(element).find(".modifier-text").text().trim();
+    modsList.push(text);
+  });
+  return modsList;
+}
+
 function formGoonObj(goonBlock) {
   const classesArr = goonBlock.attr("class").split(/\s+/);
   const type = classesArr[0];
@@ -647,6 +731,8 @@ function formGoonObj(goonBlock) {
   const modStat = goonBlock.find('.fighter-stat-row .mods').val();
   //variables - additioanl stats
   const name = goonBlock.find('.goon-name').val();
+  //check for selected mods
+  const selectedMods = getActiveModsList(goonBlock);
   //template
   const goonTemplate = {
     id: parseInt(id),
@@ -674,7 +760,8 @@ function formGoonObj(goonBlock) {
       body: bodyStat ? parseInt(bodyStat) : 0,
       btm: btmStat ? parseInt(btmStat) : 0,
       wpn: wpnStat ? parseInt(wpnStat) : 0,
-      mods: modStat ? modStat : "0"
+      mods: modStat ? modStat : "",
+      selectedMods: selectedMods ? selectedMods : []
     },
     additionalStats: {
       name: name ? name : ""

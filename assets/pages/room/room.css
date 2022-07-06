@@ -275,7 +275,6 @@ li.message-centered {
 .boi, .goon {
     border: 1px solid;
     display: flex;
-    border-radius: 10px;
     width: 400px;
     margin: auto;
     margin-bottom: 10px;
@@ -343,7 +342,7 @@ h6.category-title {
     text-align: center;
     background-color: #343a40;
     color: white;
-    padding: 5px 0;
+    padding: 5px 15px;
     margin-bottom: 5px;
     display: flex;
     align-items: center;
@@ -421,11 +420,60 @@ h6.category-title {
 /**/
 /**/
 
-.fighter-stats label, .fighter-stat-row{
+.fighter-stats label, .fighter-stat-row, .aim-modifiers-list {
     margin-bottom: 0 !important;
     padding: 0 20px;
 }
 
+.fighter-stats {
+    padding-bottom: 10px;
+}
+
+/* AIM MODIFIERS LIST */
+/**/
+/**/
+
+.modifier {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    align-items: center;
+    border: 1px solid;
+    flex-wrap: wrap;
+}
+
+.modifier.active {
+    background-color: red;
+}
+
+.aim-modifiers-list {
+    height: 410px;
+    overflow-y: auto;
+}
+
+.modifier-value {
+    border-left: 1px solid;
+    width: 25%;
+    padding-left: 5px;
+}
+
+.aim-modifiers-list {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.modifier-text {
+    width: 75%;
+    word-wrap: break-word;
+}
+
+.aim-mods-title {
+    margin-bottom: 0 !important;
+}
+
+.modifier:last-of-type {
+    border-bottom: unset;
+}
 
 /* BATTLE GROUND */
 /**/
