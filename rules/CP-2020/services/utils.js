@@ -5,7 +5,13 @@ exports.getBattleData = (battleData, roomCache) => {
     const shooter = roomCache[shooterType][shooterArr[1]];
     const shooterAimMods = shooter.fightStats.mods
     .split(" ")
-    .map(x => parseInt(x))
+    .map(x => {
+        const parsed = parseInt(x);
+        if (parsed) {
+            return parsed;
+        }
+        return 0
+    })
     .reduce((accumulator, currentValue) => {
         return accumulator + currentValue
     }, 0);

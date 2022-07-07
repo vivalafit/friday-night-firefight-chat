@@ -6,6 +6,7 @@
    <title>Document</title>
    <script>
       const ROOM_ID = "<%= roomId %>"
+      let AIM_MODS = "<%= JSON.stringify(aimMods) %>"
    </script>
    <link rel="icon" 
    type="image/png" 
@@ -69,6 +70,21 @@
                                           <label for="goon-name">NAME</label>
                                           <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="<%=room.goons[i].additionalStats.name%>">
                                           <small id="name-hint" class="form-text text-muted">You were 0 and still...</small>
+                                       </div>
+                                       <h6 class="category-title personal-title aim-mods-title">
+                                          Fast Aim Modifiers <i class="material-icons">control_point</i>
+                                       </h6>
+                                       <div class="form-group aim-modifiers-list">
+                                          <% for(var mod in aimMods) {%>
+                                             <div class="modifier <%= room.goons[i].fightStats.selectedMods.includes(mod) ? 'active' : ''  %>" id="<%=mod%>">
+                                                <div class="modifier-text">
+                                                   <%=mod%>
+                                                </div>
+                                                <div class="modifier-value">
+                                                   <%=aimMods[mod]%>
+                                                </div>
+                                             </div>
+                                          <% } %>
                                        </div>
                                     </div>
                                  </div>
@@ -292,6 +308,21 @@
                                           <label for="goon-name">NAME</label>
                                           <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="<%=room.men[i].additionalStats.name%>">
                                           <small id="name-hint" class="form-text text-muted">You were 0 and still...</small>
+                                       </div>
+                                       <h6 class="category-title personal-title aim-mods-title">
+                                          Fast Aim Modifiers <i class="material-icons">control_point</i>
+                                       </h6>
+                                       <div class="form-group aim-modifiers-list">
+                                          <% for(var mod in aimMods) {%>
+                                             <div class="modifier <%= room.men[i].fightStats.selectedMods.includes(mod) ? 'active' : ''  %>" id="<%=mod%>">
+                                                <div class="modifier-text">
+                                                   <%=mod%>
+                                                </div>
+                                                <div class="modifier-value">
+                                                   <%=aimMods[mod]%>
+                                                </div>
+                                             </div>
+                                          <% } %>
                                        </div>
                                     </div>
                                  </div>

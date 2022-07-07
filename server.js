@@ -36,7 +36,7 @@ io.on('connection', socket => {
       const color = randomColor();
       socket.name = userObj.name;
       socket.color = color;
-      io.to(roomId).emit('user-joined', {name: userObj.name, color: color})
+      io.to(roomId).emit('user-joined', { name: userObj.name, color: color })
     });
     // roll from chat
     socket.on('roll', (userObj) => {
