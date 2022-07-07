@@ -1,5 +1,7 @@
 
 const serverCache = require('../utils/server-cache');
+const { AIM_MODS } = require('../rules/CP-2020/constants');
+
 exports.renderRoom = async (req, res, next) => {
     try {
         let roomCache = serverCache.get(req.params.room); 
@@ -10,7 +12,7 @@ exports.renderRoom = async (req, res, next) => {
             }
             serverCache.set(req.params.room, roomCache);
         }
-        res.render('room', { roomId: req.params.room, room: roomCache })
+        res.render('room', { roomId: req.params.room, room: roomCache, aimMods: AIM_MODS })
     } catch (e) {
         next(e)
     }
