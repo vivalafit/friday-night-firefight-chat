@@ -1,7 +1,10 @@
 # friday-night-firefight-chat
 Dnd chat for firefight damage and rolls calulation
 
-![image](https://user-images.githubusercontent.com/24575491/177748090-2350a7a4-dd27-47fe-8c37-c94a8560af3b.png)
+![image](https://user-images.githubusercontent.com/24575491/178050871-4195ce97-ae4b-40fe-9569-b7a2266a9320.png)
+![image](https://user-images.githubusercontent.com/24575491/178050956-0867f0fb-d4d9-4de0-b2d2-f078fa1e7703.png)
+
+
 
 # 1.0.0 released
 Chat on sockets (just share your room with room id generated after slash :)) for your wholesome team - all data is synchronised between all players, so everyone can see extensive data and wounds/armor info updated in real time :)
