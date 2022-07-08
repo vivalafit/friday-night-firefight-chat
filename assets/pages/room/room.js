@@ -253,7 +253,6 @@ const initHandlers = (socket) => {
     const classesArr = goonBlock.attr("class").split(/\s+/);
     const type = classesArr[0];
     const id = classesArr[1];
-    console.log("classesArr", classesArr);
     socket.emit('remove-goon', {type: type, id: id, name: USER_NAME });
   });
 
@@ -268,13 +267,18 @@ const initHandlers = (socket) => {
     socket.emit('unblur-details', {});
   })
 
-  // allow users input strings for aromor inputs
-  // $(document.body).on("keyup", '.armor-block input', function() {
-  //   //don`t allow strings + empty values
-  //   if (/\D/g.test(this.value)){
-  //     this.value = this.value.replace(/\D/g, '');
-  //   } 
-  // });
+  $(document.body).on("change", ".target-select", function() {
+    const isShooter = $(this).hasClass("shooter");
+    const selectClass = isShooter ? "shooter-selected" : "target-selected";
+    $('.people').addClass("fighter-select");
+    $('.goon, .boi').removeClass(selectClass);
+    const value = $(this).val();
+    if (value) { 
+      const className = "." + value.split("-").join(".");
+      $(className).removeClass("non-target").addClass(selectClass);
+    }
+    resetTargets()
+  });
 
   $(document.body).on("keyup change focusout", '.armor-block input', debounce(function() {
     const goonBlock = $(this).parent().parent().parent();
@@ -333,6 +337,12 @@ const updateModsString = (goonElem, valueSelected, active) => {
 const scrollToBottom = () => {
   const d = $('.main-chat-window');
   d.scrollTop(d.prop("scrollHeight"));
+}
+
+const resetTargets = () => {
+  if ($(".target-select.shooter").val() === "" && $(".target-select.target").val() === "") {
+    $(".people").removeClass("fighter-select");
+  }
 }
 
 function updateShooterList() {

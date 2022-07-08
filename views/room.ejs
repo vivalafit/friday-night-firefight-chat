@@ -520,7 +520,7 @@
                         <h4>1) Who is the Shooter</h4>
                      </div>
                      <div class="fire-step-block">
-                        <select class="custom-select target-select">
+                        <select class="custom-select target-select shooter">
                            <option selected value="">Asignee</option>
                            <% for(var i=0; i < room.goons.length; i++) {%>
                               <option value="goon-<%=i%>"><%= room.goons[i].additionalStats.name ? room.goons[i].additionalStats.name : 'Goon ' + i  %></option>
@@ -536,7 +536,7 @@
                         <h4>2) Someone has to get this shot</h4>
                      </div>
                      <div class="fire-step-block">
-                        <select class="custom-select target-select">
+                        <select class="custom-select target-select target">
                            <option selected value="">Asignee</option>
                            <% for(var i=0; i < room.goons.length; i++) {%>
                               <option value="goon-<%=i%>"><%= room.goons[i].additionalStats.name ? room.goons[i].additionalStats.name : 'Goon ' + i  %></option>
