@@ -20,3 +20,6 @@ Added possibility to name every goon on board for better visibility
 
 # 1.4.0 released
 Added possibility to select quick aim mods for each goon (synchronised for all room participants)
+
+# 1.4.2 released
+Added possibility to dynamically hightlight cards and update selected targets names

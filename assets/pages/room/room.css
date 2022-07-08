@@ -309,6 +309,7 @@ li.message-centered {
     flex-wrap: wrap;
     padding-right: 15px;
     padding-left: 15px;
+    padding-top: 10px;
 }
 
 input {
