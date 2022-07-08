@@ -97,6 +97,7 @@ const initSocketConnection = () => {
 
       }
     }
+    updateShooterList();
   });
   socket.on('goon-removed', goonObj => {
       removeGoon(goonObj.id, goonObj.type);
@@ -252,7 +253,6 @@ const initHandlers = (socket) => {
     const classesArr = goonBlock.attr("class").split(/\s+/);
     const type = classesArr[0];
     const id = classesArr[1];
-    console.log("classesArr", classesArr);
     socket.emit('remove-goon', {type: type, id: id, name: USER_NAME });
   });
 
@@ -267,37 +267,33 @@ const initHandlers = (socket) => {
     socket.emit('unblur-details', {});
   })
 
-  // allow users input strings for aromor inputs
-  // $(document.body).on("keyup", '.armor-block input', function() {
-  //   //don`t allow strings + empty values
-  //   if (/\D/g.test(this.value)){
-  //     this.value = this.value.replace(/\D/g, '');
-  //   } 
-  // });
+  $(document.body).on("change", ".target-select", function() {
+    const isShooter = $(this).hasClass("shooter");
+    const selectClass = isShooter ? "shooter-selected" : "target-selected";
+    $('.people').addClass("fighter-select");
+    $('.goon, .boi').removeClass(selectClass);
+    const value = $(this).val();
+    if (value) { 
+      const className = "." + value.split("-").join(".");
+      $(className).removeClass("non-target").addClass(selectClass);
+    }
+    resetTargets()
+  });
 
   $(document.body).on("keyup change focusout", '.armor-block input', debounce(function() {
-    const value = $(this).val();
-    if(value) {
-      const goonBlock = $(this).parent().parent().parent();
-      const goonTemplateObj = formGoonObj(goonBlock);
-      socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
-    }
+    const goonBlock = $(this).parent().parent().parent();
+    const goonTemplateObj = formGoonObj(goonBlock);
+    socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
   }, DEFAULT_TIMER));
   $(document.body).on("keyup change focusout", '.fighter-stat-row input', debounce(function() {
-    const value = $(this).val();
-    if(value) {
-      const goonBlock = $(this).parent().parent().parent().parent();
-      const goonTemplateObj = formGoonObj(goonBlock);
-      socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
-    }
+    const goonBlock = $(this).parent().parent().parent().parent();
+    const goonTemplateObj = formGoonObj(goonBlock);
+    socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
   }, DEFAULT_TIMER));
   $(document.body).on("keyup change focusout", '.personal-stats input', debounce(function() {
-    const value = $(this).val();
-    if(value) {
-      const goonBlock = $(this).parent().parent().parent().parent().parent();
-      const goonTemplateObj = formGoonObj(goonBlock);
-      socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
-    }
+    const goonBlock = $(this).parent().parent().parent().parent().parent();
+    const goonTemplateObj = formGoonObj(goonBlock);
+    socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
   }, DEFAULT_TIMER));
 
   //AIM MODIFIERS HANDLERS
@@ -343,15 +339,25 @@ const scrollToBottom = () => {
   d.scrollTop(d.prop("scrollHeight"));
 }
 
+const resetTargets = () => {
+  if ($(".target-select.shooter").val() === "" && $(".target-select.target").val() === "") {
+    $(".people").removeClass("fighter-select");
+  }
+}
+
 function updateShooterList() {
   $(".target-select").each((i, element) => {
     $(element).empty();
     $(element).append('<option selected value="">Asignee</option>');
     for(let i = 0; i < $(".boi").length; i++){
-      $(element).append(`<option selected value="boi-${i}">Boi ${i}</option>`);
+      const goonElem = $(".boi."+i);
+      const name = goonElem.find(".goon-name").val();
+      $(element).append(`<option selected value="boi-${i}">${ name ? name : 'Boi ' + i}</option>`);
     }
     for(let i = 0; i < $(".goon").length; i++){
-      $(element).append(`<option selected value="goon-${i}">Goon ${i}</option>`);
+      const goonElem = $(".goon."+i);
+      const name = goonElem.find(".goon-name").val();
+      $(element).append(`<option selected value="goon-${i}">${ name ? name : 'Goon ' + i}</option>`);
     }
     $(element).val("");
   });
