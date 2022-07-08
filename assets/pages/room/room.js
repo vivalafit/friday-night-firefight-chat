@@ -97,6 +97,7 @@ const initSocketConnection = () => {
 
       }
     }
+    updateShooterList();
   });
   socket.on('goon-removed', goonObj => {
       removeGoon(goonObj.id, goonObj.type);
@@ -276,28 +277,19 @@ const initHandlers = (socket) => {
   // });
 
   $(document.body).on("keyup change focusout", '.armor-block input', debounce(function() {
-    const value = $(this).val();
-    if(value) {
-      const goonBlock = $(this).parent().parent().parent();
-      const goonTemplateObj = formGoonObj(goonBlock);
-      socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
-    }
+    const goonBlock = $(this).parent().parent().parent();
+    const goonTemplateObj = formGoonObj(goonBlock);
+    socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
   }, DEFAULT_TIMER));
   $(document.body).on("keyup change focusout", '.fighter-stat-row input', debounce(function() {
-    const value = $(this).val();
-    if(value) {
-      const goonBlock = $(this).parent().parent().parent().parent();
-      const goonTemplateObj = formGoonObj(goonBlock);
-      socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
-    }
+    const goonBlock = $(this).parent().parent().parent().parent();
+    const goonTemplateObj = formGoonObj(goonBlock);
+    socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
   }, DEFAULT_TIMER));
   $(document.body).on("keyup change focusout", '.personal-stats input', debounce(function() {
-    const value = $(this).val();
-    if(value) {
-      const goonBlock = $(this).parent().parent().parent().parent().parent();
-      const goonTemplateObj = formGoonObj(goonBlock);
-      socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
-    }
+    const goonBlock = $(this).parent().parent().parent().parent().parent();
+    const goonTemplateObj = formGoonObj(goonBlock);
+    socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
   }, DEFAULT_TIMER));
 
   //AIM MODIFIERS HANDLERS
@@ -348,10 +340,14 @@ function updateShooterList() {
     $(element).empty();
     $(element).append('<option selected value="">Asignee</option>');
     for(let i = 0; i < $(".boi").length; i++){
-      $(element).append(`<option selected value="boi-${i}">Boi ${i}</option>`);
+      const goonElem = $(".boi."+i);
+      const name = goonElem.find(".goon-name").val();
+      $(element).append(`<option selected value="boi-${i}">${ name ? name : 'Boi ' + i}</option>`);
     }
     for(let i = 0; i < $(".goon").length; i++){
-      $(element).append(`<option selected value="goon-${i}">Goon ${i}</option>`);
+      const goonElem = $(".goon."+i);
+      const name = goonElem.find(".goon-name").val();
+      $(element).append(`<option selected value="goon-${i}">${ name ? name : 'Goon ' + i}</option>`);
     }
     $(element).val("");
   });

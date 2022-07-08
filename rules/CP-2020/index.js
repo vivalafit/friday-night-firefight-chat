@@ -13,13 +13,17 @@ const FIRE_MODS_FUNCTIONS = {
 exports.calculate = (data) => {
     let roomCache = serverCache.get(data.roomId);
     let battleData = data.data;
-    let logStr = `<div class="shot-landed shot-title">The Shooter : ${battleData.shooter} and the Target : ${battleData.target}</div>`;
 
     validateBattleData(battleData);
 
     const { shooter, shooterAimMods, target, targetArr } = getBattleData(battleData, roomCache);
-    const params = { logStr, shooterObj: shooter, targetObj: target, shooterAimMods, battleData };
+    const shooterName = shooter.additionalStats.name;
+    const targetName = target.additionalStats.name;
     const fireFunction = FIRE_MODS_FUNCTIONS[battleData.fireMod];
+    
+    let logStr = `<div class="shot-landed shot-title">The Shooter : ${shooterName ? shooterName : battleData.shooter} and the Target : ${targetName ? targetName : battleData.target}</div>`;
+
+    const params = { logStr, shooterObj: shooter, targetObj: target, shooterAimMods, battleData };
     logStr = fireFunction(params);
     logStr = getTargetSummary(target, logStr);
 

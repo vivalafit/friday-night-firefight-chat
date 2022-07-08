@@ -17,7 +17,7 @@
 </head>
 <header>
    <div class="chat-header">
-      <h2 class="title">Friday Night Firefight Simulator / v1.2</h2>
+      <h2 class="title">Friday Night Firefight Simulator / v1.4.1</h2>
       <div class="header-buttons">
          <button type="button" class="btn btn-danger close-chat inactive">Close Chat</button>
          <button type="button" class="btn btn-primary open-chat">Open Chat</button>
@@ -523,10 +523,10 @@
                         <select class="custom-select target-select">
                            <option selected value="">Asignee</option>
                            <% for(var i=0; i < room.goons.length; i++) {%>
-                              <option value="goon-<%=i%>">Goon <%=i%></option>
+                              <option value="goon-<%=i%>"><%= room.goons[i].additionalStats.name ? room.goons[i].additionalStats.name : 'Goon ' + i  %></option>
                            <%}%>
                            <% for(var i=0; i < room.men.length; i++) {%>
-                              <option value="boi-<%=i%>">Boi <%=i%></option>
+                              <option value="boi-<%=i%>"><%= room.men[i].additionalStats.name ? room.men[i].additionalStats.name : 'Boi ' + i  %></option>
                            <%}%>
                         </select>
                      </div>
@@ -539,10 +539,10 @@
                         <select class="custom-select target-select">
                            <option selected value="">Asignee</option>
                            <% for(var i=0; i < room.goons.length; i++) {%>
-                              <option value="goon-<%=i%>">Goon <%=i%></option>
+                              <option value="goon-<%=i%>"><%= room.goons[i].additionalStats.name ? room.goons[i].additionalStats.name : 'Goon ' + i  %></option>
                            <%}%>
                            <% for(var i=0; i < room.men.length; i++) {%>
-                              <option value="boi-<%=i%>">Boi <%=i%></option>
+                              <option value="boi-<%=i%>"><%= room.men[i].additionalStats.name ? room.men[i].additionalStats.name : 'Boi ' + i  %></option>
                            <%}%>
                         </select>
                      </div>
