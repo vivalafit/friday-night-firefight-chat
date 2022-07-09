@@ -659,6 +659,22 @@ span.shot-part-info {
     filter: blur(10px);
 }
 
+/* TOAST STYLINGS */
+/**/
+/**/
+.jq-toast-single, .jq-toast-heading {
+    font-family: 'Roboto Mono' !important;
+    font-size: 17px !important;
+}
+
+.jq-toast-wrap {
+    width: 275px !important;
+}
+
+.jq-toast-single {
+    font-size: 15px !important;
+}
+
 /* MEDIAQUERIES */
 /**/
 /**/
