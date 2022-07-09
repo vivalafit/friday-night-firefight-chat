@@ -33,7 +33,11 @@
             </div>
             <div class="people">
                <div class="goons">
-                  <button type="button" class="btn btn-dark add-button goon-btn">Add goon</button>
+                  <div class="goons-buttons">
+                     <button type="button" class="btn btn-dark add-button add-goon">Add goon</button>
+                     <button type="button" class="btn btn-warning export-goons">Export Goon Pack</button>
+                     <button type="button" class="btn btn-success import-goons">Import Goons</button>
+                  </div>
                   <div class="goons-block">
                      <%if (room && room.goons.length > 0) { %>
                         <% for(var i=0; i < room.goons.length; i++) {%>
@@ -272,7 +276,12 @@
                   </div>
                </div>
                <div class="bois">
-                  <button type="button" class="btn btn-dark add-button boi-btn">Add boi</button>
+                  <div class="bois-buttons">
+                     <button type="button" class="btn btn-dark add-button add-boi">Add boi</button>
+                     <button type="button" class="btn btn-secondary export-bois">Export Boiiii Pack</button>
+                     <button type="button" class="btn btn-secondary import-bois">Import Bois</button>
+                  </div>
+                  
                   <div class="bois-block">
                      <%if (room && room.men.length > 0) { %>
                         <% for(var i=0; i < room.men.length; i++) {%>

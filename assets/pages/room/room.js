@@ -180,12 +180,12 @@ const initHandlers = (socket) => {
       socket.emit('join-chat-room', {name: USER_NAME, socketId: socket.id});
     }
   });
-  $('.goon-btn').on('click', function() {
+  $('.add-goon').on('click', function() {
     const index = $('.goon').length;
     addGoon(index, "goon");
     socket.emit('add-goon', {type: "goon", goonId: index, name: USER_NAME });
   });
-  $('.boi-btn').on('click', function() {
+  $('.add-boi').on('click', function() {
     const index = $('.boi').length;
     addGoon(index, "man");
     socket.emit('add-goon', {type: "man", goonId: index, name: USER_NAME});
@@ -310,6 +310,32 @@ const initHandlers = (socket) => {
     }
     updateModsString(goonElem, valueSelected, active);
   });
+
+  //EXPORT IMPORT HANDLERS
+  $(document.body).on("click", ".export-goons", function () {
+    $.ajax({
+      type: "GET",
+      url: "/" + ROOM_ID + "/export-goons",
+      success: function (data) {
+        download(data);
+      },
+      error: function (e) {
+        console.log(e);
+      }
+    });
+  })
+}
+
+const download = (data) => {
+  const filename = 'data.json';
+  const jsonStr = JSON.stringify(data, null, 2);
+  let element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonStr));
+  element.setAttribute('download', filename);
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
 }
 
 const updateModsString = (goonElem, valueSelected, active) => {
