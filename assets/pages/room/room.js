@@ -118,7 +118,58 @@ const initSocketConnection = () => {
   socket.on('unblur-details', () => {
       unblurDetails();
   })
+  //import goons handlers 
+  socket.on('goons-imported', data => {
+    try {
+      renderGoons(data);
+      importSucceded();
+    } catch(e) {
+      console.log(e);
+      importFailed();
+    }
+  })
   initHandlers(socket);
+}
+
+const renderGoons = (goons) => {
+  $(".goons-block").empty();
+  for(let i = 0; i < goons.length; i++){
+    addGoon(goons[i].id, "goon");
+    const elementUpdated = $(`.goon.${goons[i].id}`)
+    //move repeatable code to func
+    if(elementUpdated.length > 0) {
+        const goonDiv = $(elementUpdated[0]);
+        const goonTemplate = goons[i];
+        const goonMods = goonTemplate.fightStats.selectedMods;
+        //update goon values
+        goonDiv.find('.head').val(goonTemplate.bodyStats.armor.head);
+        goonDiv.find('.torso').val(goonTemplate.bodyStats.armor.torso);
+        goonDiv.find('.l-arm').val(goonTemplate.bodyStats.armor.lArm);
+        goonDiv.find('.r-arm').val(goonTemplate.bodyStats.armor.rArm);
+        goonDiv.find('.l-leg').val(goonTemplate.bodyStats.armor.lLeg);
+        goonDiv.find('.r-leg').val(goonTemplate.bodyStats.armor.rLeg);
+        goonDiv.find('.head-hp').val(goonTemplate.bodyStats.limbs.head);
+        goonDiv.find('.torso-hp').val(goonTemplate.bodyStats.limbs.torso);
+        goonDiv.find('.l-arm-hp').val(goonTemplate.bodyStats.limbs.lArm);
+        goonDiv.find('.r-arm-hp').val(goonTemplate.bodyStats.limbs.rArm);
+        goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
+        goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
+        //update fighter values
+        goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
+        goonDiv.find('.fighter-stat-row .body').val(goonTemplate.fightStats.body);
+        goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
+        goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
+        goonDiv.find('.fighter-stat-row .mods').val(goonTemplate.fightStats.mods);
+        //update mods selected ones
+        //update additional details
+        goonDiv.find('.goon-name').val(goonTemplate.additionalStats.name);
+        //update wound level
+        goonDiv.find('.wound-level-number').val(goonTemplate.woundLevel);
+        updateWoundLsevel(goonDiv);
+        updateGoonMods(goonDiv, goonMods);
+    }
+  }
+  updateShooterList();
 }
 
 const updateGoonMods = (goonDiv, goonMods) => {
@@ -326,10 +377,16 @@ const initHandlers = (socket) => {
       }
     });
   })
+  $(document.body).on("click", ".import-goons", async function () {
+    let [fileHandle] = await window.showOpenFilePicker();
+    const file = await fileHandle.getFile();
+    const contents = await file.text();
+    socket.emit("import-goons", JSON.parse(decodeURIComponent(contents)))
+  })
 }
 
 const download = (data) => {
-  const filename = 'data.json';
+  const filename = 'goons.json';
   const jsonStr = JSON.stringify(data, null, 2);
   let element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonStr));
@@ -368,6 +425,56 @@ const downloadFailed = () => {
   $.toast({
     text: "Failed to download template", // Text that is to be shown in the toast
     heading: 'Template Download Failed', // Optional heading to be shown on the toast
+    icon: 'error', // Type of toast icon
+    showHideTransition: 'slide', // fade, slide or plain
+    allowToastClose: true, // Boolean value true or false
+    hideAfter: 5000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+    stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+    position: {
+      right: 40,
+      bottom: 35
+    }, // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+    
+    
+    
+    textAlign: 'left',  // Text alignment i.e. left, right or center
+    loader: true,  // Whether to show loader or not. True by default
+    loaderBg: '#9EC600',  // Background color of the toast loader
+    beforeShow: function () {}, // will be triggered before the toast is shown
+    afterShown: function () {}, // will be triggered after the toat has been shown
+    beforeHide: function () {}, // will be triggered before the toast gets hidden
+    afterHidden: function () {}  // will be triggered after the toast has been hidden
+});
+}
+
+const importSucceded = () => {
+  $.toast({
+    text: "Successfully Imported Goons :)", // Text that is to be shown in the toast
+    heading: 'Goons Imported', // Optional heading to be shown on the toast
+    icon: 'success', // Type of toast icon
+    showHideTransition: 'slide', // fade, slide or plain
+    allowToastClose: true, // Boolean value true or false
+    hideAfter: 5000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+    stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+    position: {
+      right: 40,
+      bottom: 35
+    }, // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+    
+    textAlign: 'left',  // Text alignment i.e. left, right or center
+    loader: true,  // Whether to show loader or not. True by default
+    loaderBg: '#9EC600',  // Background color of the toast loader
+    beforeShow: function () {}, // will be triggered before the toast is shown
+    afterShown: function () {}, // will be triggered after the toat has been shown
+    beforeHide: function () {}, // will be triggered before the toast gets hidden
+    afterHidden: function () {}  // will be triggered after the toast has been hidden
+  });
+}
+
+const importFailed = () => {
+  $.toast({
+    text: "Failed to import goons", // Text that is to be shown in the toast
+    heading: 'Goons import failed', // Optional heading to be shown on the toast
     icon: 'error', // Type of toast icon
     showHideTransition: 'slide', // fade, slide or plain
     allowToastClose: true, // Boolean value true or false
