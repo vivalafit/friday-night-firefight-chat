@@ -7,13 +7,14 @@
    <script>
       const ROOM_ID = "<%= roomId %>"
       let AIM_MODS = "<%= JSON.stringify(aimMods) %>"
-   </script>
+   </script>   
    <link rel="icon" 
    type="image/png" 
    href="https://i.ytimg.com/vi/sRj1aZzwdL0/maxresdefault.jpg">
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    <link rel="stylesheet" href="pages/room/room.css">
    <link rel="stylesheet" href="libs/bootstrap/bootstrap.min.css">
+   <link rel="stylesheet" href="libs/toast/jquery.toast.min.css">
 </head>
 <header>
    <div class="chat-header">
@@ -658,6 +659,7 @@
    <!-- libs -->
    <script src="libs/jquery-3.5.1.min.js"></script>
    <script src="libs/bootstrap/bootstrap.min.js"></script>
+   <script src="libs/toast/jquery.toast.min.js"></script>
    <script src="libs/socket.io.js"></script>
    <!-- page -->
    <script src="pages/room/room.js"></script>
