@@ -104,7 +104,7 @@ html, body {
 
 .goons, .bois {
     max-width: 50%;
-    min-width: 500px;
+    min-width: 700px;
 }
 
 .main-right {
@@ -297,8 +297,12 @@ li.message-centered {
     margin-right: 10px;
 }
 
-.add-button {
-    min-width: 100%;
+.goons-buttons, .bois-buttons {
+    display: flex;
+}
+
+.goons-buttons button, .bois-buttons button {
+    flex: 1 1 0px;
 }
 
 .goons-block, .bois-block {
@@ -653,6 +657,22 @@ span.shot-part-info {
 
 .to-blur-light {
     filter: blur(10px);
+}
+
+/* TOAST STYLINGS */
+/**/
+/**/
+.jq-toast-single, .jq-toast-heading {
+    font-family: 'Roboto Mono' !important;
+    font-size: 17px !important;
+}
+
+.jq-toast-wrap {
+    width: 275px !important;
+}
+
+.jq-toast-single {
+    font-size: 15px !important;
 }
 
 /* MEDIAQUERIES */
