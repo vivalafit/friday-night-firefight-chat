@@ -62,6 +62,9 @@ io.on('connection', socket => {
     socket.on('unblur-details', () => {
       socket.to(roomId).broadcast.emit('unblur-details');
     })
+    socket.on('import-goons', (data) => {
+      goonController.importGoons({data, io: io, roomId: roomId});
+    })
   })
 })
 

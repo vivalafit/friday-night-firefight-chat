@@ -53,7 +53,7 @@ exports.addGoon = async (goonObject) => {
     }
 }
 
-exports.updateGoon = async (goonObject) => {
+exports.updateGoon = (goonObject) => {
     try {
         let roomCache = serverCache.get(goonObject.roomId);
         const type = goonObject.type === "goon" ? "goons" : "men";
@@ -67,7 +67,7 @@ exports.updateGoon = async (goonObject) => {
     }
 }
 
-exports.removeGoon = async (goonObject) => {
+exports.removeGoon = (goonObject) => {
     try {
         let roomCache = serverCache.get(goonObject.roomId);
         const type = goonObject.type === "goon" ? "goons" : "men";
@@ -82,6 +82,17 @@ exports.removeGoon = async (goonObject) => {
         roomCache[type] = arrayToUpdate;
         serverCache.set(goonObject.roomId, roomCache);
         goonObject.io.to(goonObject.roomId).emit('goon-removed', {name: goonObject.name, type: goonObject.type, id: goonIndex});
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+exports.importGoons = ({ data, io, roomId }) => {
+    try {
+        const roomCache = serverCache.get(roomId);
+        roomCache.goons = data;
+        serverCache.set(roomId, roomCache);
+        io.to(roomId).emit('goons-imported', roomCache.goons);
     } catch (e) {
         console.log(e);
     }

@@ -2,20 +2,33 @@
 const serverCache = require('../utils/server-cache');
 const { AIM_MODS } = require('../rules/CP-2020/constants');
 
+const getRoomCache = (roomId) => {
+    let roomCache = serverCache.get(roomId); 
+    if(!roomCache){
+        roomCache = {
+            goons: [],
+            men: []
+        }
+        serverCache.set(roomId, roomCache);
+    }
+    return roomCache;
+}
+
 exports.renderRoom = async (req, res, next) => {
     try {
-        let roomCache = serverCache.get(req.params.room); 
-        if(!roomCache){
-            roomCache = {
-                goons: [],
-                men: []
-            }
-            serverCache.set(req.params.room, roomCache);
-        }
+        let roomCache = getRoomCache(req.params.room); 
         res.render('room', { roomId: req.params.room, room: roomCache, aimMods: AIM_MODS })
     } catch (e) {
         next(e)
     }
+}
 
+exports.exportGoons = async (req, res, nex) => {
+    try {
+        let roomCache = getRoomCache(req.params.room); 
+        res.json(roomCache.goons);
+    } catch (e) {
+        next(e)
+    }
 }
 
