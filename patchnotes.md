@@ -23,3 +23,9 @@ Added possibility to select quick aim mods for each goon (synchronised for all r
 
 # 1.4.2 released
 Added possibility to dynamically hightlight cards and update selected targets names
+
+# 1.5.0 released
+Added possibility to import/export goons
+
+# 1.5.1 released
+Added possibility quick mark goons for target/shooter inputs
