@@ -60,44 +60,51 @@ const initSocketConnection = () => {
       updateShooterList();
   })
   socket.on('goon-updated', goonObj => {
-   if(goonObj.name !== USER_NAME) {
-      const elementUpdated = $(`.${goonObj.type}.${goonObj.goon.id}`)
-      if(elementUpdated.length > 0) {
-          const goonDiv = $(elementUpdated[0]);
-          const goonTemplate = goonObj.goon;
-          const goonMods = goonTemplate.fightStats.selectedMods;
-          //update goon values
-          goonDiv.find('.head').val(goonTemplate.bodyStats.armor.head);
-          goonDiv.find('.torso').val(goonTemplate.bodyStats.armor.torso);
-          goonDiv.find('.l-arm').val(goonTemplate.bodyStats.armor.lArm);
-          goonDiv.find('.r-arm').val(goonTemplate.bodyStats.armor.rArm);
-          goonDiv.find('.l-leg').val(goonTemplate.bodyStats.armor.lLeg);
-          goonDiv.find('.r-leg').val(goonTemplate.bodyStats.armor.rLeg);
-          goonDiv.find('.head-hp').val(goonTemplate.bodyStats.limbs.head);
-          goonDiv.find('.torso-hp').val(goonTemplate.bodyStats.limbs.torso);
-          goonDiv.find('.l-arm-hp').val(goonTemplate.bodyStats.limbs.lArm);
-          goonDiv.find('.r-arm-hp').val(goonTemplate.bodyStats.limbs.rArm);
-          goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
-          goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
-          //update fighter values
-          goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
-          goonDiv.find('.fighter-stat-row .body').val(goonTemplate.fightStats.body);
-          goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
-          goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
-          goonDiv.find('.fighter-stat-row .mods').val(goonTemplate.fightStats.mods);
-          //update mods selected ones
-          //update additional details
-          goonDiv.find('.goon-name').val(goonTemplate.additionalStats.name);
-          //update wound level
-          goonDiv.find('.wound-level-number').val(goonTemplate.woundLevel);
-          updateWoundLsevel(goonDiv);
-          updateGoonMods(goonDiv, goonMods);
+    let nameChanged = false;
+    const elementUpdated = $(`.${goonObj.type}.${goonObj.goon.id}`)
+    if(elementUpdated.length > 0) {
+        const goonDiv = $(elementUpdated[0]);
+        const goonTemplate = goonObj.goon;
+        const goonMods = goonTemplate.fightStats.selectedMods;
+        const prevName = goonDiv.find('.goon-name').attr("data-initial-value");
+        //update goon values
+        goonDiv.find('.head').val(goonTemplate.bodyStats.armor.head);
+        goonDiv.find('.torso').val(goonTemplate.bodyStats.armor.torso);
+        goonDiv.find('.l-arm').val(goonTemplate.bodyStats.armor.lArm);
+        goonDiv.find('.r-arm').val(goonTemplate.bodyStats.armor.rArm);
+        goonDiv.find('.l-leg').val(goonTemplate.bodyStats.armor.lLeg);
+        goonDiv.find('.r-leg').val(goonTemplate.bodyStats.armor.rLeg);
+        goonDiv.find('.head-hp').val(goonTemplate.bodyStats.limbs.head);
+        goonDiv.find('.torso-hp').val(goonTemplate.bodyStats.limbs.torso);
+        goonDiv.find('.l-arm-hp').val(goonTemplate.bodyStats.limbs.lArm);
+        goonDiv.find('.r-arm-hp').val(goonTemplate.bodyStats.limbs.rArm);
+        goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
+        goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
+        //update fighter values
+        goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
+        goonDiv.find('.fighter-stat-row .body').val(goonTemplate.fightStats.body);
+        goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
+        goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
+        goonDiv.find('.fighter-stat-row .mods').val(goonTemplate.fightStats.mods);
+        //update mods selected ones
+        //update additional details
+        if (prevName !== goonTemplate.additionalStats.name) {
+          nameChanged = true;
+        }
+        goonDiv.find('.goon-name').val(goonTemplate.additionalStats.name);
+        goonDiv.find('.goon-name').attr('data-initial-value', goonTemplate.additionalStats.name);
+        //update wound level
+        goonDiv.find('.wound-level-number').val(goonTemplate.woundLevel);
+        updateWoundLsevel(goonDiv);
+        updateGoonMods(goonDiv, goonMods);
+        if(goonObj.name !== USER_NAME) {
           goonDiv.addClass('changed');
           setTimeout(() => goonDiv.removeClass('changed'), 500);
-
-      }
+        }
     }
-    updateShooterList();
+    if (nameChanged) {
+      updateShooterList();
+    }
   });
   socket.on('goon-removed', goonObj => {
       removeGoon(goonObj.id, goonObj.type);
@@ -383,6 +390,49 @@ const initHandlers = (socket) => {
     const contents = await file.text();
     socket.emit("import-goons", JSON.parse(decodeURIComponent(contents)))
   })
+  //quick target selector
+  $(document.body).on("click", ".shooter-selector", function () {
+    $(".shooter-selector").not(this).removeClass("active");
+    const active = $(this).hasClass("active");
+    if (!active) {
+      $(this).addClass("active");
+      setShooter($(this));
+    } else {
+      $(this).removeClass("active");
+      unsetShooter();
+    }
+  });
+  $(document.body).on("click", ".target-selector", function () {
+    $(".target-selector").not(this).removeClass("active");
+    const active = $(this).hasClass("active");
+    if (!active) {
+      $(this).addClass("active");
+      setTarget($(this));
+    } else {
+      $(this).removeClass("active");
+      unsetTarget();
+    }
+  });
+}
+
+const setShooter = (element) => {
+  const parent = element.parent().parent().parent();
+  const valueSelector = parent.attr("class").split(/\s+/).slice(0, 2).join("-");
+  $(".shooter").val(valueSelector).change();
+}
+
+const unsetShooter = () => {
+  $(".shooter").val("").change();
+}
+
+const setTarget = (element) => {
+  const parent = element.parent().parent().parent();
+  const valueSelector = parent.attr("class").split(/\s+/).slice(0, 2).join("-");
+  $(".target").val(valueSelector).change();
+}
+
+const unsetTarget = () => {
+  $(".target").val("").change();
 }
 
 const download = (data) => {
@@ -531,6 +581,9 @@ const resetTargets = () => {
 }
 
 function updateShooterList() {
+  $(".shooter-selector, .target-selector").removeClass("active");
+  $(".people").removeClass("fighter-select");
+  $(".goon, .boi").removeClass("shooter-selected").removeClass("target-selected");  
   $(".target-select").each((i, element) => {
     $(element).empty();
     $(element).append('<option selected value="">Asignee</option>');
@@ -623,6 +676,8 @@ function addGoon(index, type){
     <input type="hidden" class="wound-level-number" value="0">
     <div class="left-info">
       <div class="armor-block">
+        <img class="shooter-selector" src="goon-icons/action-icons/gun.svg"/>
+        <img class="target-selector" src="goon-icons/action-icons/target.svg"/>
         <input type="text" class="head" placeholder="Head Armor Value"  value="0">
         <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
         <input type="text" class="r-arm" placeholder="R-arm Armor Value"  value="0">
@@ -650,7 +705,7 @@ function addGoon(index, type){
         <div class="personal-stats">
           <div class="form-group fighter-stat-row">
               <label for="goon-name">NAME</label>
-              <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="">
+              <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="" data-initial-value="">
               <small id="name-hint" class="form-text text-muted">You were 0 and still...</small>
           </div>
           <h6 class="category-title personal-title aim-mods-title">
