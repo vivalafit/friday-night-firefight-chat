@@ -46,6 +46,8 @@
                               <input type="hidden" class="wound-level-number" value="<%=room.goons[i].woundLevel%>">
                               <div class="left-info">
                                  <div class="armor-block">
+                                    <img class="shooter-selector" src="goon-icons/action-icons/gun.svg"/>
+                                    <img class="target-selector" src="goon-icons/action-icons/target.svg"/>
                                     <input type="number" class="head" placeholder="Head Armor Value"  value="<%=room.goons[i].bodyStats.armor.head%>">
                                     <input type="number" class="torso" placeholder="Torso Armor Value"  value="<%=room.goons[i].bodyStats.armor.torso%>">
                                     <input type="number" class="r-arm" placeholder="R-arm Armor Value"  value="<%=room.goons[i].bodyStats.armor.rArm%>">
@@ -73,7 +75,7 @@
                                     <div class="personal-stats">
                                        <div class="form-group fighter-stat-row">
                                           <label for="goon-name">NAME</label>
-                                          <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="<%=room.goons[i].additionalStats.name%>">
+                                          <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="<%=room.goons[i].additionalStats.name%>" data-initial-value="<%=room.goons[i].additionalStats.name%>">
                                           <small id="name-hint" class="form-text text-muted">You were 0 and still...</small>
                                        </div>
                                        <h6 class="category-title personal-title aim-mods-title">
@@ -290,6 +292,8 @@
                               <input type="hidden" class="wound-level-number" value="<%=room.men[i].woundLevel%>">
                               <div class="left-info">
                                  <div class="armor-block">
+                                    <img class="shooter-selector" src="goon-icons/action-icons/gun.svg"/>
+                                    <img class="target-selector" src="goon-icons/action-icons/target.svg"/>
                                     <input type="number" class="head" placeholder="Head Armor Value"  value="<%=room.men[i].bodyStats.armor.head%>">
                                     <input type="number" class="torso" placeholder="Torso Armor Value"  value="<%=room.men[i].bodyStats.armor.torso%>">
                                     <input type="number" class="r-arm" placeholder="R-arm Armor Value"  value="<%=room.men[i].bodyStats.armor.rArm%>">
@@ -316,7 +320,7 @@
                                     <div class="personal-stats">
                                        <div class="form-group fighter-stat-row">
                                           <label for="goon-name">NAME</label>
-                                          <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="<%=room.men[i].additionalStats.name%>">
+                                          <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="<%=room.men[i].additionalStats.name%>" data-initial-value="<%=room.men[i].additionalStats.name%>">
                                           <small id="name-hint" class="form-text text-muted">You were 0 and still...</small>
                                        </div>
                                        <h6 class="category-title personal-title aim-mods-title">

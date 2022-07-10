@@ -385,6 +385,38 @@ h6.category-title {
     text-align: center;
 }
 
+.target-selector {
+    cursor: pointer;
+}
+
+.shooter-selector.active, .target-selector.active {
+    box-shadow: 1px 4px 7px 0px black;
+}
+
+.shooter-selector {
+    cursor: pointer;
+    position: absolute;
+    height: 42px !important;
+    width: 46px;
+    top: -6px;
+    left: 1px;
+    margin-top: 0 !important;
+}
+
+.target-selector {
+    cursor: pointer;
+    position: absolute;
+    height: 40px !important;
+    width: 37px;
+    top: -4px;
+    left: 50px;
+    margin-top: 0 !important;
+    padding: 0 5px;
+}
+
+.left-info {
+    overflow: hidden;
+}
 /* HEADER */
 /**/
 /**/
