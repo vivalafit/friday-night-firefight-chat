@@ -29,3 +29,6 @@ Added possibility to import/export goons
 
 # 1.5.1 released
 Added possibility quick mark goons for target/shooter inputs
+
+# 1.5.2 released
+Added AP rounds logic

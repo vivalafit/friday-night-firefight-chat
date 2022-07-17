@@ -24,7 +24,11 @@ exports.calculateBurstShotDmg = ({ logStr, shooterObj, targetObj, shooterAimMods
           battleData.wpnAcc;
     //check if called shot modifier avaliable -4 for aim
     if (battleData.calledShot) {
-        accumulatedAim = accumulatedAim - 4;
+        if (battleData.calledShot === "torso") {
+            accumulatedAim = accumulatedAim - 2;
+        } else {
+            accumulatedAim = accumulatedAim - 4;
+        }
     }
     //check for range
     if (battleData.range === "close" || battleData.range === "medium") {
@@ -62,7 +66,7 @@ exports.calculateBurstShotDmg = ({ logStr, shooterObj, targetObj, shooterAimMods
                 targetObj = coverCalculations.targetObj;
             } else {
                 //armor calculations
-                const armorCalculationsResult = calculateArmorDmg(logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, i);
+                const armorCalculationsResult = calculateArmorDmg(logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, battleData, i);
                 logStr = armorCalculationsResult.logStr;
                 targetObj = armorCalculationsResult.targetObj;
             }
