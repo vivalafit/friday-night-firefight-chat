@@ -85,6 +85,7 @@ const initSocketConnection = () => {
         goonDiv.find('.fighter-stat-row .body').val(goonTemplate.fightStats.body);
         goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
         goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
+        goonDiv.find('.fighter-stat-row .def').val(goonTemplate.fightStats.def);
         goonDiv.find('.fighter-stat-row .mods').val(goonTemplate.fightStats.mods);
         //update mods selected ones
         //update additional details
@@ -260,7 +261,15 @@ const initHandlers = (socket) => {
       wpnAcc: parseInt($(".wpn-acc").val()),
       wpnBullets: parseInt($(".wpn-bullets").val()),
       shotComplexity: parseInt($(".complexity-value").val()),
-      range: $(".range").val()
+      range: $(".range").val(),
+      //MeleeSelectors
+      meleeMod: $(".melee-fire-mod").val(),
+      calledShot: $(".called-shot-melee").val(),
+      defenderAction: $(".defender-action").val(),
+      parryAction: $(".parry-option").val(),
+      wpnDmg: $(".wpn-dmg-melee").val(),
+      wpnAcc: parseInt($(".wpn-acc-melee").val()),
+      wpnBullets: parseInt($(".wpn-hits-melee").val()),
     }
     socket.emit('count-battle', {data: data});
   });
@@ -413,6 +422,26 @@ const initHandlers = (socket) => {
       unsetTarget();
     }
   });
+
+  //SWITCH FIGHT MODES
+  $(document.body).on("click", ".battle-mode-switcher", function () {
+    $(".battle-mode-switcher, .ranged, .melee").toggleClass("inactive");
+    // const changeToMelee = $(".melee").hasClass("inactive");
+    // handleModChange(changeToMelee)
+  });
+}
+
+//change inputs for different mods
+const handleModChange = (changeToMelee) => {
+  if(changeToMelee) {
+    $(".ranged").addClass("inactive");
+  } else {
+
+  }
+  const classToDisable = changeToMelee === true ? "ranged" : "melee";
+  const classToEnable = changeToMelee === false ? "melee" : "ranged";
+  $("." + classToDisable).addClass("inactive");
+  $("." + classToEnable).removeClass("inactive");
 }
 
 const setShooter = (element) => {
@@ -888,6 +917,11 @@ function addGoon(index, type){
          <small id="wpn-hint" class="form-text text-muted">One good shot can solve any problem.</small>
       </div>
       <div class="form-group fighter-stat-row">
+            <label for="def">Defensive Skill</label>
+            <input type="number" class="form-control def" aria-describedby="def-hint" placeholder="Defensive Skill" value="0">
+            <small id="def-hint" class="form-text text-muted">(Athletics/Parry/Blocking/Brawling, etc.)</small>
+        </div>
+      <div class="form-group fighter-stat-row">
          <label for="mods">Other Aim Modifiers</label>
          <input type="text" class="form-control mods" aria-describedby="mods-hint" placeholder="Mods" value="">
          <small id="mods-hint" class="form-text text-muted">Write mods with "space" button. For instance : -1 2 -3.</small>
@@ -974,6 +1008,7 @@ function formGoonObj(goonBlock) {
   const bodyStat = goonBlock.find('.fighter-stat-row .body').val();
   const btmStat = goonBlock.find('.fighter-stat-row .btm').val();
   const wpnStat = goonBlock.find('.fighter-stat-row .wpn').val();
+  const defStat = goonBlock.find('.fighter-stat-row .def').val();
   const modStat = goonBlock.find('.fighter-stat-row .mods').val();
   //variables - additioanl stats
   const name = goonBlock.find('.goon-name').val();
@@ -1006,6 +1041,7 @@ function formGoonObj(goonBlock) {
       body: bodyStat ? parseInt(bodyStat) : 0,
       btm: btmStat ? parseInt(btmStat) : 0,
       wpn: wpnStat ? parseInt(wpnStat) : 0,
+      def: defStat ? parseInt(defStat) : 0,
       mods: modStat ? modStat : "",
       selectedMods: selectedMods ? selectedMods : []
     },
