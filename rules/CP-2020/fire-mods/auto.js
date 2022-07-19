@@ -58,7 +58,7 @@ exports.calculateAutoShotDmg = ({ logStr, shooterObj, targetObj, shooterAimMods,
                 targetObj = coverCalculations.targetObj;
             } else {
                 //armor calculations
-                const armorCalculationsResult = calculateArmorDmg(logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, i);
+                const armorCalculationsResult = calculateArmorDmg(logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, battleData, i);
                 logStr = armorCalculationsResult.logStr;
                 targetObj = armorCalculationsResult.targetObj;
             }

@@ -262,6 +262,7 @@ const initHandlers = (socket) => {
       wpnBullets: parseInt($(".wpn-bullets").val()),
       shotComplexity: parseInt($(".complexity-value").val()),
       range: $(".range").val(),
+      ap: $(".ap").val(),  
       //MeleeSelectors
       meleeMod: $(".melee-fire-mod").val(),
       calledShot: $(".called-shot-melee").val(),

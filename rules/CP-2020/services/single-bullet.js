@@ -24,7 +24,11 @@ exports.calculateSingleShotDmg = (logStr, shooterObj, targetObj, shooterAimMods,
           battleData.wpnAcc;
     //check if called shot modifier avaliable -4 for aim
     if(battleData.calledShot){
-        accumulatedAim = accumulatedAim - 4;
+        if (battleData.calledShot === "torso") {
+            accumulatedAim = accumulatedAim - 2;
+        } else {
+            accumulatedAim = accumulatedAim - 4;
+        }
     }
     //reduce every shot aim with -3 mod for single shot mod when using high ROF weapons
     accumulatedAim = accumulatedAim - (3 * shotNumber);
@@ -37,6 +41,7 @@ exports.calculateSingleShotDmg = (logStr, shooterObj, targetObj, shooterAimMods,
         //get hit location - from called shot if check passed or random roll
         let hitLocation = '';
         let bulletDmg = roller.roll(battleData.wpnDmg).result; 
+        //if ()
         if(battleData.calledShot){
             //location from called shot
             hitLocation = battleData.calledShot;
@@ -55,7 +60,7 @@ exports.calculateSingleShotDmg = (logStr, shooterObj, targetObj, shooterAimMods,
             targetObj = coverCalculations.targetObj;
         } else {
             //armor calculations
-            const armorCalculationsResult = calculateArmorDmg(logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, shotNumber);
+            const armorCalculationsResult = calculateArmorDmg(logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, battleData, shotNumber);
             logStr = armorCalculationsResult.logStr;
             targetObj = armorCalculationsResult.targetObj;
         }
