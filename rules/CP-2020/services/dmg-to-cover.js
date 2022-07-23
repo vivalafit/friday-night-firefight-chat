@@ -33,13 +33,7 @@ exports.calculateCoverArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLoc
 
 exports.calculateMeleeCoverArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, battleData, shotNumber) => {
     //check if bullet penetrated target's cover value 
-    const apMode = battleData.ap;
     let cumulatedCoverValue = battleData.coverValueMelee;
-                       
-    if (apMode) {
-        cumulatedCoverValue =  Math.floor(cumulatedCoverValue / 2);
-        logStr = `${logStr}<div class="shot-landed armor-penetration">Shooter Used AP rounds! Cover value halved! <span class="shot-value">(${battleData.coverValueMelee} -> ${cumulatedCoverValue})</span>.</div>`
-    }
     if(bulletDmg > cumulatedCoverValue){
         logStr = `${logStr}<div class="shot-landed armor-penetration">Cover Armor value(<span class="shot-value">${cumulatedCoverValue}</span>) reduced hit damage from <span class="shot-value">${bulletDmg}</span> -> <span class="shot-value">${bulletDmg - cumulatedCoverValue}</span>.</div>`
         bulletDmg = bulletDmg - cumulatedCoverValue;
