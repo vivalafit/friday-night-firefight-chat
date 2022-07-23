@@ -68,7 +68,26 @@ exports.WOUND_LEVEL_STR = {
     "-9" : "MORTAL 6"
 }
 
+exports.BODY_DMG_MOD = {
+    1: -2,
+    2: -2,
+    3: -1,
+    4: -1,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 1,
+    9: 1,
+    10: 2,
+    11: 2,
+    12: 4,
+    13: 6,
+    14: 6,
+    15: 8
+}
+
 exports. MAX_WOUND_LEVEL = 40;
 exports.WOUND_LEVEL_BOUND = 4;
 exports.MAXIMUM_STUN_LEVEL = 3;
 exports.MORTAL_0_LEVEL = 13;
+exports.MAX_BODY_MOD = 15;

@@ -32,3 +32,6 @@ Added possibility quick mark goons for target/shooter inputs
 
 # 1.5.2 released
 Added AP rounds logic
+
+# 1.6.0 released
+Featuring melee mode

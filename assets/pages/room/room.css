@@ -83,6 +83,31 @@ html, body {
     background-color: #242324;
     color: white;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* STYLINGS FOR IMPORT/EXPORT */
+
+.goons-buttons button i, .bois-buttons button i {
+    margin-right: 10px;
+}
+
+.goons-buttons button, .bois-buttons button {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+/*BATTLE MODE SWITCHER*/
+.battle-mode-switcher {
+    margin-right: 10px;
+    margin-bottom: 5px;
+}
+
+.text-muted {
+    word-wrap: break-word;
 }
 
 .people-title {
@@ -473,7 +498,7 @@ h6.category-title {
 
 .fighter-stats label, .fighter-stat-row, .aim-modifiers-list {
     margin-bottom: 0 !important;
-    padding: 0 20px;
+    padding: 0 10px;
 }
 
 .fighter-stats {
@@ -498,7 +523,7 @@ h6.category-title {
 }
 
 .aim-modifiers-list {
-    height: 410px;
+    height: 534px;
     overflow-y: auto;
 }
 

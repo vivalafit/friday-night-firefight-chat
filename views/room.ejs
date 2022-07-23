@@ -18,7 +18,7 @@
 </head>
 <header>
    <div class="chat-header">
-      <h2 class="title">Friday Night Firefight Simulator / v1.5.2</h2>
+      <h2 class="title">Friday Night Firefight Simulator / v1.6.0</h2>
       <div class="header-buttons">
          <button type="button" class="btn btn-danger close-chat inactive">Close Chat</button>
          <button type="button" class="btn btn-primary open-chat">Open Chat</button>
@@ -35,9 +35,9 @@
             <div class="people">
                <div class="goons">
                   <div class="goons-buttons">
-                     <button type="button" class="btn btn-dark add-button add-goon">Add goon</button>
-                     <button type="button" class="btn btn-warning export-goons">Export Goon Pack</button>
-                     <button type="button" class="btn btn-success import-goons">Import Goons</button>
+                     <button type="button" class="btn btn-dark add-button add-goon"><i class="material-icons">add_circle</i> Add goon</button>
+                     <button type="button" class="btn btn-warning export-goons"><i class="material-icons">file_upload</i> Export Goon Pack</button>
+                     <button type="button" class="btn btn-success import-goons"><i class="material-icons">download</i> Import Goons</button>
                   </div>
                   <div class="goons-block">
                      <%if (room && room.goons.length > 0) { %>
@@ -267,6 +267,11 @@
                                        <small id="wpn-hint" class="form-text text-muted">One good shot can solve any problem.</small>
                                     </div>
                                     <div class="form-group fighter-stat-row">
+                                       <label for="def">Defensive Skill</label>
+                                       <input type="number" class="form-control def" aria-describedby="def-hint" placeholder="Defensive Skill" value="<%=room.goons[i].fightStats.def%>">
+                                       <small id="def-hint" class="form-text text-muted">(Athletics/Parry/Blocking/Brawling, etc.)</small>
+                                    </div>
+                                    <div class="form-group fighter-stat-row">
                                        <label for="mods">Other Aim Modifiers</label>
                                        <input type="text" class="form-control mods" aria-describedby="mods-hint" placeholder="Mods" value="<%=room.goons[i].fightStats.mods%>">
                                        <small id="mods-hint" class="form-text text-muted">Write mods with "space" button. For instance : -1 2 -3.</small>
@@ -280,9 +285,9 @@
                </div>
                <div class="bois">
                   <div class="bois-buttons">
-                     <button type="button" class="btn btn-dark add-button add-boi">Add boi</button>
-                     <button type="button" class="btn btn-secondary export-bois">Export Boiiii Pack</button>
-                     <button type="button" class="btn btn-secondary import-bois">Import Bois</button>
+                     <button type="button" class="btn btn-dark add-button add-boi"><i class="material-icons">add_circle</i> Add boi</button>
+                     <button type="button" class="btn btn-secondary export-bois"><i class="material-icons">file_upload</i> Export Boiiii Pack</button>
+                     <button type="button" class="btn btn-secondary import-bois"><i class="material-icons">download</i> Import Bois</button>
                   </div>
                   
                   <div class="bois-block">
@@ -512,6 +517,11 @@
                                        <small id="wpn-hint" class="form-text text-muted">One good shot can solve any problem.</small>
                                     </div>
                                     <div class="form-group fighter-stat-row">
+                                       <label for="def">Defensive Skill</label>
+                                       <input type="number" class="form-control def" aria-describedby="def-hint" placeholder="Defensive Skill" value="<%=room.men[i].fightStats.def%>">
+                                       <small id="def-hint" class="form-text text-muted">(Athletics/Parry/Blocking/Brawling, etc.)</small>
+                                    </div>
+                                    <div class="form-group fighter-stat-row">
                                        <label for="mods">Other Aim Modifiers</label>
                                        <input type="text" class="form-control mods" aria-describedby="mods-hint" placeholder="Mods" value="<%=room.men[i].fightStats.mods%>">
                                        <small id="mods-hint" class="form-text text-muted">Write mods with "space" button. For instance : -1 2 -3.</small>
@@ -525,6 +535,8 @@
                </div>
             </div>
             <div class="battle-title">
+               <button class="btn btn-danger battle-mode-switcher melee-switch">Melee Mode</button>
+               <button class="btn btn-primary battle-mode-switcher ranged-switch inactive">Range Mode</button>
                <h2>Firefight Ground</h2>
             </div>
             <div class="battle-ground">
@@ -561,7 +573,7 @@
                         </select>
                      </div>
                   </div>
-                  <div class="fire-block step3">
+                  <div class="fire-block step3 ranged">
                      <div class="fire-step-title">
                         <h4>3) Does victim have a cover?</h4>
                      </div>
@@ -569,7 +581,40 @@
                         <input type="number" class="cover-value" placeholder="Cover Value"  value="0">
                      </div>
                   </div>
-                  <div class="fire-block step4">
+                  <div class="fire-block step3 melee inactive">
+                     <div class="fire-step-title">
+                        <h4>3) Shooter Melee mod:</h4>
+                     </div>
+                     <div class="fire-step-block">
+                        <select class="custom-select melee-fire-mod">
+                           <option selected value="">Fire Mod</option>
+                           <option value="fist">Fisting Club/ Brawling/ Martial Arts</option>
+                           <option value="fist-cyber">Cyberbullying with cyberarms/cyberbeasts</option>
+                           <option value="melee">Handled weapon (Clubs, Swords, etc.)</option>
+                           <option value="melee-katana">Mono-Katana/Mono-Knive</option>
+                        </select>
+                        <select class="custom-select melee-fist-type">
+                           <option value="">Fist trick</option>
+                           <option value="strike" selected>Strike</option>
+                           <option value="kick">Kick</option>
+                           <option value="disarm">Disarm</option>
+                           <option value="throw">Throw</option>
+                           <option value="hold">Hold</option>
+                           <option value="choke">Choke</option>
+                           <option value="trip">Swip/Trip</option>
+                           <option value="grapple">Grapple</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="fire-block step3a melee inactive">
+                     <div class="fire-step-title">
+                        <h4>3a) Does victim have a cover?</h4>
+                     </div>
+                     <div class="fire-step-block">
+                        <input type="number" class="cover-value-melee" placeholder="Cover Value"  value="0">
+                     </div>
+                  </div>
+                  <div class="fire-block step4 ranged">
                      <div class="fire-step-title">
                         <h4>4) Now let's make a lot of damage</h4>
                      </div>
@@ -605,6 +650,53 @@
                         <input type="text" class="wpn-dmg" placeholder="Weapon damage"  value="">
                         <input type="text" class="wpn-acc" placeholder="Weapon ACC modifier"  value="">
                         <input type="text" class="wpn-bullets" placeholder="Bullets number"  value="">
+                     </div>
+                  </div>
+                  <div class="fire-block step4 melee inactive">
+                     <div class="fire-step-title">
+                        <h4>4) Now let's make a lot of damage</h4>
+                     </div>
+                     <div class="fire-step-block">
+                        <select class="custom-select called-shot-melee">
+                           <option selected value="">Called Shot</option>
+                           <option value="head">Head</option>
+                           <option value="torso">Torso</option>
+                           <option value="rArm">Right Arm</option>
+                           <option value="lArm">Left Arm</option>
+                           <option value="rLeg">Right Leg</option>
+                           <option value="lLeg">Left Leg</option>
+                        </select>
+                        <select class="custom-select defender-action">
+                           <option selected value="">Defender Action</option>
+                           <option value="stand">Stand Still (evading passively)</option>
+                           <option value="evade">Evade</option>
+                           <option value="parry">Parry</option>
+                           <option value="escape">Escape</option>
+                        </select>
+                        <select class="custom-select defender-armor">
+                           <option selected value="">Defender Armor</option>
+                           <option value="Hard">Hard (Metal etc.)</option>
+                           <option value="Soft">Soft (Kevlar etc.)</option>
+                        </select>
+                        <select class="custom-select parry-option">
+                           <option selected value="">Parry With Selector</option>
+                           <option value="melee">Handled weapon (Clubs, Swords, etc.)</option>
+                           <option value="melee-katana">Mono-Katana/Mono-Knive</option>
+                           <option value="head">Head</option>
+                           <option value="torso">Torso</option>
+                           <option value="rArm">Right Arm</option>
+                           <option value="lArm">Left Arm</option>
+                           <option value="rLeg">Right Leg</option>
+                           <option value="lLeg">Left Leg</option>
+                        </select>
+                        <select class="custom-select body-dmg">
+                           <option selected value="">Apply Body Stat to damage?</option>
+                           <option value="true">Yes</option>
+                           <option value="false">No</option>
+                        </select>
+                        <input type="text" class="wpn-dmg-melee" placeholder="Weapon damage"  value="">
+                        <input type="text" class="wpn-acc-melee" placeholder="Weapon ACC modifier"  value="">
+                        <input type="text" class="wpn-hits-melee" placeholder="Hits number"  value="">
                      </div>
                   </div>
                   <div class="fire-block step5">
