@@ -164,6 +164,7 @@ const renderGoons = (goons) => {
         goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
         //update fighter values
         goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
+        goonDiv.find('.fighter-stat-row .def').val(goonTemplate.fightStats.def);
         goonDiv.find('.fighter-stat-row .body').val(goonTemplate.fightStats.body);
         goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
         goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
@@ -264,13 +265,18 @@ const initHandlers = (socket) => {
       range: $(".range").val(),
       ap: $(".ap").val(),  
       //MeleeSelectors
+      isMelee: $(".ranged-switch").is(":visible"),
       meleeMod: $(".melee-fire-mod").val(),
-      calledShot: $(".called-shot-melee").val(),
+      meleeTechnique: $(".melee-fist-type").val(),
+      calledShotMelee: $(".called-shot-melee").val(),
       defenderAction: $(".defender-action").val(),
+      defenderArmor: $(".defender-armor").val(),
       parryAction: $(".parry-option").val(),
-      wpnDmg: $(".wpn-dmg-melee").val(),
-      wpnAcc: parseInt($(".wpn-acc-melee").val()),
-      wpnBullets: parseInt($(".wpn-hits-melee").val()),
+      wpnDmgMelee: $(".wpn-dmg-melee").val(),
+      wpnAccMelee: parseInt($(".wpn-acc-melee").val()),
+      coverValueMelee: parseInt($(".cover-value-melee").val()) ? parseInt($(".cover-value-melee").val()) : 0,
+      wpnHits: parseInt($(".wpn-hits-melee").val()),
+      useBody: $(".body-dmg").val()
     }
     socket.emit('count-battle', {data: data});
   });

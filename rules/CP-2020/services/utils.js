@@ -43,10 +43,10 @@ exports.getTargetSummary = (target, logStr) => {
 
 exports.validateBattleData = (battleData) => {
     if (!battleData.shooter || !battleData.target) {
-        throw '<div class="shot-landed armor-penetration">No Shooter or Target Selected.</div>'
+        throw '<div class="shot-landed armor-penetration">No Shooter or Target selected.</div>'
     }
     if (!battleData.fireMod) {
-        throw '<div class="shot-landed armor-penetration">No Firemod Selected.</div>'
+        throw '<div class="shot-landed armor-penetration">No Firemod selected.</div>'
     }
     if ((battleData.fireMod === "three-round" || battleData.fireMod === "full-auto") && !battleData.range) {
         throw '<div class="shot-landed armor-penetration">No Range Selected when Three Round/ Auto Fire mod active.</div>'
@@ -54,7 +54,43 @@ exports.validateBattleData = (battleData) => {
     if ((battleData.fireMod === "full-auto" || battleData.fireMod === "single") && !battleData.wpnBullets) {
         throw '<div class="shot-landed armor-penetration">No Bullet Number Selected when Auto Fire/Single Fire mod active.</div>'
     }
+    if (!battleData.wpnDmg) {
+        throw '<div class="shot-landed armor-penetration">No Weapon Damage provided.</div>'
+    }
     const splitted = battleData.wpnDmg.split("d");
+    if (parseInt(splitted[0]) > 100 || parseInt(splitted[1]) > 100) {
+        throw '<div class="shot-landed armor-penetration">Your have tried really hard 🤡</div>'
+    }
+}
+
+exports.validateMeleeData = (battleData) => {
+    if (!battleData.shooter || !battleData.target) {
+        throw '<div class="shot-landed armor-penetration">No Shooter or Target selected.</div>'
+    }
+    if (!battleData.meleeMod) {
+        throw '<div class="shot-landed armor-penetration">No Firemod selected.</div>'
+    }
+    if ((battleData.meleeMod === "fist" && !battleData.meleeTechnique)) {
+        throw '<div class="shot-landed armor-penetration">No Melee Technique selected when Fist mode activated.</div>'
+    }
+    if (!battleData.defenderAction) {
+        throw '<div class="shot-landed armor-penetration">No Defender Action selected.</div>'
+    }
+    if (battleData.defenderAction === "parry" && !battleData.parryAction) {
+        throw '<div class="shot-landed armor-penetration">No Parry Action selected.</div>'
+    }
+    if ((battleData.meleeMod === "melee-katana" && !battleData.defenderArmor)) { 
+        throw '<div class="shot-landed armor-penetration">No Armor Type Selected when Mono Weapon mode activated.</div>'
+    }
+    if ((battleData.meleeMod !== "fist" && (battleData.meleeTechnique !== "disarm" || battleData.meleeTechnique !== "hold" || battleData.meleeTechnique !== "trip" || battleData.meleeTechnique !== "grapple"))) {
+        if (!battleData.wpnDmgMelee) {
+            throw '<div class="shot-landed armor-penetration">No Weapon Damage provided.</div>'
+        }
+    }
+    if (!battleData.wpnHits) {
+        throw '<div class="shot-landed armor-penetration">No Hits number provided.</div>'
+    }
+    const splitted = battleData.wpnDmgMelee.split("d");
     if (parseInt(splitted[0]) > 100 || parseInt(splitted[1]) > 100) {
         throw '<div class="shot-landed armor-penetration">Your have tried really hard 🤡</div>'
     }
@@ -63,4 +99,8 @@ exports.validateBattleData = (battleData) => {
 exports.resetTargetStatus = (target) => {
     target.stunned = false;
     target.dead = false
+}
+
+exports.capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }

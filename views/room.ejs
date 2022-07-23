@@ -589,12 +589,13 @@
                         <select class="custom-select melee-fire-mod">
                            <option selected value="">Fire Mod</option>
                            <option value="fist">Fisting Club/ Brawling/ Martial Arts</option>
+                           <option value="fist-cyber">Cyberbullying with cyberarms/cyberbeasts</option>
                            <option value="melee">Handled weapon (Clubs, Swords, etc.)</option>
                            <option value="melee-katana">Mono-Katana/Mono-Knive</option>
                         </select>
                         <select class="custom-select melee-fist-type">
-                           <option selected value="">Fisting Club/ Brawling/ Martial Arts</option>
-                           <option value="strike">Strike</option>
+                           <option value="">Fist trick</option>
+                           <option value="strike" selected>Strike</option>
                            <option value="kick">Kick</option>
                            <option value="disarm">Disarm</option>
                            <option value="throw">Throw</option>
@@ -603,6 +604,14 @@
                            <option value="trip">Swip/Trip</option>
                            <option value="grapple">Grapple</option>
                         </select>
+                     </div>
+                  </div>
+                  <div class="fire-block step3a melee inactive">
+                     <div class="fire-step-title">
+                        <h4>3a) Does victim have a cover?</h4>
+                     </div>
+                     <div class="fire-step-block">
+                        <input type="number" class="cover-value-melee" placeholder="Cover Value"  value="0">
                      </div>
                   </div>
                   <div class="fire-block step4 ranged">
@@ -667,7 +676,7 @@
                         <select class="custom-select defender-armor">
                            <option selected value="">Defender Armor</option>
                            <option value="Hard">Hard (Metal etc.)</option>
-                           <option value="Soft">Sofr (Kevlar etc.)</option>
+                           <option value="Soft">Soft (Kevlar etc.)</option>
                         </select>
                         <select class="custom-select parry-option">
                            <option selected value="">Parry With Selector</option>
@@ -679,7 +688,11 @@
                            <option value="lArm">Left Arm</option>
                            <option value="rLeg">Right Leg</option>
                            <option value="lLeg">Left Leg</option>
-
+                        </select>
+                        <select class="custom-select body-dmg">
+                           <option selected value="">Apply Body Stat to damage?</option>
+                           <option value="true">Yes</option>
+                           <option value="false">No</option>
                         </select>
                         <input type="text" class="wpn-dmg-melee" placeholder="Weapon damage"  value="">
                         <input type="text" class="wpn-acc-melee" placeholder="Weapon ACC modifier"  value="">
