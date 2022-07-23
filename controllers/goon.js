@@ -38,6 +38,7 @@ exports.addGoon = async (goonObject) => {
                 body: 0,
                 btm: 0,
                 wpn: 0,
+                def: 0,
                 mods: "",
                 selectedMods: []
             },

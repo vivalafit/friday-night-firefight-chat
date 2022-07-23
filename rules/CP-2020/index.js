@@ -1,8 +1,9 @@
 const serverCache = require('../../utils/server-cache');
-const { validateBattleData, getBattleData, getTargetSummary, resetTargetStatus } = require('./services/utils');
+const { validateBattleData, getBattleData, getTargetSummary, resetTargetStatus, validateMeleeData } = require('./services/utils');
 const { calculateSingleShot } = require('./fire-mods/single');
 const { calculateBurstShotDmg } = require('./fire-mods/burst');
 const { calculateAutoShotDmg } = require('./fire-mods/auto');
+const { calculateFistHit, calculateCyberFistHit, calculateMeleeHit, calculateKatanaHit } = require ('./fire-mods/melee');
 
 const FIRE_MODS_FUNCTIONS = {
     "single": calculateSingleShot,
@@ -10,16 +11,32 @@ const FIRE_MODS_FUNCTIONS = {
     "full-auto": calculateAutoShotDmg
 }
 
+const MELEE_MODS_FUNCTIONS = {
+    "fist": calculateFistHit,
+    "fist-cyber": calculateCyberFistHit,
+    "melee": calculateMeleeHit,
+    "melee-katana": calculateKatanaHit
+}
+
 exports.calculate = (data) => {
     let roomCache = serverCache.get(data.roomId);
     let battleData = data.data;
-
-    validateBattleData(battleData);
+    if (battleData.isMelee) { 
+        validateMeleeData(battleData)
+    } else {
+        validateBattleData(battleData);
+    }
 
     const { shooter, shooterAimMods, target, targetArr } = getBattleData(battleData, roomCache);
     const shooterName = shooter.additionalStats.name;
     const targetName = target.additionalStats.name;
-    const fireFunction = FIRE_MODS_FUNCTIONS[battleData.fireMod];
+
+    let fireFunction;
+    if (battleData.isMelee) {
+        fireFunction = MELEE_MODS_FUNCTIONS[battleData.meleeMod];
+    } else {
+        fireFunction = FIRE_MODS_FUNCTIONS[battleData.fireMod];
+    }
     
     let logStr = `<div class="shot-landed shot-title">The Shooter : ${shooterName ? shooterName : battleData.shooter} and the Target : ${targetName ? targetName : battleData.target}</div>`;
 
