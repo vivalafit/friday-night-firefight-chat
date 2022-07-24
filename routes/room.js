@@ -10,6 +10,10 @@ router.get('/:room/export-goons', async (req, res, next) => {
     roomController.exportGoons(req, res, next);
 });
 
+router.get('/:room/export-bois', async (req, res, next) => {
+    roomController.exportBois(req, res, next);
+});
+
 router.post('/:room/:roll', async (req, res, next) => {
     roomController.calculateRoll(req, res, next);
 });

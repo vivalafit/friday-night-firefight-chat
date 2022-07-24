@@ -35,3 +35,6 @@ Added AP rounds logic
 
 # 1.6.0 released
 Featuring melee mode
+
+# 1.6.1 released
+Added possibility to import/export bois saves
