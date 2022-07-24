@@ -130,7 +130,16 @@ const initSocketConnection = () => {
   socket.on('goons-imported', data => {
     try {
       renderGoons(data);
-      importSucceded();
+      importSucceded("Goons");
+    } catch(e) {
+      console.log(e);
+      importFailed();
+    }
+  })
+  socket.on('bois-imported', data => {
+    try {
+      renderBois(data);
+      importSucceded("Bois");
     } catch(e) {
       console.log(e);
       importFailed();
@@ -144,6 +153,48 @@ const renderGoons = (goons) => {
   for(let i = 0; i < goons.length; i++){
     addGoon(goons[i].id, "goon");
     const elementUpdated = $(`.goon.${goons[i].id}`)
+    //move repeatable code to func
+    if(elementUpdated.length > 0) {
+        const goonDiv = $(elementUpdated[0]);
+        const goonTemplate = goons[i];
+        const goonMods = goonTemplate.fightStats.selectedMods;
+        //update goon values
+        goonDiv.find('.head').val(goonTemplate.bodyStats.armor.head);
+        goonDiv.find('.torso').val(goonTemplate.bodyStats.armor.torso);
+        goonDiv.find('.l-arm').val(goonTemplate.bodyStats.armor.lArm);
+        goonDiv.find('.r-arm').val(goonTemplate.bodyStats.armor.rArm);
+        goonDiv.find('.l-leg').val(goonTemplate.bodyStats.armor.lLeg);
+        goonDiv.find('.r-leg').val(goonTemplate.bodyStats.armor.rLeg);
+        goonDiv.find('.head-hp').val(goonTemplate.bodyStats.limbs.head);
+        goonDiv.find('.torso-hp').val(goonTemplate.bodyStats.limbs.torso);
+        goonDiv.find('.l-arm-hp').val(goonTemplate.bodyStats.limbs.lArm);
+        goonDiv.find('.r-arm-hp').val(goonTemplate.bodyStats.limbs.rArm);
+        goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
+        goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
+        //update fighter values
+        goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
+        goonDiv.find('.fighter-stat-row .def').val(goonTemplate.fightStats.def);
+        goonDiv.find('.fighter-stat-row .body').val(goonTemplate.fightStats.body);
+        goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
+        goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
+        goonDiv.find('.fighter-stat-row .mods').val(goonTemplate.fightStats.mods);
+        //update mods selected ones
+        //update additional details
+        goonDiv.find('.goon-name').val(goonTemplate.additionalStats.name);
+        //update wound level
+        goonDiv.find('.wound-level-number').val(goonTemplate.woundLevel);
+        updateWoundLsevel(goonDiv);
+        updateGoonMods(goonDiv, goonMods);
+    }
+  }
+  updateShooterList();
+}
+
+const renderBois = (goons) => {
+  $(".bois-block").empty();
+  for(let i = 0; i < goons.length; i++){
+    addGoon(goons[i].id, "man");
+    const elementUpdated = $(`.boi.${goons[i].id}`)
     //move repeatable code to func
     if(elementUpdated.length > 0) {
         const goonDiv = $(elementUpdated[0]);
@@ -392,7 +443,7 @@ const initHandlers = (socket) => {
       url: "/" + ROOM_ID + "/export-goons",
       success: function (data) {
         download(data);
-        donwloadSucceeded();
+        donwloadSucceeded("Goon Pack");
       },
       error: function (e) {
         downloadFailed();
@@ -400,11 +451,34 @@ const initHandlers = (socket) => {
       }
     });
   })
+
+  $(document.body).on("click", ".export-bois", function () {
+    $.ajax({
+      type: "GET",
+      url: "/" + ROOM_ID + "/export-bois",
+      success: function (data) {
+        download(data);
+        donwloadSucceeded("Bois Pack");
+      },
+      error: function (e) {
+        downloadFailed();
+        console.log(e);
+      }
+    });
+  })
+
   $(document.body).on("click", ".import-goons", async function () {
     let [fileHandle] = await window.showOpenFilePicker();
     const file = await fileHandle.getFile();
     const contents = await file.text();
     socket.emit("import-goons", JSON.parse(decodeURIComponent(contents)))
+  })
+
+  $(document.body).on("click", ".import-bois", async function () {
+    let [fileHandle] = await window.showOpenFilePicker();
+    const file = await fileHandle.getFile();
+    const contents = await file.text();
+    socket.emit("import-bois", JSON.parse(decodeURIComponent(contents)))
   })
   //quick target selector
   $(document.body).on("click", ".shooter-selector", function () {
@@ -483,10 +557,10 @@ const download = (data) => {
   document.body.removeChild(element);
 }
 
-const donwloadSucceeded = () => {
+const donwloadSucceeded = (packText) => {
   $.toast({
     text: "Successfully Downloaded Template :)", // Text that is to be shown in the toast
-    heading: 'Template Donwloaded', // Optional heading to be shown on the toast
+    heading: `${packText} Donwloaded`, // Optional heading to be shown on the toast
     icon: 'success', // Type of toast icon
     showHideTransition: 'slide', // fade, slide or plain
     allowToastClose: true, // Boolean value true or false
@@ -533,10 +607,10 @@ const downloadFailed = () => {
 });
 }
 
-const importSucceded = () => {
+const importSucceded = (packText) => {
   $.toast({
-    text: "Successfully Imported Goons :)", // Text that is to be shown in the toast
-    heading: 'Goons Imported', // Optional heading to be shown on the toast
+    text: `Successfully Imported ${packText} :)`, // Text that is to be shown in the toast
+    heading: '${packText} Imported', // Optional heading to be shown on the toast
     icon: 'success', // Type of toast icon
     showHideTransition: 'slide', // fade, slide or plain
     allowToastClose: true, // Boolean value true or false

@@ -65,6 +65,9 @@ io.on('connection', socket => {
     socket.on('import-goons', (data) => {
       goonController.importGoons({data, io: io, roomId: roomId});
     })
+    socket.on('import-bois', (data) => {
+      goonController.importBois({data, io: io, roomId: roomId});
+    })
   })
 })
 
