@@ -23,7 +23,7 @@ exports.renderRoom = async (req, res, next) => {
     }
 }
 
-exports.exportGoons = async (req, res, nex) => {
+exports.exportGoons = async (req, res, next) => {
     try {
         let roomCache = getRoomCache(req.params.room); 
         res.json(roomCache.goons);
@@ -31,4 +31,14 @@ exports.exportGoons = async (req, res, nex) => {
         next(e)
     }
 }
+
+exports.exportBois = async (req, res, next) => {
+    try {
+        let roomCache = getRoomCache(req.params.room); 
+        res.json(roomCache.men);
+    } catch (e) {
+        next(e)
+    }
+}
+
 

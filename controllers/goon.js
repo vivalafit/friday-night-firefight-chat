@@ -98,3 +98,14 @@ exports.importGoons = ({ data, io, roomId }) => {
         console.log(e);
     }
 }
+
+exports.importBois = ({ data, io, roomId }) => {
+    try {
+        const roomCache = serverCache.get(roomId);
+        roomCache.men = data;
+        serverCache.set(roomId, roomCache);
+        io.to(roomId).emit('bois-imported', roomCache.men);
+    } catch (e) {
+        console.log(e);
+    }
+}
