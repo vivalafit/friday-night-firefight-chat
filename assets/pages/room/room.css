@@ -90,6 +90,11 @@ html, body {
 
 /* STYLINGS FOR IMPORT/EXPORT */
 
+.bois-buttons button, .goons-buttons button {
+    width: 270px;
+    margin-left: 10px;
+}
+
 .goons-buttons button i, .bois-buttons button i {
     margin-right: 10px;
 }
