@@ -168,6 +168,16 @@ html, body {
     margin-right: 5px;
 }
 
+.less-than {
+    color: red !important;
+    font-weight: bold !important;
+}
+
+.more-than {
+    color: green !important;
+    font-weight: bold !important;
+}
+
 /* STYLINGS FOR IMPORT/EXPORT */
 
 .bois-buttons button, .goons-buttons button {
@@ -207,6 +217,8 @@ html, body {
     display: flex;
     justify-content: center;
     padding: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
     padding-top: 10px;
     justify-content: space-around;
     position: relative;
@@ -607,7 +619,8 @@ h6.category-title {
 }
 
 .aim-modifiers-list {
-    height: 534px;
+    height: 609px;
+    font-size: 13px;
     overflow-y: auto;
 }
 

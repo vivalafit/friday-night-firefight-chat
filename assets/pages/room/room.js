@@ -81,8 +81,11 @@ const initSocketConnection = () => {
         goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
         goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
         //update fighter values
+        goonDiv.find('.fighter-stat-row .initial-ref').val(goonTemplate.fightStats.initialRef);
         goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
+        goonDiv.find('.fighter-stat-row .initial-body').val(goonTemplate.fightStats.initialBody);
         goonDiv.find('.fighter-stat-row .body').val(goonTemplate.fightStats.body);
+        goonDiv.find('.fighter-stat-row .initial-btm').val(goonTemplate.fightStats.initialBtm);
         goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
         goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
         goonDiv.find('.fighter-stat-row .def').val(goonTemplate.fightStats.def);
@@ -98,6 +101,7 @@ const initSocketConnection = () => {
         goonDiv.find('.wound-level-number').val(goonTemplate.woundLevel);
         updateWoundLsevel(goonDiv);
         updateGoonMods(goonDiv, goonMods);
+        colorDynamicFields(goonDiv);
         if(goonObj.name !== USER_NAME) {
           goonDiv.addClass('changed');
           setTimeout(() => goonDiv.removeClass('changed'), 500);
@@ -148,6 +152,45 @@ const initSocketConnection = () => {
   initHandlers(socket);
 }
 
+const colorDynamicFields = (goonDiv) => {
+  //ref inputs
+  const initRefInput = goonDiv.find('.fighter-stat-row .initial-ref');
+  const refInput = goonDiv.find('.fighter-stat-row .ref');
+  const refInit = parseInt(initRefInput.val());
+  const ref =  parseInt(refInput.val());
+  if (ref > refInit) {
+    refInput.addClass("more-than");
+  } else if (ref < refInit) {
+    refInput.addClass("less-than");
+  } else {
+    refInput.removeClass("more-than").removeClass("less-than");
+  }
+  //body
+  const initBodyInput = goonDiv.find('.fighter-stat-row .initial-body');
+  const bodyInput = goonDiv.find('.fighter-stat-row .body');
+  const bodyInit = parseInt(initBodyInput.val());
+  const body =  parseInt(bodyInput.val());
+  if (body > bodyInit) {
+    bodyInput.addClass("more-than");
+  } else if (body < bodyInit) {
+    bodyInput.addClass("less-than");
+  } else {
+    bodyInput.removeClass("more-than").removeClass("less-than");
+  }
+  //btm
+  const initBtmInput = goonDiv.find('.fighter-stat-row .initial-btm');
+  const btmInput = goonDiv.find('.fighter-stat-row .btm');
+  const btmInit = parseInt(initBtmInput.val());
+  const btm =  parseInt(btmInput.val());
+  if (btm > btmInit) {
+    btmInput.addClass("more-than");
+  } else if (btm < btmInit) {
+    btmInput.addClass("less-than");
+  } else {
+    btmInput.removeClass("more-than").removeClass("less-than");
+  }
+}
+
 const renderGoons = (goons) => {
   $(".goons-block").empty();
   for(let i = 0; i < goons.length; i++){
@@ -172,13 +215,17 @@ const renderGoons = (goons) => {
         goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
         goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
         //update fighter values
+        goonDiv.find('.fighter-stat-row .initial-ref').val(goonTemplate.fightStats.initialRef);
         goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
         goonDiv.find('.fighter-stat-row .def').val(goonTemplate.fightStats.def);
+        goonDiv.find('.fighter-stat-row .initial-body').val(goonTemplate.fightStats.initialBody);
         goonDiv.find('.fighter-stat-row .body').val(goonTemplate.fightStats.body);
+        goonDiv.find('.fighter-stat-row .initial-btm').val(goonTemplate.fightStats.initialBtm);
         goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
         goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
         goonDiv.find('.fighter-stat-row .mods').val(goonTemplate.fightStats.mods);
         //update mods selected ones
+        colorDynamicFields(goonDiv);
         //update additional details
         goonDiv.find('.goon-name').val(goonTemplate.additionalStats.name);
         //update wound level
@@ -214,13 +261,17 @@ const renderBois = (goons) => {
         goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
         goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
         //update fighter values
+        goonDiv.find('.fighter-stat-row .initial-ref').val(goonTemplate.fightStats.initialRef);
         goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
         goonDiv.find('.fighter-stat-row .def').val(goonTemplate.fightStats.def);
+        goonDiv.find('.fighter-stat-row .initial-body').val(goonTemplate.fightStats.initialBody);
         goonDiv.find('.fighter-stat-row .body').val(goonTemplate.fightStats.body);
+        goonDiv.find('.fighter-stat-row .initial-btm').val(goonTemplate.fightStats.initialBtm);
         goonDiv.find('.fighter-stat-row .btm').val(goonTemplate.fightStats.btm);
         goonDiv.find('.fighter-stat-row .wpn').val(goonTemplate.fightStats.wpn);
         goonDiv.find('.fighter-stat-row .mods').val(goonTemplate.fightStats.mods);
         //update mods selected ones
+        colorDynamicFields(goonDiv);
         //update additional details
         goonDiv.find('.goon-name').val(goonTemplate.additionalStats.name);
         //update wound level
@@ -1145,55 +1196,109 @@ function addGoon(index, type){
    </h6>
    <div class="fighter-stats">
       <div class="form-group fighter-stat-row">
-         <label for="ref">REF</label>
-         <div class="input-block">
-            <span class="input-group-btn">
-                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
-                  -
-                </button>
+         <label for="ref">REF (INITIAL/DYNAMIC)</label>
+         <div class="multiple-inputs">
+            <div class="input-block">
+                <span class="input-group-btn">
+                  <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                    -
+                  </button>
+                </span>
+                <input type="number" class="form-control initial-ref" aria-describedby="ref-hint" placeholder="REF" value="0">
+                <span class="input-group-btn">
+                  <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                    +
+                  </button>
+              </span>
+            </div>
+            <span class="seperator">
+                /
             </span>
-            <input type="number" class="form-control ref" aria-describedby="ref-hint" placeholder="REF" value="0">
-            <span class="input-group-btn">
-                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
-                  +
-                </button>
-            </span>
-         </div>
-         <small id="ref-hint" class="form-text text-muted">Better fast, than dead..</small>
+            <div class="input-block">
+                <span class="input-group-btn">
+                  <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                    -
+                  </button>
+                </span>
+                <input type="number" class="form-control ref" aria-describedby="ref-hint" placeholder="REF" value="0">
+                <span class="input-group-btn">
+                  <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                    +
+                  </button>
+              </span>
+            </div>
+          </div>
+         <small id="ref-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
       </div>
       <div class="form-group fighter-stat-row">
-        <label for="body">BODY</label>
+        <label for="body">BODY (INITIAL/DYNAMIC)</label>
+        <div class="multiple-inputs">
         <div class="input-block">
-            <span class="input-group-btn">
-                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
-                  -
-                </button>
-            </span>
-            <input type="number" class="form-control body" aria-describedby="body-hint" placeholder="BODY" value="0">
-            <span class="input-group-btn">
-                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
-                  +
-                </button>
-            </span>
+           <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+           </span>
+           <input type="number" class="form-control initial-body" aria-describedby="body-hint" placeholder="BODY" value="0">
+           <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
         </div>
-        <small id="body-hint" class="form-text text-muted">Healthy body, healthy mind...</small>
+        <span class="seperator">
+           /
+        </span>
+        <div class="input-block">
+           <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+           </span>
+           <input type="number" class="form-control body" aria-describedby="body-hint" placeholder="BODY" value="0">
+           <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+     </div>
+        <small id="body-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
       </div>
       <div class="form-group fighter-stat-row">
-         <label for="btm">BTM</label>
-         <div class="input-block">
-            <span class="input-group-btn">
-                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
-                  -
-                </button>
+         <label for="btm">BTM (INITIAL/DYNAMIC)</label>
+         <div class="multiple-inputs">
+            <div class="input-block">
+                <span class="input-group-btn">
+                  <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                    -
+                  </button>
+                </span>
+                <input type="number" class="form-control initial-btm" aria-describedby="btm-hint" placeholder="BTM" value="0">
+                <span class="input-group-btn">
+                  <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                    +
+                  </button>
+              </span>
+            </div>
+            <span class="seperator">
+                /
             </span>
-            <input type="number" class="form-control btm" aria-describedby="btm-hint" placeholder="BTM" value="0">
-            <span class="input-group-btn">
-                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
-                  +
-                </button>
-            </span>
-         </div>
-         <small id="btm-hint" class="form-text text-muted">Being spongy doesn't hurt at all.</small>
+            <div class="input-block">
+                <span class="input-group-btn">
+                  <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                    -
+                  </button>
+                </span>
+                <input type="number" class="form-control btm" aria-describedby="btm-hint" placeholder="BTM" value="0">
+                <span class="input-group-btn">
+                  <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                    +
+                  </button>
+              </span>
+            </div>
+          </div>
+         <small id="btm-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
       </div>
       <div class="form-group fighter-stat-row">
          <label for="wpn">Weapon Skill</label>
@@ -1312,8 +1417,11 @@ function formGoonObj(goonBlock) {
   const lLegHP = goonBlock.find('.l-leg-hp').val();
   const rLegHP = goonBlock.find('.r-leg-hp').val();
   //variables - battle stats
+  const initRefStat = goonBlock.find('.fighter-stat-row .initial-ref').val();
   const refStat = goonBlock.find('.fighter-stat-row .ref').val();
+  const initBodyStat = goonBlock.find('.fighter-stat-row .initial-body').val();
   const bodyStat = goonBlock.find('.fighter-stat-row .body').val();
+  const initBtmStat = goonBlock.find('.fighter-stat-row .initial-btm').val();
   const btmStat = goonBlock.find('.fighter-stat-row .btm').val();
   const wpnStat = goonBlock.find('.fighter-stat-row .wpn').val();
   const defStat = goonBlock.find('.fighter-stat-row .def').val();
@@ -1345,8 +1453,11 @@ function formGoonObj(goonBlock) {
         }
     },
     fightStats: {
+      initialRef: initRefStat ? parseInt(initRefStat) : 0,
       ref: refStat ? parseInt(refStat) : 0,
+      initialBody: initBodyStat ? parseInt(initBodyStat) : 0,
       body: bodyStat ? parseInt(bodyStat) : 0,
+      initialBtm: initBtmStat ? parseInt(initBtmStat) : 0,
       btm: btmStat ? parseInt(btmStat) : 0,
       wpn: wpnStat ? parseInt(wpnStat) : 0,
       def: defStat ? parseInt(defStat) : 0,

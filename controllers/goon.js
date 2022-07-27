@@ -34,8 +34,11 @@ exports.addGoon = async (goonObject) => {
                 }
             },
             fightStats: {
+                initialRef: 0,
                 ref: 0,
+                initialBody: 0,
                 body: 0,
+                initialBtm: 0,
                 btm: 0,
                 wpn: 0,
                 def: 0,

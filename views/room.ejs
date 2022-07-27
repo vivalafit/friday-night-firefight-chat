@@ -389,7 +389,7 @@
                                  </h6>
                                  <div class="fighter-stats">
                                     <div class="form-group fighter-stat-row">
-                                       <label for="ref">REF</label>
+                                       <label for="ref">REF (INITIAL/DYNAMIC)</label>
                                        <div class="multiple-inputs">
                                           <div class="input-block">
                                              <span class="input-group-btn">
@@ -397,7 +397,7 @@
                                                   -
                                                 </button>
                                              </span>
-                                             <input type="number" class="form-control ref" aria-describedby="ref-hint" placeholder="REF" value="<%=room.goons[i].fightStats.ref%>">
+                                             <input type="number" class="form-control initial-ref" aria-describedby="ref-hint" placeholder="REF" value="<%=room.goons[i].fightStats.initialRef%>">
                                              <span class="input-group-btn">
                                                 <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
                                                   +
@@ -413,7 +413,7 @@
                                                   -
                                                 </button>
                                              </span>
-                                             <input type="number" class="form-control ref" aria-describedby="ref-hint" placeholder="REF" value="<%=room.goons[i].fightStats.ref%>">
+                                             <input type="number" class="form-control ref <%= room.goons[i].fightStats.ref > room.goons[i].fightStats.initialRef ? 'more-than' : ''  %> <%= room.goons[i].fightStats.ref < room.goons[i].fightStats.initialRef ? 'less-than' : ''  %>" id="<%=mod%>"" aria-describedby="ref-hint" placeholder="REF" value="<%=room.goons[i].fightStats.ref%>">
                                              <span class="input-group-btn">
                                                 <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
                                                   +
@@ -421,41 +421,77 @@
                                             </span>
                                           </div>
                                        </div>
-                                       <small id="ref-hint" class="form-text text-muted">Better fast, than dead..</small>
+                                       <small id="ref-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
                                     </div>
                                     <div class="form-group fighter-stat-row">
-                                       <label for="body">BODY</label>
-                                       <div class="input-block">
-                                          <span class="input-group-btn">
-                                             <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
-                                               -
-                                             </button>
+                                       <label for="body">BODY (INITIAL/DYNAMIC)</label>
+                                       <div class="multiple-inputs">
+                                          <div class="input-block">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                                                  -
+                                                </button>
+                                             </span>
+                                             <input type="number" class="form-control initial-body" aria-describedby="body-hint" placeholder="BODY" value="<%=room.goons[i].fightStats.initialBody%>">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                                  +
+                                                </button>
+                                            </span>
+                                          </div>
+                                          <span class="seperator">
+                                             /
                                           </span>
-                                          <input type="number" class="form-control body" aria-describedby="body-hint" placeholder="BODY" value="<%=room.goons[i].fightStats.body%>">
-                                          <span class="input-group-btn">
-                                             <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
-                                               +
-                                             </button>
-                                         </span>
+                                          <div class="input-block">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                                                  -
+                                                </button>
+                                             </span>
+                                             <input type="number" class="form-control body <%= room.goons[i].fightStats.body > room.goons[i].fightStats.initialBody ? 'more-than' : ''  %> <%= room.goons[i].fightStats.body < room.goons[i].fightStats.initialBody ? 'less-than' : ''  %>" aria-describedby="body-hint" placeholder="BODY" value="<%=room.goons[i].fightStats.body%>">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                                  +
+                                                </button>
+                                            </span>
+                                          </div>
                                        </div>
-                                       <small id="body-hint" class="form-text text-muted">Healthy body, healthy mind...</small>
+                                       <small id="body-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
                                     </div>
                                     <div class="form-group fighter-stat-row">
-                                       <label for="btm">BTM</label>
-                                       <div class="input-block">
-                                          <span class="input-group-btn">
-                                             <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
-                                               -
-                                             </button>
+                                       <label for="btm">BTM (INITIAL/DYNAMIC)</label>
+                                       <div class="multiple-inputs">
+                                          <div class="input-block">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                                                  -
+                                                </button>
+                                             </span>
+                                             <input type="number" class="form-control initial-btm" aria-describedby="btm-hint" placeholder="BTM" value="<%=room.goons[i].fightStats.initialBtm%>">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                                  +
+                                                </button>
+                                            </span>
+                                          </div>
+                                          <span class="seperator">
+                                             /
                                           </span>
-                                          <input type="number" class="form-control btm" aria-describedby="btm-hint" placeholder="BTM" value="<%=room.goons[i].fightStats.btm%>">
-                                          <span class="input-group-btn">
-                                             <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
-                                               +
-                                             </button>
-                                         </span>
+                                          <div class="input-block">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                                                  -
+                                                </button>
+                                             </span>
+                                             <input type="number" class="form-control btm <%= room.goons[i].fightStats.btm > room.goons[i].fightStats.initialBtm ? 'more-than' : ''  %> <%= room.goons[i].fightStats.btm < room.goons[i].fightStats.initialBtm ? 'less-than' : ''  %>" aria-describedby="btm-hint" placeholder="BTM" value="<%=room.goons[i].fightStats.btm%>">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                                  +
+                                                </button>
+                                            </span>
+                                          </div>
                                        </div>
-                                       <small id="btm-hint" class="form-text text-muted">Being spongy doesn't hurt at all.</small>
+                                       <small id="btm-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
                                     </div>
                                     <div class="form-group fighter-stat-row">
                                        <label for="wpn">Weapon Skill</label>
@@ -859,55 +895,109 @@
                                  </h6>
                                  <div class="fighter-stats">
                                     <div class="form-group fighter-stat-row">
-                                       <label for="ref">REF</label>
-                                       <div class="input-block">
-                                          <span class="input-group-btn">
-                                             <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
-                                               -
-                                             </button>
+                                       <label for="ref">REF (INITIAL/DYNAMIC)</label>
+                                       <div class="multiple-inputs">
+                                          <div class="input-block">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                                                  -
+                                                </button>
+                                             </span>
+                                             <input type="number" class="form-control initial-ref" aria-describedby="ref-hint" placeholder="REF" value="<%=room.men[i].fightStats.initialRef%>">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                                  +
+                                                </button>
+                                            </span>
+                                          </div>
+                                          <span class="seperator">
+                                             /
                                           </span>
-                                          <input type="number" class="form-control ref" aria-describedby="ref-hint" placeholder="REF" value="<%=room.men[i].fightStats.ref%>">
-                                          <span class="input-group-btn">
-                                             <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
-                                               +
-                                             </button>
-                                         </span>
+                                          <div class="input-block">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                                                  -
+                                                </button>
+                                             </span>
+                                             <input type="number" class="form-control ref <%= room.men[i].fightStats.ref > room.men[i].fightStats.initialRef ? 'more-than' : ''  %> <%= room.men[i].fightStats.ref < room.men[i].fightStats.initialRef ? 'less-than' : ''  %>" aria-describedby="ref-hint" placeholder="REF" value="<%=room.men[i].fightStats.ref%>">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                                  +
+                                                </button>
+                                            </span>
+                                          </div>
                                        </div>
-                                       <small id="ref-hint" class="form-text text-muted">Better fast, than dead..</small>
+                                       <small id="ref-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
                                     </div>
                                     <div class="form-group fighter-stat-row">
-                                       <label for="body">BODY</label>
-                                       <div class="input-block">
-                                          <span class="input-group-btn">
-                                             <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
-                                               -
-                                             </button>
+                                       <label for="body">BODY (INITIAL/DYNAMIC)</label>
+                                       <div class="multiple-inputs">
+                                          <div class="input-block">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                                                  -
+                                                </button>
+                                             </span>
+                                             <input type="number" class="form-control initial-body" aria-describedby="body-hint" placeholder="BODY" value="<%=room.men[i].fightStats.initialBody%>">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                                  +
+                                                </button>
+                                            </span>
+                                          </div>
+                                          <span class="seperator">
+                                             /
                                           </span>
-                                          <input type="number" class="form-control body" aria-describedby="body-hint" placeholder="BODY" value="<%=room.men[i].fightStats.body%>">
-                                          <span class="input-group-btn">
-                                             <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
-                                               +
-                                             </button>
-                                         </span>
+                                          <div class="input-block">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                                                  -
+                                                </button>
+                                             </span>
+                                             <input type="number" class="form-control body <%= room.men[i].fightStats.body > room.men[i].fightStats.initialBody ? 'more-than' : ''  %> <%= room.men[i].fightStats.body < room.men[i].fightStats.initialBody ? 'less-than' : ''  %>" aria-describedby="body-hint" placeholder="BODY" value="<%=room.men[i].fightStats.body%>">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                                  +
+                                                </button>
+                                            </span>
+                                          </div>
                                        </div>
-                                       <small id="body-hint" class="form-text text-muted">Healthy body, healthy mind...</small>
+                                       <small id="body-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
                                     </div>
                                     <div class="form-group fighter-stat-row">
-                                       <label for="btm">BTM</label>
-                                       <div class="input-block">
-                                          <span class="input-group-btn">
-                                             <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
-                                               -
-                                             </button>
+                                       <label for="btm">BTM (INITIAL/DYNAMIC)</label>
+                                       <div class="multiple-inputs">
+                                          <div class="input-block">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                                                  -
+                                                </button>
+                                             </span>
+                                             <input type="number" class="form-control initial-btm" aria-describedby="btm-hint" placeholder="BTM" value="<%=room.men[i].fightStats.initialBtm%>">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                                  +
+                                                </button>
+                                            </span>
+                                          </div>
+                                          <span class="seperator">
+                                             /
                                           </span>
-                                          <input type="number" class="form-control btm" aria-describedby="btm-hint" placeholder="BTM" value="<%=room.men[i].fightStats.btm%>">
-                                          <span class="input-group-btn">
-                                             <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
-                                               +
-                                             </button>
-                                         </span>
+                                          <div class="input-block">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                                                  -
+                                                </button>
+                                             </span>
+                                             <input type="number" class="form-control btm <%= room.men[i].fightStats.btm > room.men[i].fightStats.initialBtm ? 'more-than' : ''  %> <%= room.men[i].fightStats.btm < room.men[i].fightStats.initialBtm ? 'less-than' : ''  %>" aria-describedby="btm-hint" placeholder="BTM" value="<%=room.men[i].fightStats.btm%>">
+                                             <span class="input-group-btn">
+                                                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                                  +
+                                                </button>
+                                            </span>
+                                          </div>
                                        </div>
-                                       <small id="btm-hint" class="form-text text-muted">Being spongy doesn't hurt at all.</small>
+                                       <small id="btm-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
                                     </div>
                                     <div class="form-group fighter-stat-row">
                                        <label for="wpn">Weapon Skill</label>
