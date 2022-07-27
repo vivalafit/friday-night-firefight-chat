@@ -406,20 +406,45 @@ const initHandlers = (socket) => {
   });
 
   $(document.body).on("keyup change focusout", '.armor-block input', debounce(function() {
-    const goonBlock = $(this).parent().parent().parent();
+    const goonBlock = $(this).closest(".goon, .boi");
     const goonTemplateObj = formGoonObj(goonBlock);
     socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
   }, DEFAULT_TIMER));
   $(document.body).on("keyup change focusout", '.fighter-stat-row input', debounce(function() {
-    const goonBlock = $(this).parent().parent().parent().parent();
+    const goonBlock = $(this).closest(".goon, .boi");
     const goonTemplateObj = formGoonObj(goonBlock);
     socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
   }, DEFAULT_TIMER));
   $(document.body).on("keyup change focusout", '.personal-stats input', debounce(function() {
-    const goonBlock = $(this).parent().parent().parent().parent().parent();
+    const goonBlock = $(this).closest(".goon, .boi");
     const goonTemplateObj = formGoonObj(goonBlock);
     socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
   }, DEFAULT_TIMER));
+
+  //DECREMENT-INCREMENT MODS
+  $(document.body).on("click", ".decrement", function() {
+    const input = $(this).closest(".input-block").find("input");
+    let inputVal = parseInt($(input).val());
+    if (isNaN(inputVal)){
+      inputVal = 0;
+    }
+    if (inputVal > 0) {
+      inputVal--;
+    } else if (inputVal === 0 && $(input).hasClass("hp")) {
+      inputVal = "-"; 
+    }
+    $(input).val(inputVal).trigger("change");
+  });
+
+  $(document.body).on("click", ".increment", function() {
+    const input = $(this).closest(".input-block").find("input");
+    let inputVal = parseInt($(input).val());
+    if (isNaN(inputVal)){
+      inputVal = 0;
+    }
+    inputVal++;
+    $(input).val(inputVal).trigger("change");
+  });
 
   //AIM MODIFIERS HANDLERS
   $(document.body).on("click", ".modifier", function() {
@@ -610,7 +635,7 @@ const downloadFailed = () => {
 const importSucceded = (packText) => {
   $.toast({
     text: `Successfully Imported ${packText} :)`, // Text that is to be shown in the toast
-    heading: '${packText} Imported', // Optional heading to be shown on the toast
+    heading: `${packText} Imported`, // Optional heading to be shown on the toast
     icon: 'success', // Type of toast icon
     showHideTransition: 'slide', // fade, slide or plain
     allowToastClose: true, // Boolean value true or false
@@ -788,18 +813,162 @@ function addGoon(index, type){
       <div class="armor-block">
         <img class="shooter-selector" src="goon-icons/action-icons/gun.svg"/>
         <img class="target-selector" src="goon-icons/action-icons/target.svg"/>
-        <input type="text" class="head" placeholder="Head Armor Value"  value="0">
-        <input type="text" class="torso" placeholder="Torso Armor Value"  value="0">
-        <input type="text" class="r-arm" placeholder="R-arm Armor Value"  value="0">
-        <input type="text" class="l-arm" placeholder="L-arm Armor Value"  value="0">
-        <input type="text" class="r-leg" placeholder="R-leg Armor Value"  value="0">
-        <input type="text" class="l-leg" placeholder="L-leg Armor Value"  value="0">
-        <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="-">
-        <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="-">
-        <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="-">
-        <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="-">
-        <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="-">
-        <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="-">
+        <div class="input-block armor head-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="number" class="head" placeholder="Head Armor Value"  value="0">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+        <div class="input-block armor torso-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="number" class="torso" placeholder="Torso Armor Value"  value="0">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+        <div class="input-block armor r-arm-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="number" class="r-arm" placeholder="R-arm Armor Value"  value="0">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+        <div class="input-block armor l-arm-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="number" class="l-arm" placeholder="L-arm Armor Value"  value="0">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+        <div class="input-block armor r-leg-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="number" class="r-leg" placeholder="R-leg Armor Value"  value="0">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+        <div class="input-block armor l-leg-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="number" class="l-leg" placeholder="L-leg Armor Value"  value="0">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+        <div class="input-block armor head-hp-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="text" class="head-hp hp" placeholder="Head hp Value"  value="-">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+        <div class="input-block armor torso-hp-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="text" class="torso-hp hp" placeholder="Torso hp Value"  value="-">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+        <div class="input-block armor r-arm-hp-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value"  value="-">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+        <div class="input-block armor l-arm-hp-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value"  value="-">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+        <div class="input-block armor r-leg-hp-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value"  value="-">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
+        <div class="input-block armor l-leg-hp-block">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                -
+              </button>
+            </span>
+            <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value"  value="-">
+            <span class="input-group-btn">
+              <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                +
+              </button>
+          </span>
+        </div>
         <img src="goon-icons/${goonIcon}.png">
         <div class="buttons-block">
           <button type="button" class="btn btn-danger remove-goon">Kill</button>
@@ -979,27 +1148,87 @@ function addGoon(index, type){
    <div class="fighter-stats">
       <div class="form-group fighter-stat-row">
          <label for="ref">REF</label>
-         <input type="number" class="form-control ref" aria-describedby="ref-hint" placeholder="REF" value="0">
+         <div class="input-block">
+            <span class="input-group-btn">
+                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                  -
+                </button>
+            </span>
+            <input type="number" class="form-control ref" aria-describedby="ref-hint" placeholder="REF" value="0">
+            <span class="input-group-btn">
+                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                  +
+                </button>
+            </span>
+         </div>
          <small id="ref-hint" class="form-text text-muted">Better fast, than dead..</small>
       </div>
       <div class="form-group fighter-stat-row">
         <label for="body">BODY</label>
-        <input type="number" class="form-control body" aria-describedby="body-hint" placeholder="BODY" value="0">
+        <div class="input-block">
+            <span class="input-group-btn">
+                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                  -
+                </button>
+            </span>
+            <input type="number" class="form-control body" aria-describedby="body-hint" placeholder="BODY" value="0">
+            <span class="input-group-btn">
+                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                  +
+                </button>
+            </span>
+        </div>
         <small id="body-hint" class="form-text text-muted">Healthy body, healthy mind...</small>
       </div>
       <div class="form-group fighter-stat-row">
          <label for="btm">BTM</label>
-         <input type="number" class="form-control btm" aria-describedby="btm-hint" placeholder="BTM" value="0">
+         <div class="input-block">
+            <span class="input-group-btn">
+                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                  -
+                </button>
+            </span>
+            <input type="number" class="form-control btm" aria-describedby="btm-hint" placeholder="BTM" value="0">
+            <span class="input-group-btn">
+                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                  +
+                </button>
+            </span>
+         </div>
          <small id="btm-hint" class="form-text text-muted">Being spongy doesn't hurt at all.</small>
       </div>
       <div class="form-group fighter-stat-row">
          <label for="wpn">Weapon Skill</label>
-         <input type="number" class="form-control wpn" aria-describedby="wpn-hint" placeholder="Weapon Skill" value="0">
+         <div class="input-block">
+            <span class="input-group-btn">
+                <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                  -
+                </button>
+            </span>
+            <input type="number" class="form-control wpn" aria-describedby="wpn-hint" placeholder="Weapon Skill" value="0">
+            <span class="input-group-btn">
+                <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                  +
+                </button>
+            </span>
+         </div>
          <small id="wpn-hint" class="form-text text-muted">One good shot can solve any problem.</small>
       </div>
       <div class="form-group fighter-stat-row">
             <label for="def">Defensive Skill</label>
-            <input type="number" class="form-control def" aria-describedby="def-hint" placeholder="Defensive Skill" value="0">
+            <div class="input-block">
+                <span class="input-group-btn">
+                  <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
+                    -
+                  </button>
+                </span>
+                <input type="number" class="form-control def" aria-describedby="def-hint" placeholder="Defensive Skill" value="0">
+                <span class="input-group-btn">
+                  <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                    +
+                  </button>
+                </span>
+            </div>
             <small id="def-hint" class="form-text text-muted">(Athletics/Parry/Blocking/Brawling, etc.)</small>
         </div>
       <div class="form-group fighter-stat-row">
