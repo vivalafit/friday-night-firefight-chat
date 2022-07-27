@@ -88,6 +88,66 @@ html, body {
     align-items: center;
 }
 
+/* INCREMENT-DECREMENT STYLES */
+.input-block {
+        display: flex;
+}
+
+.input-block input, .input-block button {
+    border-radius: 0;
+}
+
+.decrement, .increment {
+    background-color: #343a40 !important;
+    border-color: unset !important;
+}
+
+.increment.focus, .increment:focus, .decrement.focus, .decrement:focus {
+    border-color: unset !important;
+    box-shadow: unset !important;
+}
+
+.form-control:focus {
+    box-shadow: unset !important;
+    border-color: unset !important;
+}
+
+.input-block.armor {
+    position: absolute;
+}
+
+.armor button {
+    padding: 0 5px;
+    height: 29px;
+    font-size: 13px;
+    line-height: 0;
+}
+
+.input-block.armor .input-group-btn button {
+    position: absolute;
+    border: 0px solid black;
+}
+
+.input-block.armor .input-group-btn .decrement {
+    left: -12px;
+    top: 0px;
+}
+
+.input-block.armor .input-group-btn .increment {
+    right: -12px;
+    top: 0px;
+}
+/* .armor button.decrement {
+    position: absolute;
+    left: 0;
+}
+
+.armor button.increment {
+    position: absolute;
+    right: 0;
+} */
+
+
 /* STYLINGS FOR IMPORT/EXPORT */
 
 .bois-buttons button, .goons-buttons button {
@@ -237,77 +297,72 @@ li.message-centered {
 }
 
 .armor-block input {
-    position: absolute;
     width: 40px;
+    border: 1.5px solid #343a40;
 }
 
-.armor-block input.head {
-    top: 16%;
-    left: 42%;
+.armor.head-block {
+    top: 15%;
+    left: 40%;
 }
 
-.armor-block input.torso {
-    top: 36%;
-    left: 45%;
+.armor.torso-block {
+    top: 41%;
+    left: 40%;
 }
 
-.armor-block input.r-arm {
-    top: 45%;
-    left: 25%;
+.armor.r-arm-block {
+    top: 48%;
+    left: 5%;
 }
 
-.armor-block input.l-arm {
-    top: 45%;
-    left: 67%;
+.armor.l-arm-block {
+    top: 48%;
+    left: 75%;
 }
 
-.armor-block input.l-leg {
-    top: 70%;
-    left: 56%;
+.armor.l-leg-block {
+    top: 74%;
+    left: 64%;
 }
 
-.armor-block input.r-leg {
-    top: 70%;
-    left: 37%;
+.armor.r-leg-block {
+    top: 74%;
+    left: 17%;
 }
 
 /* HP */
 /**/
 /**/
 
-.armor-block input.head-hp {
-    top: 25%;
-    left: 42%;
+.armor.head-hp-block {
+    top: 24.1%;
+    left: 40%;
 }
 
-.armor-block input.torso-hp {
-    top: 45%;
-    left: 45%;
+.armor.torso-hp-block {
+    top: 50.1%;
+    left: 40%;
 }
 
-.armor-block input.r-arm-hp {
-    top: 54%;
-    left: 25%;
+.armor.r-arm-hp-block {
+    top: 57%;
+    left: 5%;
 }
 
-.armor-block input.l-arm-hp {
-    top: 47%;
-    left: 33%;
+.armor.l-arm-hp-block {
+    top: 57%;
+    left: 75%;
 }
 
-.armor-block input.l-arm-hp {
-    top: 54%;
-    left: 67%;
+.armor.l-leg-hp-block {
+    top: 83.1%;
+    left: 64%;
 }
 
-.armor-block input.l-leg-hp {
-    top: 79%;
-    left: 56%;
-}
-
-.armor-block input.r-leg-hp {
-    top: 79%;
-    left: 37%;
+.armor.r-leg-hp-block {
+    top: 83.1%;
+    left: 17%;
 }
 
 .personal-stats {
