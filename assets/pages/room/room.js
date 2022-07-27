@@ -972,8 +972,6 @@ function addGoon(index, type){
         <img src="goon-icons/${goonIcon}.png">
         <div class="buttons-block">
           <button type="button" class="btn btn-danger remove-goon">Kill</button>
-          <button type="button" class="btn btn-warning go-afk">AFK</button>
-          <button type="button" class="btn btn-info reset-goon">Reset stats</button>
         </div>
        
       </div>

@@ -38,3 +38,9 @@ Featuring melee mode
 
 # 1.6.1 released
 Added possibility to import/export bois saves
+
+# 1.7.0 released
+Added possibility decrement/increment values
+
+# 1.7.1 released
+Restyled components + temporary fields for better control
