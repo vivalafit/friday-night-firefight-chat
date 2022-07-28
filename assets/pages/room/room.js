@@ -37,6 +37,18 @@ const initSocketConnection = () => {
       $('.messages').append(`<li class="message"><span><span style="color:${userObj.user.color}" class="name">${userObj.user.name} rolled: </span><span class="msg">${userObj.roll.join(', ')} (${userObj.result})</span></li>`);
     }
   });
+  socket.on('initiative-calculated', userObj => {
+    if(userObj.specMsg) {
+      $('.messages').append(`<li class="message"><span><span style="color:${userObj.user.color}" class="name">${userObj.specMsg}<span></li>`);
+    } else if(userObj.error){
+      $('.messages').append(`<li class="message"><span><span style="color:${userObj.user.color}" class="name">Initiative Count Failed<span></li>`);
+    } else {
+      $('.messages').append(`<li class="message"><span><span style="color:${userObj.user.color}" class="name">Initiative counted! Result is </span><span class="msg">${userObj.result}</span></li>`);
+      for(let i = 0; i < userObj.detailedResult.length; i++) {
+        $('.messages').append(`<li class="message"><span class="msg">${userObj.detailedResult[i]}</span></li>`);
+      }
+    }
+  });
   socket.on('user-disconnected', userObj => {
     if(userObj.name) {
       $('.messages').append(`<li class="message-centered"><span style="color: ${userObj.color}">${userObj.name} disconnected!</span></li>`);
@@ -159,8 +171,10 @@ const colorDynamicFields = (goonDiv) => {
   const refInit = parseInt(initRefInput.val());
   const ref =  parseInt(refInput.val());
   if (ref > refInit) {
+    refInput.removeClass("less-than");
     refInput.addClass("more-than");
   } else if (ref < refInit) {
+    refInput.removeClass("more-than");
     refInput.addClass("less-than");
   } else {
     refInput.removeClass("more-than").removeClass("less-than");
@@ -318,8 +332,13 @@ const initHandlers = (socket) => {
       socket.emit('message', { user : {name: USER_NAME, color: USER_COLOR}, msg: chatInput.val()});
       chatInputWords = chatInput.val().split(" ");
       chatInput.val("");
+      //handle roll commmand
       if(chatInputWords[0] === "roll"){
         socket.emit('roll', { user : {name: USER_NAME, color: USER_COLOR}, roll: chatInputWords[1]});
+      }
+      //handle initiative command
+      if(chatInputWords[0] === "initiative") {
+        socket.emit('initiative', { user : {name: USER_NAME, color: USER_COLOR}});
       }
     }
   });
@@ -1033,7 +1052,7 @@ function addGoon(index, type){
         <div class="personal-stats">
           <div class="form-group fighter-stat-row">
               <label for="goon-name">NAME</label>
-              <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="" data-initial-value="">
+              <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="${type} ${index}" data-initial-value="${type} ${index}">
               <small id="name-hint" class="form-text text-muted">You were 0 and still...</small>
           </div>
           <h6 class="category-title personal-title aim-mods-title">
