@@ -44,3 +44,9 @@ Added possibility decrement/increment values
 
 # 1.7.1 released
 Restyled components + temporary fields for better control
+
+# 1.8.0 released
+Added initiative count
+
+# 1.8.1 released
+Added automatic chat commands + initiative count stylings
