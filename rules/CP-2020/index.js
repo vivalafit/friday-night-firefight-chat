@@ -3,12 +3,14 @@ const { validateBattleData, getBattleData, getTargetSummary, resetTargetStatus, 
 const { calculateSingleShot } = require('./fire-mods/single');
 const { calculateBurstShotDmg } = require('./fire-mods/burst');
 const { calculateAutoShotDmg } = require('./fire-mods/auto');
+const { calculateAuthoShotgunDmg } = require('./fire-mods/auto-shotgun');
 const { calculateFistHit, calculateCyberFistHit, calculateMeleeHit, calculateKatanaHit } = require ('./fire-mods/melee');
 
 const FIRE_MODS_FUNCTIONS = {
     "single": calculateSingleShot,
     "three-round": calculateBurstShotDmg,
-    "full-auto": calculateAutoShotDmg
+    "full-auto": calculateAutoShotDmg,
+    "auto-shotgun": calculateAuthoShotgunDmg
 }
 
 const MELEE_MODS_FUNCTIONS = {
