@@ -50,3 +50,6 @@ Added initiative count
 
 # 1.8.1 released
 Added automatic chat commands + initiative count stylings
+
+# 1.9.0 released
+Added autoshotgun mod
