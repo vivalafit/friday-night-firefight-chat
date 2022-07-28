@@ -43,9 +43,10 @@ const initSocketConnection = () => {
     } else if(userObj.error){
       $('.messages').append(`<li class="message"><span><span style="color:${userObj.user.color}" class="name">Initiative Count Failed<span></li>`);
     } else {
-      $('.messages').append(`<li class="message"><span><span style="color:${userObj.user.color}" class="name">Initiative counted! Result is </span><span class="msg">${userObj.result}</span></li>`);
+      $('.messages').append(`<li class="message"><span style="color:${userObj.user.color}" class="name">Initiative queue is ready!</span></li>`);
+      $('.messages').append(`<li class="message"><span class="msg">${userObj.result}</span></li>`);
       for(let i = 0; i < userObj.detailedResult.length; i++) {
-        $('.messages').append(`<li class="message"><span class="msg">${userObj.detailedResult[i]}</span></li>`);
+        $('.messages').append(`<li class="message ${ i === 0 ? "initiative-separator" : ""}"><span class="msg">${userObj.detailedResult[i]}</span></li>`);
       }
     }
   });
@@ -329,6 +330,7 @@ const initHandlers = (socket) => {
 
   $('html').on('keydown', function (e) {
     if (e.which == 13 && chatInput.val()) {
+      //here
       socket.emit('message', { user : {name: USER_NAME, color: USER_COLOR}, msg: chatInput.val()});
       chatInputWords = chatInput.val().split(" ");
       chatInput.val("");
@@ -602,9 +604,20 @@ const initHandlers = (socket) => {
   //SWITCH FIGHT MODES
   $(document.body).on("click", ".battle-mode-switcher", function () {
     $(".battle-mode-switcher, .ranged, .melee").toggleClass("inactive");
-    // const changeToMelee = $(".melee").hasClass("inactive");
-    // handleModChange(changeToMelee)
   });
+  //chat commands
+  $(document.body).on("click", ".roll", function () {
+    var e = $.Event( "keydown", { which: 13 } );
+    const command = "roll 1d10";
+    chatInput.val(command);
+    $("html").trigger(e);
+  });
+  $(document.body).on("click", ".initiative", function() {
+    var e = $.Event( "keydown", { which: 13 } );
+    const command = "initiative";
+    chatInput.val(command);
+    $("html").trigger(e);
+  })
 }
 
 //change inputs for different mods
