@@ -46,7 +46,7 @@ exports.addGoon = async (goonObject) => {
                 selectedMods: []
             },
             additionalStats: {
-                name: ''
+                name: `${goonObject.type} ${goonObject.goonId}`
             }
         };
         roomCache[type].push(goonTemplate);    

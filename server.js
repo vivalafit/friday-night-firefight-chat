@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const rollerController = require('./controllers/roller'); 
+const initiativeController = require('./controllers/initiative'); 
 const goonController = require('./controllers/goon'); 
 const fireFightController = require('./controllers/firefight');
 
@@ -41,6 +42,10 @@ io.on('connection', socket => {
     // roll from chat
     socket.on('roll', (userObj) => {
       rollerController.calculateRoll({...userObj, io: io, roomId: roomId});
+    });
+    //initiative roll
+    socket.on('initiative', (userObj) => {
+      initiativeController.calculateInitiative({...userObj, io: io, roomId: roomId});
     });
     // goon operations
     socket.on('add-goon', (goonObj) => {
