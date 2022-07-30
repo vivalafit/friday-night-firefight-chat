@@ -346,7 +346,7 @@ li.message-centered {
 }
 
 .armor.torso-block {
-    top: 41%;
+    top: 48%;
     left: 40%;
 }
 
@@ -361,13 +361,59 @@ li.message-centered {
 }
 
 .armor.l-leg-block {
-    top: 74%;
+    top: 78%;
     left: 64%;
 }
 
 .armor.r-leg-block {
-    top: 74%;
+    top: 78%;
     left: 17%;
+}
+
+/*ARMOR TYPE TOGGLER*/
+.toggle.btn {
+    height: 22px !important;
+    min-height: 20px !important;
+    width: 64px !important;
+    word-break: break-all;
+    border-radius: 0;
+    position: absolute;
+    border: 1.5px solid #343a40;
+    border-top: 0;
+}
+.toggle-group label {
+    padding: 0 !important;
+    font-size: 14px;
+}
+
+.head-hp-block + .toggle {
+    top: 101px;
+    left: 67px;
+}
+
+.torso-hp-block + .toggle {
+    top: 200px;
+    left: 34%;
+}
+
+.r-arm-hp-block + .toggle {
+    top: 200px;
+    left: -1.2%;
+}
+
+.l-arm-hp-block + .toggle {
+    top: 200px;
+    right: -2.5px;
+}
+
+.r-leg-hp-block + .toggle {
+    top: 290px;
+    left: 11%;
+}
+
+.l-leg-hp-block + .toggle {
+    top: 290px;
+    left: 58%;
 }
 
 /* HP */
@@ -380,7 +426,7 @@ li.message-centered {
 }
 
 .armor.torso-hp-block {
-    top: 50.1%;
+    top: 57%;
     left: 40%;
 }
 
@@ -395,12 +441,12 @@ li.message-centered {
 }
 
 .armor.l-leg-hp-block {
-    top: 83.1%;
+    top: 87.1%;
     left: 64%;
 }
 
 .armor.r-leg-hp-block {
-    top: 83.1%;
+    top: 87.1%;
     left: 17%;
 }
 
