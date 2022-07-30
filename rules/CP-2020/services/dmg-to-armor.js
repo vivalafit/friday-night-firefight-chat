@@ -16,9 +16,13 @@ exports.calculateArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocation
           logStr = `${logStr}<div class="shot-landed armor-penetration">Shot with damage <span class="shot-value">${bulletDmg}</span> penetrated the target's armor on <span class="shot-part-info">${hitLocation}</span>.</div>`
 
           //if AP rounds halve damage
-          if (apMode && apMode !== "shotgun-ap-hard") { 
+          const islocationArmorHard = targetObj.bodyStats.isSoft[hitLocation] === false;
+          const applyShotgunApHardArmorRule = apMode === "shotgun-ap" && islocationArmorHard;
+          if (apMode && !applyShotgunApHardArmorRule) { 
             logStr = `${logStr}<div class="shot-landed">This is AP round so it's damage to body is halved! <span class="shot-value">(${bulletDmg} -> ${Math.floor(bulletDmg / 2)})</span>.</div>`;
             bulletDmg = Math.floor(bulletDmg / 2);
+          } else {
+            logStr = `${logStr}<div class="shot-landed">This is Shotgun Slug AP round so it's damage to body is not halved! <span class="shot-value">(${bulletDmg} -> ${bulletDmg})</span>.</div>`;
           }
           //reduced damage - applied btm value to it
           let BTMedDamage = bulletDmg - targetObj.fightStats.btm <= 0 ? 1 : bulletDmg - targetObj.fightStats.btm;
@@ -58,7 +62,8 @@ exports.calculateMeleeArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLoc
     const apMode = battleData.meleeMod === "melee-katana";
     let cumulatedArmorValue = targetLocationArmor;
     if (apMode) {
-        if (battleData.defenderArmor === "Hard") {
+        const islocationArmorHard = targetObj.bodyStats.isSoft[hitLocation] === false;
+        if (islocationArmorHard) {
             cumulatedArmorValue = Math.floor(cumulatedArmorValue * 0.66);
             logStr = `${logStr}<div class="shot-landed armor-penetration">Target Has Hard Armor! Value is 0.66x SP<span class="shot-value">(${targetLocationArmor} -> ${cumulatedArmorValue})</span>.</div>`
         } else {
