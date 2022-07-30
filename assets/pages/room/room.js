@@ -1,5 +1,5 @@
 // half a sec
-const DEFAULT_TIMER = 1000;
+const DEFAULT_TIMER = 200;
 const GOON_BLOCK_HEIGHT = 930;
 const ADMIN_NAMES = ["MOD", "ADMIN"];
 let USER_COLOR, USER_NAME;
@@ -93,6 +93,20 @@ const initSocketConnection = () => {
         goonDiv.find('.r-arm-hp').val(goonTemplate.bodyStats.limbs.rArm);
         goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
         goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
+        //update isSoft values
+        //$('input[type="checkbox"][name="something"]').prop("checked", false).change();
+        goonDiv.find('input[data-place="head"]').prop("checked", goonTemplate.bodyStats.isSoft.head);
+        toggleArmorType(goonDiv.find('input[data-place="head"]').parent(), goonTemplate.bodyStats.isSoft.head);
+        goonDiv.find('input[data-place="torso"]').prop("checked", goonTemplate.bodyStats.isSoft.torso);
+        toggleArmorType(goonDiv.find('input[data-place="torso"]').parent(), goonTemplate.bodyStats.isSoft.torso);
+        goonDiv.find('input[data-place="r-arm"]').prop("checked", goonTemplate.bodyStats.isSoft.rArm);
+        toggleArmorType(goonDiv.find('input[data-place="r-arm"]').parent(), goonTemplate.bodyStats.isSoft.rArm);
+        goonDiv.find('input[data-place="l-arm"]').prop("checked", goonTemplate.bodyStats.isSoft.lArm);
+        toggleArmorType(goonDiv.find('input[data-place="l-arm"]').parent(), goonTemplate.bodyStats.isSoft.lArm);
+        goonDiv.find('input[data-place="r-leg"]').prop("checked", goonTemplate.bodyStats.isSoft.rLeg);
+        toggleArmorType(goonDiv.find('input[data-place="r-leg"]').parent(), goonTemplate.bodyStats.isSoft.rLeg);
+        goonDiv.find('input[data-place="l-leg"]').prop("checked", goonTemplate.bodyStats.isSoft.lLeg);
+        toggleArmorType(goonDiv.find('input[data-place="l-leg"]').parent(), goonTemplate.bodyStats.isSoft.lLeg);
         //update fighter values
         goonDiv.find('.fighter-stat-row .initial-ref').val(goonTemplate.fightStats.initialRef);
         goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
@@ -203,6 +217,14 @@ const colorDynamicFields = (goonDiv) => {
     btmInput.addClass("less-than");
   } else {
     btmInput.removeClass("more-than").removeClass("less-than");
+  }
+}
+
+const toggleArmorType = (toggleBlock, value) => {
+  if (value === true) {
+    toggleBlock.removeClass("off").removeClass("btn-danger").addClass("btn-primary");
+  } else {
+    toggleBlock.addClass("off").removeClass("btn-primary").addClass("btn-danger");;
   }
 }
 
@@ -477,7 +499,7 @@ const initHandlers = (socket) => {
     resetTargets()
   });
 
-  $(document.body).on("keyup change focusout", '.armor-block input', debounce(function() {
+  $(document.body).on("keyup change focusout", '.armor-block .input-block input', debounce(function() {
     const goonBlock = $(this).closest(".goon, .boi");
     const goonTemplateObj = formGoonObj(goonBlock);
     socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
@@ -618,6 +640,13 @@ const initHandlers = (socket) => {
     chatInput.val(command);
     $("html").trigger(e);
   })
+
+  //ARMOR SWITCHER
+  $(document.body).on("change", '.toggle input', function(e) {
+    const goonBlock = $(this).closest(".goon, .boi");
+    const goonTemplateObj = formGoonObj(goonBlock);
+    socket.emit('update-goon', {type: goonTemplateObj.type, goonTemplate: goonTemplateObj.goonTemplate, name: USER_NAME });
+  });
 }
 
 //change inputs for different mods
@@ -987,6 +1016,7 @@ function addGoon(index, type){
               </button>
           </span>
         </div>
+        <input type="checkbox" checked data-place="head" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
         <div class="input-block armor torso-hp-block">
             <span class="input-group-btn">
               <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
@@ -1000,6 +1030,7 @@ function addGoon(index, type){
               </button>
           </span>
         </div>
+        <input type="checkbox" checked data-place="torso" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
         <div class="input-block armor r-arm-hp-block">
             <span class="input-group-btn">
               <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
@@ -1013,6 +1044,7 @@ function addGoon(index, type){
               </button>
           </span>
         </div>
+        <input type="checkbox" checked data-place="r-arm" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
         <div class="input-block armor l-arm-hp-block">
             <span class="input-group-btn">
               <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
@@ -1026,6 +1058,7 @@ function addGoon(index, type){
               </button>
           </span>
         </div>
+        <input type="checkbox" checked data-place="l-arm" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
         <div class="input-block armor r-leg-hp-block">
             <span class="input-group-btn">
               <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
@@ -1039,6 +1072,7 @@ function addGoon(index, type){
               </button>
           </span>
         </div>
+        <input type="checkbox" checked data-place="r-leg" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
         <div class="input-block armor l-leg-hp-block">
             <span class="input-group-btn">
               <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement"  data-type="minus" data-field="">
@@ -1052,6 +1086,7 @@ function addGoon(index, type){
               </button>
           </span>
         </div>
+        <input type="checkbox" checked data-place="l-leg" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
         <img src="goon-icons/${goonIcon}.png">
         <div class="buttons-block">
           <button type="button" class="btn btn-danger remove-goon">Kill</button>
@@ -1374,6 +1409,9 @@ function addGoon(index, type){
       </div>
     </div>
   </div>`);
+  console.log("Selector: " + `boi.${index}`)
+  console.log($(`.${blockCategory}.${index}`))
+  $(`.${blockCategory}.${index} input[type="checkbox"]`).bootstrapToggle();
   if(type === "goon") {
     if($(".goons-block").height() === GOON_BLOCK_HEIGHT){
       $(".goons-block").addClass("bottom-bordered");
@@ -1448,6 +1486,13 @@ function formGoonObj(goonBlock) {
   const rArmHP= goonBlock.find('.r-arm-hp').val();
   const lLegHP = goonBlock.find('.l-leg-hp').val();
   const rLegHP = goonBlock.find('.r-leg-hp').val();
+  //const isSofr toggles
+  const headSoft = goonBlock.find('.head-hp-block').next().find('input').prop('checked');
+  const torsoSoft = goonBlock.find('.torso-hp-block').next().find('input').prop('checked');
+  const lArmSoft = goonBlock.find('.l-arm-hp-block').next().find('input').prop('checked');
+  const rArmSoft = goonBlock.find('.r-arm-hp-block').next().find('input').prop('checked');
+  const lLegSoft = goonBlock.find('.l-leg-hp-block').next().find('input').prop('checked');
+  const rLegSoft = goonBlock.find('.r-leg-hp-block').next().find('input').prop('checked');
   //variables - battle stats
   const initRefStat = goonBlock.find('.fighter-stat-row .initial-ref').val();
   const refStat = goonBlock.find('.fighter-stat-row .ref').val();
@@ -1475,6 +1520,14 @@ function formGoonObj(goonBlock) {
             lLeg: lLegArmor ? parseInt(lLegArmor) : 0,
             rLeg: rLegArmor ? parseInt(rLegArmor) : 0
         }, 
+        isSoft: {
+            head: headSoft,
+            torso: torsoSoft,
+            lArm: lArmSoft,
+            rArm: rArmSoft,
+            lLeg: lLegSoft,
+            rLeg: rLegSoft
+        },
         limbs: {
             head: headHP ? headHP : "",
             torso: torsoHP ? torsoHP : "",

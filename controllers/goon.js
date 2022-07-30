@@ -24,6 +24,14 @@ exports.addGoon = async (goonObject) => {
                     lLeg: 0,
                     rLeg: 0
                 }, 
+                isSoft: {
+                    head: true,
+                    torso: true,
+                    lArm: true,
+                    rArm: true,
+                    lLeg: true,
+                    rLeg: true
+                },
                 limbs: {
                     head: "-",
                     torso: "-",
