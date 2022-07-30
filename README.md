@@ -1,4 +1,9 @@
-# friday-night-firefight-chat
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://stand-with-ukraine.pp.ua)
+
+[![Tests](https://github.com/Vincit/objection.js/actions/workflows/test.yml/badge.svg)](https://github.com/Vincit/objection.js)
+[![Join the chat at https://gitter.im/Vincit/objection.js](https://badges.gitter.im/Vincit/objection.js.svg)](https://gitter.im/Vincit/objection.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+# [Friday night firefight simulator (FNFFS)](https://fnffs.herokuapp.com)
 Dnd chat for firefight damage and rolls calulation (https://fnffs.herokuapp.com)
 
 ![image](https://user-images.githubusercontent.com/24575491/181912198-6d50d87b-0847-41aa-aa15-ed74c090b0a5.png)
