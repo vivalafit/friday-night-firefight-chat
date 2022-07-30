@@ -251,6 +251,19 @@ const renderGoons = (goons) => {
         goonDiv.find('.r-arm-hp').val(goonTemplate.bodyStats.limbs.rArm);
         goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
         goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
+         //update isSoft values
+         goonDiv.find('input[data-place="head"]').prop("checked", goonTemplate.bodyStats.isSoft.head);
+         toggleArmorType(goonDiv.find('input[data-place="head"]').parent(), goonTemplate.bodyStats.isSoft.head);
+         goonDiv.find('input[data-place="torso"]').prop("checked", goonTemplate.bodyStats.isSoft.torso);
+         toggleArmorType(goonDiv.find('input[data-place="torso"]').parent(), goonTemplate.bodyStats.isSoft.torso);
+         goonDiv.find('input[data-place="r-arm"]').prop("checked", goonTemplate.bodyStats.isSoft.rArm);
+         toggleArmorType(goonDiv.find('input[data-place="r-arm"]').parent(), goonTemplate.bodyStats.isSoft.rArm);
+         goonDiv.find('input[data-place="l-arm"]').prop("checked", goonTemplate.bodyStats.isSoft.lArm);
+         toggleArmorType(goonDiv.find('input[data-place="l-arm"]').parent(), goonTemplate.bodyStats.isSoft.lArm);
+         goonDiv.find('input[data-place="r-leg"]').prop("checked", goonTemplate.bodyStats.isSoft.rLeg);
+         toggleArmorType(goonDiv.find('input[data-place="r-leg"]').parent(), goonTemplate.bodyStats.isSoft.rLeg);
+         goonDiv.find('input[data-place="l-leg"]').prop("checked", goonTemplate.bodyStats.isSoft.lLeg);
+         toggleArmorType(goonDiv.find('input[data-place="l-leg"]').parent(), goonTemplate.bodyStats.isSoft.lLeg);
         //update fighter values
         goonDiv.find('.fighter-stat-row .initial-ref').val(goonTemplate.fightStats.initialRef);
         goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
@@ -297,6 +310,19 @@ const renderBois = (goons) => {
         goonDiv.find('.r-arm-hp').val(goonTemplate.bodyStats.limbs.rArm);
         goonDiv.find('.l-leg-hp').val(goonTemplate.bodyStats.limbs.lLeg);
         goonDiv.find('.r-leg-hp').val(goonTemplate.bodyStats.limbs.rLeg);
+        //update isSoft values
+        goonDiv.find('input[data-place="head"]').prop("checked", goonTemplate.bodyStats.isSoft.head);
+        toggleArmorType(goonDiv.find('input[data-place="head"]').parent(), goonTemplate.bodyStats.isSoft.head);
+        goonDiv.find('input[data-place="torso"]').prop("checked", goonTemplate.bodyStats.isSoft.torso);
+        toggleArmorType(goonDiv.find('input[data-place="torso"]').parent(), goonTemplate.bodyStats.isSoft.torso);
+        goonDiv.find('input[data-place="r-arm"]').prop("checked", goonTemplate.bodyStats.isSoft.rArm);
+        toggleArmorType(goonDiv.find('input[data-place="r-arm"]').parent(), goonTemplate.bodyStats.isSoft.rArm);
+        goonDiv.find('input[data-place="l-arm"]').prop("checked", goonTemplate.bodyStats.isSoft.lArm);
+        toggleArmorType(goonDiv.find('input[data-place="l-arm"]').parent(), goonTemplate.bodyStats.isSoft.lArm);
+        goonDiv.find('input[data-place="r-leg"]').prop("checked", goonTemplate.bodyStats.isSoft.rLeg);
+        toggleArmorType(goonDiv.find('input[data-place="r-leg"]').parent(), goonTemplate.bodyStats.isSoft.rLeg);
+        goonDiv.find('input[data-place="l-leg"]').prop("checked", goonTemplate.bodyStats.isSoft.lLeg);
+        toggleArmorType(goonDiv.find('input[data-place="l-leg"]').parent(), goonTemplate.bodyStats.isSoft.lLeg);
         //update fighter values
         goonDiv.find('.fighter-stat-row .initial-ref').val(goonTemplate.fightStats.initialRef);
         goonDiv.find('.fighter-stat-row .ref').val(goonTemplate.fightStats.ref);
@@ -415,7 +441,6 @@ const initHandlers = (socket) => {
       meleeTechnique: $(".melee-fist-type").val(),
       calledShotMelee: $(".called-shot-melee").val(),
       defenderAction: $(".defender-action").val(),
-      defenderArmor: $(".defender-armor").val(),
       parryAction: $(".parry-option").val(),
       wpnDmgMelee: $(".wpn-dmg-melee").val(),
       wpnAccMelee: parseInt($(".wpn-acc-melee").val()),

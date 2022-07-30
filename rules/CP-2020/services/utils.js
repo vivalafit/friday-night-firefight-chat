@@ -79,9 +79,6 @@ exports.validateMeleeData = (battleData) => {
     if (battleData.defenderAction === "parry" && !battleData.parryAction) {
         throw '<div class="shot-landed armor-penetration">No Parry Action selected.</div>'
     }
-    if ((battleData.meleeMod === "melee-katana" && !battleData.defenderArmor)) { 
-        throw '<div class="shot-landed armor-penetration">No Armor Type Selected when Mono Weapon mode activated.</div>'
-    }
     if ((battleData.meleeMod !== "fist" && (battleData.meleeTechnique !== "disarm" || battleData.meleeTechnique !== "hold" || battleData.meleeTechnique !== "trip" || battleData.meleeTechnique !== "grapple"))) {
         if (!battleData.wpnDmgMelee) {
             throw '<div class="shot-landed armor-penetration">No Weapon Damage provided.</div>'
