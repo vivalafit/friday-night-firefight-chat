@@ -13,7 +13,7 @@ All basic Friday Night Firefight rules implemented for all firemods (source refe
 
 Currently all rules are strictly connected to this rulebook, so i am going to make it more flexible at some point to easily make mods for it :) 
 
-Code quality is not good, at some point i am going to refactor it properly and remove pile of reused code, but not soon ¯\_( ͡° ͜ʖ ͡°)_/¯
+Code quality is not good, at some point i am going to refactor it properly and remove pile of reused code, but not soon as i am finished for now with all needed features ¯\_( ͡° ͜ʖ ͡°)_/¯
 
 Feel free to host it up on your side or via ngrok for local sessions
 
