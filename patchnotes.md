@@ -53,3 +53,6 @@ Added automatic chat commands + initiative count stylings
 
 # 1.9.0 released
 Added autoshotgun mod
+
+# 1.10.0 released
+Added Armor type for each limb
