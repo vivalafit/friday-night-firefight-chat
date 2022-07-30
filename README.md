@@ -1,8 +1,10 @@
 # friday-night-firefight-chat
 Dnd chat for firefight damage and rolls calulation (https://fnffs.herokuapp.com)
 
-![image](https://user-images.githubusercontent.com/24575491/178050871-4195ce97-ae4b-40fe-9569-b7a2266a9320.png)
-![image](https://user-images.githubusercontent.com/24575491/178050956-0867f0fb-d4d9-4de0-b2d2-f078fa1e7703.png)
+![image](https://user-images.githubusercontent.com/24575491/181912198-6d50d87b-0847-41aa-aa15-ed74c090b0a5.png)
+![image](https://user-images.githubusercontent.com/24575491/181912359-a14d8bf4-4044-4e06-bdae-b5aa864b8258.png)
+![image](https://user-images.githubusercontent.com/24575491/181912594-e7ee521f-990d-49e7-b994-fa065e4eb929.png)
+![image](https://user-images.githubusercontent.com/24575491/181912972-63b78eb2-7e76-4ad1-8ca7-26b7d7b7289e.png)
 
 
 
