@@ -62,8 +62,8 @@ const initSocketConnection = () => {
     $('.messages').append(`<li class="message-centered"><span style="color: ${userObj.color}">${userObj.name} connected!</span></li>`);
     //Add admin button to hide details 
     if (isAdmin() && $('.blur-details').length < 1) {
-      $('.header-buttons').prepend('<button type="button" class="btn btn-danger blur-details blur">Hide Details from Buddys</button>');
-      $('.header-buttons').prepend('<button type="button" class="btn btn-primary blur-details unblur inactive">Show Details to your Buddys</button>')
+      $('.header-buttons').prepend('<button type="button" class="btn btn-danger blur-details blur"><i class="material-icons">visibility_off</i>Hide Details from Buddys</button>');
+      $('.header-buttons').prepend('<button type="button" class="btn btn-primary blur-details unblur inactive"><i class="material-icons">visibility</i>Show Details to your Buddys</button>')
     }
   });
   socket.on('goon-added', goonObj => {
@@ -404,6 +404,16 @@ const initHandlers = (socket) => {
     $(".main-right").removeClass("inactive");
     $(".main-left").removeClass("full-width");
   });
+  $('.close-tutorial').on('click', function() {
+    $(this).addClass("inactive");
+    $(".open-tutorial, .goons, .bois").removeClass("inactive");
+    $(".goons-tutorial").addClass("inactive");
+  });
+  $('.open-tutorial').on('click', function() {
+    $(this).addClass("inactive");
+    $(".close-tutorial, .goons-tutorial").removeClass("inactive");
+    $(".goons, .bois").addClass("inactive");
+  });
   $('.connect-to-room').on('click', function() {
     if($('#punkName').val()) {
       USER_NAME = $('#punkName').val();
@@ -412,7 +422,7 @@ const initHandlers = (socket) => {
     }
   });
   $('.add-goon').on('click', function() {
-    const index = $('.goon').length;
+    const index = $('.goons-block .goon').length;
     addGoon(index, "goon");
     socket.emit('add-goon', {type: "goon", goonId: index, name: USER_NAME });
   });

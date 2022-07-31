@@ -1,6 +1,6 @@
 {
   "name": "friday-night-firefight-chat",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "description": "Dnd chat for firefight damage and rolls calulation",
   "main": "server.js",
   "scripts": {
