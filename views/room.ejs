@@ -20,7 +20,7 @@
 <header>
    <div class="chat-header">
       <div class="header-buttons-right">
-         <h2 class="title">Friday Night Firefight Simulator / v1.11.0</h2>
+         <h2 class="title">Friday Night Firefight Simulator / v1.11.1</h2>
          <a class="btn btn-primary donate" href="https://www.comebackalive.in.ua/donate" role="button" target="_blank"><i class="material-icons">volunteer_activism</i>Donate to Ukrainian Army</a>
          <button type="button" class="btn btn-primary open-tutorial"><i class="material-icons">menu_book</i>Tutorial</button>
          <button type="button" class="btn btn-danger close-tutorial inactive"><i class="material-icons">close</i>Close Tutorial</button>
@@ -1104,6 +1104,12 @@
                   <div class="goon-tips fields-tip">
                      10) Initial/Dynamic Fields for calculations. Dynamic is used for active calculations - change with buffs/debuffs, Static - your initial stat, just for stat tracking, to compare it with dynamic field.
                   </div>
+                  <div class="goon-tips zoom-tip">
+                     11) Try out zoom-out/zoom-in on page, so you will have better visibility over all elements (Ctrl -/+), works best at 80-90%
+                  </div>
+                  <div class="goon-tips mod-tip">
+                     12) Try out mod/admin feature - restart room and enter "MOD" or "ADMIN" in the name field, so you can blur goons details to other players :)
+                  </div>
                   <div class="goons-block-tutorial">
                      <div class="goon-test">
                         <input type="hidden" class="wound-level-number" value="0">
@@ -2002,6 +2008,11 @@
                         </select>
                         <select class="custom-select body-dmg">
                            <option selected value="">Apply Body Stat to damage?</option>
+                           <option value="true">Yes</option>
+                           <option value="false">No</option>
+                        </select>
+                        <select class="custom-select ignore-melee-amor">
+                           <option selected value="">Attack Ignores Armor?</option>
                            <option value="true">Yes</option>
                            <option value="false">No</option>
                         </select>

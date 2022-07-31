@@ -456,7 +456,8 @@ const initHandlers = (socket) => {
       wpnAccMelee: parseInt($(".wpn-acc-melee").val()),
       coverValueMelee: parseInt($(".cover-value-melee").val()) ? parseInt($(".cover-value-melee").val()) : 0,
       wpnHits: parseInt($(".wpn-hits-melee").val()),
-      useBody: $(".body-dmg").val()
+      useBody: $(".body-dmg").val(),
+      ignoresArmor: $(".ignore-melee-amor").val()
     }
     socket.emit('count-battle', {data: data});
   });
