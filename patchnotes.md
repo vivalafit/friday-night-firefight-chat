@@ -59,3 +59,6 @@ Added Armor type for each limb
 
 # 1.11.0 released
 Added Tutorial section
+
+# 1.11.1 released
+Various Fixes and improvements :)
