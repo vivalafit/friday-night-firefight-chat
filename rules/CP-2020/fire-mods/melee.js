@@ -64,6 +64,10 @@ exports.calculateFistHit = ({ logStr, shooterObj, targetObj, shooterAimMods, bat
                     const bodyMod = shooterObj.fightStats.body >= MAX_BODY_MOD ? MAX_BODY_MOD : shooterObj.fightStats.body;
                     logStr = `${logStr}<div class="shot-landed">Shooter has his BODY stat applied. New Damage is <span class="shot-value">(${bulletDmg + BODY_DMG_MOD[bodyMod]} -> ${bulletDmg} + ${BODY_DMG_MOD[bodyMod]})</span>.</div>`;
                     bulletDmg = bulletDmg + BODY_DMG_MOD[bodyMod];
+                    if (bulletDmg <= 0) {
+                        bulletDmg = 0;
+                        logStr = `${logStr}<div class="shot-landed">Damage cannot be less than 0, so it is rounded to <span class="shot-value">0</span>.</div>`;
+                    }
                 }
                 if(battleData.calledShotMelee){
                     //location from called shot
@@ -164,6 +168,10 @@ exports.calculateCyberFistHit = ({ logStr, shooterObj, targetObj, shooterAimMods
                     const bodyMod = shooterObj.fightStats.body >= MAX_BODY_MOD ? MAX_BODY_MOD : shooterObj.fightStats.body;
                     logStr = `${logStr}<div class="shot-landed">Shooter has his BODY stat applied. New Damage is <span class="shot-value">(${bulletDmg + BODY_DMG_MOD[bodyMod]} -> ${bulletDmg} + ${BODY_DMG_MOD[bodyMod]})</span>.</div>`;
                     bulletDmg = bulletDmg + BODY_DMG_MOD[bodyMod];
+                    if (bulletDmg <= 0) {
+                        bulletDmg = 0;
+                        logStr = `${logStr}<div class="shot-landed">Damage cannot be less than 0, so it is rounded to <span class="shot-value">0</span>.</div>`;
+                    }
                 }
                 if(battleData.calledShotMelee){
                     //location from called shot
@@ -225,6 +233,10 @@ exports.calculateCyberFistHit = ({ logStr, shooterObj, targetObj, shooterAimMods
                         const bodyMod = shooterObj.fightStats.body >= MAX_BODY_MOD ? MAX_BODY_MOD : shooterObj.fightStats.body;
                         logStr = `${logStr}<div class="shot-landed">Shooter has his BODY stat applied. New Damage is <span class="shot-value">(${bulletDmg + BODY_DMG_MOD[bodyMod]} -> ${bulletDmg} + ${BODY_DMG_MOD[bodyMod]})</span>.</div>`;
                         bulletDmg = bulletDmg + BODY_DMG_MOD[bodyMod];
+                        if (bulletDmg <= 0) {
+                            bulletDmg = 0;
+                            logStr = `${logStr}<div class="shot-landed">Damage cannot be less than 0, so it is rounded to <span class="shot-value">0</span>.</div>`;
+                        }
                     }
                     //find armor
                     const targetLocationArmor = targetObj.bodyStats.armor[hitLocation];
@@ -298,6 +310,10 @@ exports.calculateMeleeHit = ({ logStr, shooterObj, targetObj, shooterAimMods, ba
                 const bodyMod = shooterObj.fightStats.body >= MAX_BODY_MOD ? MAX_BODY_MOD : shooterObj.fightStats.body;
                 logStr = `${logStr}<div class="shot-landed">Shooter has his BODY stat applied. New Damage is <span class="shot-value">(${bulletDmg + BODY_DMG_MOD[bodyMod]} -> ${bulletDmg} + ${BODY_DMG_MOD[bodyMod]})</span>.</div>`;
                 bulletDmg = bulletDmg + BODY_DMG_MOD[bodyMod];
+                if (bulletDmg <= 0) {
+                    bulletDmg = 0;
+                    logStr = `${logStr}<div class="shot-landed">Damage cannot be less than 0, so it is rounded to <span class="shot-value">0</span>.</div>`;
+                }
             }
             if(battleData.calledShotMelee){
                 //location from called shot
@@ -358,6 +374,10 @@ exports.calculateMeleeHit = ({ logStr, shooterObj, targetObj, shooterAimMods, ba
                         const bodyMod = shooterObj.fightStats.body >= MAX_BODY_MOD ? MAX_BODY_MOD : shooterObj.fightStats.body;
                         logStr = `${logStr}<div class="shot-landed">Shooter has his BODY stat applied. New Damage is <span class="shot-value">(${bulletDmg + BODY_DMG_MOD[bodyMod]} -> ${bulletDmg} + ${BODY_DMG_MOD[bodyMod]})</span>.</div>`;
                         bulletDmg = bulletDmg + BODY_DMG_MOD[bodyMod];
+                        if (bulletDmg <= 0) {
+                            bulletDmg = 0;
+                            logStr = `${logStr}<div class="shot-landed">Damage cannot be less than 0, so it is rounded to <span class="shot-value">0</span>.</div>`;
+                        }
                     }
                     //find armor
                     const targetLocationArmor = targetObj.bodyStats.armor[hitLocation];
@@ -431,6 +451,10 @@ exports.calculateKatanaHit = ({ logStr, shooterObj, targetObj, shooterAimMods, b
                 const bodyMod = shooterObj.fightStats.body >= MAX_BODY_MOD ? MAX_BODY_MOD : shooterObj.fightStats.body;
                 logStr = `${logStr}<div class="shot-landed">Shooter has his BODY stat applied. New Damage is <span class="shot-value">(${bulletDmg + BODY_DMG_MOD[bodyMod]} -> ${bulletDmg} + ${BODY_DMG_MOD[bodyMod]})</span>.</div>`;
                 bulletDmg = bulletDmg + BODY_DMG_MOD[bodyMod];
+                if (bulletDmg <= 0) {
+                    bulletDmg = 0;
+                    logStr = `${logStr}<div class="shot-landed">Damage cannot be less than 0, so it is rounded to <span class="shot-value">0</span>.</div>`;
+                }
             }
             if (rollResult === 10) {
                 logStr = `${logStr}<div class="shot-landed">Shooter rolled <span class="shot-value">10</span>! His Damage is DOUBLED! <span class="shot-value">(${bulletDmg} -> ${bulletDmg * 2})</span>.</div>`;
@@ -495,6 +519,10 @@ exports.calculateKatanaHit = ({ logStr, shooterObj, targetObj, shooterAimMods, b
                         const bodyMod = shooterObj.fightStats.body >= MAX_BODY_MOD ? MAX_BODY_MOD : shooterObj.fightStats.body;
                         logStr = `${logStr}<div class="shot-landed">Shooter has his BODY stat applied. New Damage is <span class="shot-value">(${bulletDmg + BODY_DMG_MOD[bodyMod]} -> ${bulletDmg} + ${BODY_DMG_MOD[bodyMod]})</span>.</div>`;
                         bulletDmg = bulletDmg + BODY_DMG_MOD[bodyMod];
+                        if (bulletDmg <= 0) {
+                            bulletDmg = 0;
+                            logStr = `${logStr}<div class="shot-landed">Damage cannot be less than 0, so it is rounded to <span class="shot-value">0</span>.</div>`;
+                        }
                     }
                     if (rollResult === 10) {
                         logStr = `${logStr}<div class="shot-landed">Shooter rolled <span class="shot-value">10</span>! His Damage is DOUBLED! <span class="shot-value">(${bulletDmg} -> ${bulletDmg * 2})</span>.</div>`;

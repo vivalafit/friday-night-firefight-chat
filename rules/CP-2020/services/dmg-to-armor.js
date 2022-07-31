@@ -60,6 +60,7 @@ exports.calculateArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocation
   
 exports.calculateMeleeArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLocation, targetObj, battleData, shotNumber) => {
     const apMode = battleData.meleeMod === "melee-katana";
+    const ignoresArmor = battleData.ignoresArmor === "true";
     let cumulatedArmorValue = targetLocationArmor;
     if (apMode) {
         const islocationArmorHard = targetObj.bodyStats.isSoft[hitLocation] === false;
@@ -72,12 +73,18 @@ exports.calculateMeleeArmorDmg = (logStr, bulletDmg, targetLocationArmor, hitLoc
         }
         logStr = `${logStr}<div class="shot-landed armor-penetration">Shooter Has Monoweapon, Armor value reduced to <span class="shot-value">${cumulatedArmorValue}</span>.</div>`
     }
+    if (ignoresArmor) {
+        logStr = `${logStr}<div class="shot-landed armor-penetration">This hit ignores Armor, unlucky Target, Armor value reduced to <span class="shot-value">${0}</span>.</div>`
+        cumulatedArmorValue = 0;
+    }
     //check if bullet penetrated target`s armor
       if(bulletDmg > cumulatedArmorValue){
           //reduce target`s armor if bullet penetrated it + reduce bullet damage with armor`s value
           logStr = `${logStr}<div class="shot-landed armor-penetration">Target's Armor value(<span class="shot-value">${cumulatedArmorValue}</span>) reduced hit damage from <span class="shot-value">${bulletDmg}</span> -> <span class="shot-value">${bulletDmg - cumulatedArmorValue}</span>.</div>`
           bulletDmg = bulletDmg - cumulatedArmorValue;
-          targetObj.bodyStats.armor[hitLocation] = targetLocationArmor - 1 >= 0 ? targetLocationArmor - 1 : 0;
+          if (!ignoresArmor) {
+            targetObj.bodyStats.armor[hitLocation] = targetLocationArmor - 1 >= 0 ? targetLocationArmor - 1 : 0;
+          }
           logStr = `${logStr}<div class="shot-landed armor-penetration">Hit with damage <span class="shot-value">${bulletDmg}</span> penetrated the target's armor on <span class="shot-part-info">${hitLocation}</span>.</div>`
 
           //reduced damage - applied btm value to it

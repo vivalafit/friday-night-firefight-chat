@@ -69,6 +69,7 @@ exports.WOUND_LEVEL_STR = {
 }
 
 exports.BODY_DMG_MOD = {
+    0: -2,
     1: -2,
     2: -2,
     3: -1,

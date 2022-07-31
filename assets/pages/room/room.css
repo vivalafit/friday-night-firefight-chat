@@ -50,9 +50,9 @@ html, body {
 }
 
 .main-left {
-    flex: 0.8;
+    flex: 0.85;
     display: flex;
-    max-width: 80%;
+    max-width: 85%;
     flex-direction: column;
 }
 
@@ -226,12 +226,12 @@ html, body {
 }
 
 .goons, .bois {
-    max-width: 50%;
+    max-width: 1600px;
     min-width: 800px;
 }
 
 .main-right {
-    flex: 0.20;
+    flex: 0.15;
     background-color: #242324;
     border-left: 1px solid #3D3D42;
     max-width: 30%;
@@ -455,7 +455,7 @@ li.message-centered {
 }
 
 .boi, .goon, .goon-test {
-    border: 2px solid #343a40;
+    border: 4px solid #343a40;
     display: flex;
     width: 400px;
     transition: background-color 1s linear;
@@ -481,6 +481,11 @@ li.message-centered {
     margin-bottom: 20px;
     overflow-y: auto;
     display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+}
+
+.goons-block-tutorial { 
     border: 2px solid #343a40;
 }
 
@@ -597,7 +602,7 @@ li.message-centered {
 }
 
 .kill-tip {
-    top: 386px;
+    top: 401px;
     left: 0px;
 }
 
@@ -619,6 +624,16 @@ li.message-centered {
 .fields-tip {
     right: 0;
     top: 436px;
+}
+
+.zoom-tip {
+    right: 0;
+    top: 627px;
+}
+
+.mod-tip {
+    right: 0;
+    top: 884px;
 }
 
 input {
@@ -648,11 +663,11 @@ input {
 .buttons-block button {
     border-radius: 0;
     width: 100%;
-    height: 50px;
+    height: 39px;
 }
 
 .buttons-block button {
-    margin-top: 94px;
+    margin-top: 109px;
 }
 
 .personal-title {
