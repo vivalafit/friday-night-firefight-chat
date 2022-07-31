@@ -13,7 +13,7 @@ Dnd chat for firefight damage and rolls calulation (https://fnffs.herokuapp.com)
 
 
 
-# 1.10.0 released
+# 1.11.0 released
 Chat on sockets (just share your room with room id generated after slash :)) for your wholesome team - all data is synchronised between all players, so everyone can see extensive data and wounds/armor info updated in real time :)
 
 All basic Friday Night Firefight rules implemented for all firemods (source refer to: CP2020 rulebook) + including cyberlimbs rules

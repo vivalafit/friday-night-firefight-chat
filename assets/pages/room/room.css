@@ -454,11 +454,15 @@ li.message-centered {
     width: 200px;
 }
 
-.boi, .goon {
+.boi, .goon, .goon-test {
     border: 2px solid #343a40;
     display: flex;
     width: 400px;
     transition: background-color 1s linear;
+}
+
+.goon-test {
+    margin: auto;
 }
 
 .goons {
@@ -473,11 +477,148 @@ li.message-centered {
     flex: 1 1 0px;
 }
 
-.goons-block, .bois-block {
+.goons-block, .bois-block, .goons-block-tutorial {
     margin-bottom: 20px;
     overflow-y: auto;
     display: flex;
     border: 2px solid #343a40;
+}
+
+.header-buttons-right {
+    display: flex;
+}
+
+.donate, .open-tutorial, .close-tutorial {
+    margin-left: 15px;
+}
+
+.chat-header i, .command-buttons i {
+    margin-right: 10px;
+}
+
+.chat-header button.inactive {
+    display: none !important;
+}
+
+.chat-header button, .chat-header a, .command-buttons button {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.goons-tutorial {
+    position: relative;
+}
+
+.goon.test {
+    margin: auto;
+}
+
+.goon-tips { 
+    position: absolute;
+    height: auto;
+    width: 204px;
+    border: 2px solid;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 2px 5px;
+}
+
+.tip-pointer {
+    position: absolute;
+    color: red;
+    font-weight: bold;
+    font-size: 23px;
+    height: 12.3px;
+    width: 33px;
+}
+
+.shooter-pointer {
+    top: 46px;
+    left: 166px;
+    border-bottom: 3px solid;
+    padding-left: 17px;
+}
+
+.side-pointer {
+    top: 302px;
+    left: 204px;
+    border-bottom: 3px solid;
+    padding-left: 3px;
+}
+
+.armor-pointer {
+    top: 46px;
+    left: 166px;
+    border-bottom: 3px solid;
+    padding-left: 17px;
+}
+
+
+.armor-type-pointer {
+    top: 330px;
+    left: 204px;
+    border-bottom: 3px solid;
+    padding-left: 3px;
+}
+
+.wound-reset-pointer {
+    top: 46px;
+    right: 201px;
+    z-index: 1000;
+    padding-right: 110px;
+    width: 176px;
+}
+
+.shooter-selector-tip {
+    top: 39px;
+    left: 0px;
+}
+
+.armor-tip {
+    top: 186px;
+    left: 0px;
+    height: 29.3px;
+}
+
+.limb-tip {
+    top: 213px;
+    left: 0px;
+}
+
+.side-tip {
+    top: 293px;
+    left: 0px;
+}
+
+.armor-type-tip {
+    top: 340px;
+    left: 0px;
+}
+
+.kill-tip {
+    top: 386px;
+    left: 0px;
+}
+
+.fast-aim-tip {
+    top: 615px;
+    left: 0px;
+}
+
+.wound-reset-tip {
+    top: 39px;
+    right: 0;
+}
+
+.wound-tip {
+    right: 0;
+    top: 99px;
+}
+
+.fields-tip {
+    right: 0;
+    top: 436px;
 }
 
 input {
@@ -956,7 +1097,7 @@ span.shot-part-info {
         width: auto;
         height: auto;
     }
-    .boi, .goon {
+    .boi, .goon, .goon-test {
         display: block;
         width: auto;
         overflow-y: auto;

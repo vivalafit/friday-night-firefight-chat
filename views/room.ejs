@@ -19,10 +19,15 @@
 </head>
 <header>
    <div class="chat-header">
-      <h2 class="title">Friday Night Firefight Simulator / v1.10.0</h2>
+      <div class="header-buttons-right">
+         <h2 class="title">Friday Night Firefight Simulator / v1.11.0</h2>
+         <a class="btn btn-primary donate" href="https://www.comebackalive.in.ua/donate" role="button" target="_blank"><i class="material-icons">volunteer_activism</i>Donate to Ukrainian Army</a>
+         <button type="button" class="btn btn-primary open-tutorial"><i class="material-icons">menu_book</i>Tutorial</button>
+         <button type="button" class="btn btn-danger close-tutorial inactive"><i class="material-icons">close</i>Close Tutorial</button>
+      </div>
       <div class="header-buttons">
-         <button type="button" class="btn btn-danger close-chat">Close Chat</button>
-         <button type="button" class="btn btn-primary open-chat inactive">Open Chat</button>
+         <button type="button" class="btn btn-danger close-chat"><i class="material-icons">close</i>Close Chat</button>
+         <button type="button" class="btn btn-primary open-chat inactive"><i class="material-icons">chat</i>Open Chat</button>
       </div>
    </div>
 </header>
@@ -1058,6 +1063,792 @@
                      <% } %>
                   </div>
                </div>
+               <div class="goons-tutorial inactive">
+                  <div class="goon-tips shooter-selector-tip">
+                     1) Click on gun/target - to quickly assign this goon to shoot someone or to be targeted
+                  </div>
+                  <!-- <i class="material-icons tip-pointer shooter-pointer">arrow_forward</i> -->
+                  <div class="goon-tips armor-tip">
+                     2) Number on top represents SP
+                  </div>
+                  <!-- <i class="material-icons tip-pointer armor-pointer">arrow_forward</i> -->
+                  <div class="goon-tips limb-tip">
+                     3) Cyberlimb SDP (Careful, "-" means it is just flesh, but 0 means that it is going to break/explode on next hit!)
+                  </div>
+                  <div class="goon-tips side-tip">
+                     4) Right body side (sorry it is mirrored ¯\_(ツ)_/¯)
+                  </div>
+                  <i class="material-icons tip-pointer side-pointer">arrow_forward</i>
+                  <div class="goons-buttons">
+                     <button type="button" disabled class="btn btn-dark add-button add-goon"><i class="material-icons">add_circle</i> Add goon</button>
+                     <button type="button" disabled class="btn btn-warning export-goons"><i class="material-icons">file_upload</i> Export Goon Pack</button>
+                     <button type="button" disabled class="btn btn-success import-goons"><i class="material-icons">download</i> Import Goons</button>
+                  </div>
+                  <div class="goon-tips armor-type-tip">
+                     5) Amor Type (Soft/Hard) - refer to rulebook
+                  </div>
+                  <i class="material-icons tip-pointer armor-type-pointer">arrow_forward</i>
+                  <div class="goon-tips fast-aim-tip">
+                     6) Fast aim modifications - click and they will be added/removed to "Other Aim Modifiers" field input
+                  </div>
+                  <div class="goon-tips kill-tip">
+                     7) Remove Goon from board
+                  </div>
+                  <div class="goon-tips wound-reset-tip">
+                     8) You can reset wound level - with this icon
+                  </div>
+                  <i class="material-icons tip-pointer wound-reset-pointer">arrow_back</i>
+                  <div class="goon-tips wound-tip">
+                     9) Wound Level - plain and simple, die in style (click on square to apply - you can try on real goons)
+                  </div>
+                  <div class="goon-tips fields-tip">
+                     10) Initial/Dynamic Fields for calculations. Dynamic is used for active calculations - change with buffs/debuffs, Static - your initial stat, just for stat tracking, to compare it with dynamic field.
+                  </div>
+                  <div class="goons-block-tutorial">
+                     <div class="goon-test">
+                        <input type="hidden" class="wound-level-number" value="0">
+                        <div class="left-info">
+                           <div class="armor-block">
+                              <img class="shooter-selector" src="goon-icons/action-icons/gun.svg">
+                              <img class="target-selector" src="goon-icons/action-icons/target.svg">
+                              <div class="input-block armor head-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="number" class="head" placeholder="Head Armor Value" value="10">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <div class="input-block armor torso-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="number" class="torso" placeholder="Torso Armor Value" value="14">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <div class="input-block armor r-arm-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="number" class="r-arm" placeholder="R-arm Armor Value" value="14">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <div class="input-block armor l-arm-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="number" class="l-arm" placeholder="L-arm Armor Value" value="14">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <div class="input-block armor r-leg-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="number" class="r-leg" placeholder="R-leg Armor Value" value="10">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <div class="input-block armor l-leg-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="number" class="l-leg" placeholder="L-leg Armor Value" value="10">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <div class="input-block armor head-hp-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="text" class="head-hp hp" placeholder="Head hp Value" value="-">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <input type="checkbox"checked data-place="head" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
+                              <div class="input-block armor torso-hp-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="text" class="torso-hp hp" placeholder="Torso hp Value" value="-">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <input type="checkbox"checked data-place="headf" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
+                              <div class="input-block armor r-arm-hp-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="text" class="r-arm-hp hp" placeholder="R-arm hp Value" value="-">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <input type="checkbox"checked data-place="heads" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
+                              <div class="input-block armor l-arm-hp-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="text" class="l-arm-hp hp" placeholder="L-arm hp Value" value="-">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <input type="checkbox"checked data-place="headg" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
+                              <div class="input-block armor r-leg-hp-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="text" class="r-leg-hp hp" placeholder="R-leg hp Value" value="-">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <input type="checkbox"checked data-place="headh" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
+                              <div class="input-block armor l-leg-hp-block">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                      -
+                                    </button>
+                                 </span>
+                                 <input type="text" class="l-leg-hp hp" placeholder="L-leg hp Value" value="-">
+                                 <span class="input-group-btn">
+                                    <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                      +
+                                    </button>
+                                </span>
+                              </div>
+                              <input type="checkbox"checked data-place="headzs" data-toggle="toggle" data-on="Soft" data-off="Hard" data-onstyle="primary" data-offstyle="danger">
+                              <img src="goon-icons/goon.png">
+                              <div class="buttons-block">
+                                 <button type="button" class="btn btn-danger">Kill</button>
+                              </div>
+                              
+                           </div>
+                           <div class="personal-info">
+                              <h6 class="category-title personal-title">
+                                 Personal Info <i class="material-icons">control_point</i>
+                              </h6>
+                              <div class="personal-stats">
+                                 <div class="form-group fighter-stat-row">
+                                    <label for="goon-name">NAME</label>
+                                    <input type="text" class="form-control goon-name" aria-describedby="name-hint" placeholder="NAME" value="Goon Test" data-initial-value="Goon Test">
+                                    <small id="name-hint" class="form-text text-muted">You were 0 and still...</small>
+                                 </div>
+                                 <h6 class="category-title personal-title aim-mods-title">
+                                    Fast Aim Modifiers <i class="material-icons">control_point</i>
+                                 </h6>
+                                 <div class="form-group aim-modifiers-list">
+                                    
+                                       <div class="modifier " id="Target Immobile">
+                                          <div class="modifier-text">
+                                             Target Immobile
+                                          </div>
+                                          <div class="modifier-value">
+                                             +4
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Target Dodging (melee only)">
+                                          <div class="modifier-text">
+                                             Target Dodging (melee only)
+                                          </div>
+                                          <div class="modifier-value">
+                                             -2
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier active" id="Moving Target REF > 10">
+                                          <div class="modifier-text">
+                                             Moving Target REF &gt; 10
+                                          </div>
+                                          <div class="modifier-value">
+                                             -3
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Moving Target REF > 12">
+                                          <div class="modifier-text">
+                                             Moving Target REF &gt; 12
+                                          </div>
+                                          <div class="modifier-value">
+                                             -4
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Moving Target REF > 14">
+                                          <div class="modifier-text">
+                                             Moving Target REF &gt; 14
+                                          </div>
+                                          <div class="modifier-value">
+                                             -5
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Fast draw/Snapshot">
+                                          <div class="modifier-text">
+                                             Fast draw/Snapshot
+                                          </div>
+                                          <div class="modifier-value">
+                                             -3
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Ambush">
+                                          <div class="modifier-text">
+                                             Ambush
+                                          </div>
+                                          <div class="modifier-value">
+                                             +5
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier active" id="Ricoshet or Indirect fire">
+                                          <div class="modifier-text">
+                                             Ricoshet or Indirect fire
+                                          </div>
+                                          <div class="modifier-value">
+                                             -5
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Blinded by light or dust">
+                                          <div class="modifier-text">
+                                             Blinded by light or dust
+                                          </div>
+                                          <div class="modifier-value">
+                                             -3
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Target silhoutted">
+                                          <div class="modifier-text">
+                                             Target silhoutted
+                                          </div>
+                                          <div class="modifier-value">
+                                             +2
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Turning to face target">
+                                          <div class="modifier-text">
+                                             Turning to face target
+                                          </div>
+                                          <div class="modifier-value">
+                                             -2
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier active" id="Using Two Weapons (debuff on each)">
+                                          <div class="modifier-text">
+                                             Using Two Weapons (debuff on each)
+                                          </div>
+                                          <div class="modifier-value">
+                                             -3
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Firing while running">
+                                          <div class="modifier-text">
+                                             Firing while running
+                                          </div>
+                                          <div class="modifier-value">
+                                             -3
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Firing shoulder arm from hip">
+                                          <div class="modifier-text">
+                                             Firing shoulder arm from hip
+                                          </div>
+                                          <div class="modifier-value">
+                                             -2
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Turret mounted weapon">
+                                          <div class="modifier-text">
+                                             Turret mounted weapon
+                                          </div>
+                                          <div class="modifier-value">
+                                             +2
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Vehicle mounted, no turret">
+                                          <div class="modifier-text">
+                                             Vehicle mounted, no turret
+                                          </div>
+                                          <div class="modifier-value">
+                                             -4
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Large target">
+                                          <div class="modifier-text">
+                                             Large target
+                                          </div>
+                                          <div class="modifier-value">
+                                             +4
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Small target">
+                                          <div class="modifier-text">
+                                             Small target
+                                          </div>
+                                          <div class="modifier-value">
+                                             -4
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Tiny Target">
+                                          <div class="modifier-text">
+                                             Tiny Target
+                                          </div>
+                                          <div class="modifier-value">
+                                             -6
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Aiming (1st round)">
+                                          <div class="modifier-text">
+                                             Aiming (1st round)
+                                          </div>
+                                          <div class="modifier-value">
+                                             +1
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Aiming (2nd round)">
+                                          <div class="modifier-text">
+                                             Aiming (2nd round)
+                                          </div>
+                                          <div class="modifier-value">
+                                             +2
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Aiming (3d round)">
+                                          <div class="modifier-text">
+                                             Aiming (3d round)
+                                          </div>
+                                          <div class="modifier-value">
+                                             +3
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Laser Sight">
+                                          <div class="modifier-text">
+                                             Laser Sight
+                                          </div>
+                                          <div class="modifier-value">
+                                             +1
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Telescopic Sight (Medium range)">
+                                          <div class="modifier-text">
+                                             Telescopic Sight (Medium range)
+                                          </div>
+                                          <div class="modifier-value">
+                                             +1
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Telescopic Sight (Exreme range)">
+                                          <div class="modifier-text">
+                                             Telescopic Sight (Exreme range)
+                                          </div>
+                                          <div class="modifier-value">
+                                             +2
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Targeting Scope">
+                                          <div class="modifier-text">
+                                             Targeting Scope
+                                          </div>
+                                          <div class="modifier-value">
+                                             +1
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Smartgun">
+                                          <div class="modifier-text">
+                                             Smartgun
+                                          </div>
+                                          <div class="modifier-value">
+                                             +2
+                                          </div>
+                                       </div>
+                                    
+                                       <div class="modifier " id="Smartgoggles">
+                                          <div class="modifier-text">
+                                             Smartgoggles
+                                          </div>
+                                          <div class="modifier-value">
+                                             +2
+                                          </div>
+                                       </div>
+                                    
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="additional-info">
+                           <h6 class="category-title">
+                              Wounds <i class="material-icons reset-wounds">replay</i>
+                           </h6>
+                           <div class="wounds-block">
+                              <div class="wound-block">
+                                 <div class="wound-title">
+                                    Light
+                                 </div>
+                                 <div class="wound-markers">
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                 </div>
+                                 <div class="wound-hint">
+                                    Stun=0
+                                 </div>
+                              </div>
+                              <div class="wound-block">
+                                 <div class="wound-title">
+                                    Serious
+                                 </div>
+                                 <div class="wound-markers">
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                 </div>
+                                 <div class="wound-hint">
+                                    Stun=-1
+                                 </div>
+                              </div>
+                              <div class="wound-block">
+                                 <div class="wound-title">
+                                    Critical
+                                 </div>
+                                 <div class="wound-markers">
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                 </div>
+                                 <div class="wound-hint">
+                                    Stun=-2
+                                 </div>
+                              </div>
+                              <div class="wound-block">
+                                 <div class="wound-title">
+                                    Mortal 0
+                                 </div>
+                                 <div class="wound-markers">
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                 </div>
+                                 <div class="wound-hint">
+                                    Stun=-3
+                                 </div>
+                              </div>
+                              <div class="wound-block">
+                                 <div class="wound-title">
+                                    Mortal 1
+                                 </div>
+                                 <div class="wound-markers">
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                 </div>
+                                 <div class="wound-hint">
+                                    Stun=-4
+                                 </div>
+                              </div>
+                              <div class="wound-block">
+                                 <div class="wound-title">
+                                    Mortal 2
+                                 </div>
+                                 <div class="wound-markers">
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                 </div>
+                                 <div class="wound-hint">
+                                    Stun=-5
+                                 </div>
+                              </div>
+                              <div class="wound-block">
+                                 <div class="wound-title">
+                                    Mortal 3
+                                 </div>
+                                 <div class="wound-markers">
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                 </div>
+                                 <div class="wound-hint">
+                                    Stun=-6
+                                 </div>
+                              </div>
+                              <div class="wound-block">
+                                 <div class="wound-title">
+                                    Mortal 4
+                                 </div>
+                                 <div class="wound-markers">
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                 </div>
+                                 <div class="wound-hint">
+                                    Stun=-7
+                                 </div>
+                              </div>
+                              <div class="wound-block">
+                                 <div class="wound-title">
+                                    Mortal 5
+                                 </div>
+                                 <div class="wound-markers">
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                 </div>
+                                 <div class="wound-hint">
+                                    Stun=-8
+                                 </div>
+                              </div>
+                              <div class="wound-block">
+                                 <div class="wound-title">
+                                    Mortal 6
+                                 </div>
+                                 <div class="wound-markers">
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                    <div class="wound-square"></div>
+                                 </div>
+                                 <div class="wound-hint">
+                                    Stun=-9
+                                 </div>
+                              </div>
+                           </div>
+                           <h6 class="category-title">
+                              Fighter Stats <i class="material-icons">control_point</i>
+                           </h6>
+                           <div class="fighter-stats">
+                              <div class="form-group fighter-stat-row">
+                                 <label for="ref">REF (INITIAL/DYNAMIC)</label>
+                                 <div class="multiple-inputs">
+                                    <div class="input-block">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                            -
+                                          </button>
+                                       </span>
+                                       <input type="number" class="form-control initial-ref" aria-describedby="ref-hint" placeholder="REF" value="4">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                            +
+                                          </button>
+                                      </span>
+                                    </div>
+                                    <span class="seperator">
+                                       /
+                                    </span>
+                                    <div class="input-block">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                            -
+                                          </button>
+                                       </span>
+                                       <input type="number" class="form-control ref more-than " id="Smartgoggles" "="" aria-describedby="ref-hint" placeholder="REF" value="6">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                            +
+                                          </button>
+                                      </span>
+                                    </div>
+                                 </div>
+                                 <small id="ref-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
+                              </div>
+                              <div class="form-group fighter-stat-row">
+                                 <label for="body">BODY (INITIAL/DYNAMIC)</label>
+                                 <div class="multiple-inputs">
+                                    <div class="input-block">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                            -
+                                          </button>
+                                       </span>
+                                       <input type="number" class="form-control initial-body" aria-describedby="body-hint" placeholder="BODY" value="0">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                            +
+                                          </button>
+                                      </span>
+                                    </div>
+                                    <span class="seperator">
+                                       /
+                                    </span>
+                                    <div class="input-block">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                            -
+                                          </button>
+                                       </span>
+                                       <input type="number" class="form-control body more-than " aria-describedby="body-hint" placeholder="BODY" value="6">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                            +
+                                          </button>
+                                      </span>
+                                    </div>
+                                 </div>
+                                 <small id="body-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
+                              </div>
+                              <div class="form-group fighter-stat-row">
+                                 <label for="btm">BTM (INITIAL/DYNAMIC)</label>
+                                 <div class="multiple-inputs">
+                                    <div class="input-block">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                            -
+                                          </button>
+                                       </span>
+                                       <input type="number" class="form-control initial-btm" aria-describedby="btm-hint" placeholder="BTM" value="0">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                            +
+                                          </button>
+                                      </span>
+                                    </div>
+                                    <span class="seperator">
+                                       /
+                                    </span>
+                                    <div class="input-block">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                            -
+                                          </button>
+                                       </span>
+                                       <input type="number" class="form-control btm more-than " aria-describedby="btm-hint" placeholder="BTM" value="2">
+                                       <span class="input-group-btn">
+                                          <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                            +
+                                          </button>
+                                      </span>
+                                    </div>
+                                 </div>
+                                 <small id="btm-hint" class="form-text text-muted">Only dynamic stat is used for calculations.</small>
+                              </div>
+                              <div class="form-group fighter-stat-row">
+                                 <label for="wpn">Weapon Skill</label>
+                                 <div class="input-block">
+                                    <span class="input-group-btn">
+                                       <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                         -
+                                       </button>
+                                    </span>
+                                    <input type="number" class="form-control wpn" aria-describedby="wpn-hint" placeholder="Weapon Skill" value="10">
+                                    <span class="input-group-btn">
+                                       <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                         +
+                                       </button>
+                                   </span>
+                                 </div>
+                                 <small id="wpn-hint" class="form-text text-muted">One good shot can solve any problem.</small>
+                              </div>
+                              <div class="form-group fighter-stat-row">
+                                 <label for="def">Defensive Skill</label>
+                                 <div class="input-block">
+                                    <span class="input-group-btn">
+                                       <button type="button" class="quantity-left-minus btn btn-danger btn-number decrement" data-type="minus" data-field="">
+                                         -
+                                       </button>
+                                    </span>
+                                    <input type="number" class="form-control def" aria-describedby="def-hint" placeholder="Defensive Skill" value="10">
+                                    <span class="input-group-btn">
+                                       <button type="button" class="quantity-right-plus btn btn-success btn-number increment" data-type="plus" data-field="">
+                                         +
+                                       </button>
+                                   </span>
+                                 </div>
+                                 <small id="def-hint" class="form-text text-muted">(Athletics/Parry/Blocking/Brawling, etc.)</small>
+                              </div>
+                              <div class="form-group fighter-stat-row">
+                                 <label for="mods">Other Aim Modifiers</label>
+                                 <input type="text" class="form-control mods" aria-describedby="mods-hint" placeholder="Mods" value=" -3 -5 -3">
+                                 <small id="mods-hint" class="form-text text-muted">Write mods with "space" button. For instance : -1 2 -3.</small>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
             </div>
             <div class="battle-title">
                <button class="btn btn-danger battle-mode-switcher melee-switch">Melee Mode</button>
@@ -1248,8 +2039,8 @@
          <div class="main-header">
             <h6>Chat</h6>
             <div class="command-buttons">
-               <button type="button" class="btn btn-primary roll">Roll 1d10</button>
-               <button type="button" class="btn btn-primary initiative">Count Initiative</button>
+               <button type="button" class="btn btn-primary roll"><i class="material-icons">casino</i>Roll 1d10</button>
+               <button type="button" class="btn btn-primary initiative"><i class="material-icons">list_alt</i>Count Initiative</button>
             </div>
          </div>
          <div class="main-chat-window">
