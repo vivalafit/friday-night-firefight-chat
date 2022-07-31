@@ -56,3 +56,6 @@ Added autoshotgun mod
 
 # 1.10.0 released
 Added Armor type for each limb
+
+# 1.11.0 released
+Added Tutorial section

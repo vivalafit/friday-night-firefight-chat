@@ -1,4 +1,9 @@
-# friday-night-firefight-chat
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://stand-with-ukraine.pp.ua)
+
+[![Tests](https://github.com/Vincit/objection.js/actions/workflows/test.yml/badge.svg)](https://github.com/Vincit/objection.js)
+[![Join the chat at https://gitter.im/Vincit/objection.js](https://badges.gitter.im/Vincit/objection.js.svg)](https://gitter.im/Vincit/objection.js?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+# [Friday night firefight simulator (FNFFS)](https://fnffs.herokuapp.com)
 Dnd chat for firefight damage and rolls calulation (https://fnffs.herokuapp.com)
 
 ![image](https://user-images.githubusercontent.com/24575491/181912198-6d50d87b-0847-41aa-aa15-ed74c090b0a5.png)
@@ -8,7 +13,7 @@ Dnd chat for firefight damage and rolls calulation (https://fnffs.herokuapp.com)
 
 
 
-# 1.10.0 released
+# 1.11.0 released
 Chat on sockets (just share your room with room id generated after slash :)) for your wholesome team - all data is synchronised between all players, so everyone can see extensive data and wounds/armor info updated in real time :)
 
 All basic Friday Night Firefight rules implemented for all firemods (source refer to: CP2020 rulebook) + including cyberlimbs rules
